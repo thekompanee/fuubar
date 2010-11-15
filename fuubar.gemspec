@@ -19,4 +19,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency('rspec', ["~> 2.0"])
   s.add_dependency('progressbar', ["~> 0.9"])
+  s.add_dependency('rspec-instafail', ["~> 0.1"])
 end

@@ -1,5 +1,6 @@
 require 'rspec/core/formatters/base_text_formatter'
 require 'progressbar'
+require 'rspec/instafail'
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
@@ -35,6 +36,18 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     super
     @state = :red
     increment
+  end
+
+  def start_dump
+    with_color { @progress_bar.finish }
+  end
+
+  def dump_failures
+    # don't!
+  end
+
+  def instafail
+    @instafail ||= RSpec::Instafail.new(output)
   end
 
   def with_color
