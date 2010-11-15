@@ -1,0 +1,27 @@
+h1. Fuubar
+
+Fuubar is an instafailing "RSpec":http://github.com/rspec formatter that uses a progress bar instead of a string of letters and dots as feedback:
+<object width="440" height="350">
+  <param name="allowfullscreen" value="true" />
+  <param name="allowscriptaccess" value="always" />
+  <param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=16845253&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=ff9933&amp;fullscreen=1" />
+  <embed src="http://vimeo.com/moogaloop.swf?clip_id=16845253&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=ff9933&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always"  width="440" height="350"></embed>
+</object>
+
+h2. Installation
+
+Installing Fuubar is easy. Just put it in your @Gemfile@ and run your specs like this from now on:
+
+{% highlight console %}
+$ rspec --require fuubar --format Fuubar --color spec
+{% endhighlight %}
+
+If you want to use Fuubar as your default formatter, simply put the options in your @.rspec@ file:
+
+bc. --require fuubar
+--format Fuubar
+--color
+
+h2. Contributing
+
+Found an issue? Have a great idea? Want to help? Great! Create an issue "issue":http://github.com/jeffkreeftmeijer/fuubar/issues for it, "ask":http://github.com/inbox/new/jeffkreeftmeijer, or even better; fork the project and fix the problem yourself. Pull requests are always welcome. :)
