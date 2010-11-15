@@ -88,4 +88,24 @@ describe Fuubar do
 
   end
 
+  describe 'increment' do
+
+    it 'should increment the progress bar' do
+      @progress_bar.should_receive(:inc)
+      @formatter.increment
+    end
+
+    it 'should change the progress bar title' do
+      @formatter.stub!(:finished_count).and_return(1)
+      @formatter.stub!(:example_count).and_return(2)
+      @formatter.increment
+      @progress_bar.instance_variable_get(:@title).should == '1/2'
+    end
+
+    it 'should increment the finished_count' do
+      lambda { @formatter.increment }.should change(@formatter, :finished_count).by(1)
+    end
+
+  end
+
 end
