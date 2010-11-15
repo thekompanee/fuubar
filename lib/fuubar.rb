@@ -35,6 +35,11 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   def example_failed(example)
     super
     @state = :red
+
+    output.print "\e[K"
+    instafail.example_failed(example)
+    output.puts
+
     increment
   end
 
@@ -51,7 +56,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def with_color
-    output.print COLORS[state]
+    output.print COLORS[state] if color_enabled?
     yield
     output.print "\e[0m"
   end

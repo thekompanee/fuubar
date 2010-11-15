@@ -35,9 +35,7 @@ describe Fuubar do
     it 'should set the finished_count to 0' do
       @formatter.instance_variable_get(:@finished_count).should == 0
     end
-
   end
-
   describe 'passed, pending and failed' do
     before do
       @formatter.stub!(:increment)
@@ -74,8 +72,17 @@ describe Fuubar do
 
     describe 'example_failed' do
 
+      before do
+        @formatter.instafail.stub!(:example_failed)
+      end
+
       it 'should call the increment method' do
         @formatter.should_receive :increment
+        @formatter.example_failed(@example)
+      end
+
+      it 'should call instafail.example_failed' do
+        @formatter.instafail.should_receive(:example_failed).with(@example)
         @formatter.example_failed(@example)
       end
 
@@ -127,6 +134,7 @@ describe Fuubar do
     it 'should be :green by default' do
       @formatter.state.should == :green
     end
+
   end
 
 end
