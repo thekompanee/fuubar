@@ -4,11 +4,11 @@ Gem::Specification.new do |s|
   s.name        = "fuubar"
   s.version     = '0.0.1'
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
+  s.authors     = ["Nicholas Evans", "Jeff Kreeftmeijer"]
+  s.email       = ["jeff@kreeftmeijer.nl"]
   s.homepage    = "http://rubygems.org/gems/fuubar"
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{the instafailing RSpec progress bar formatter}
+  s.description = %q{the instafailing RSpec progress bar formatter}
 
   s.rubyforge_project = "fuubar"
 
