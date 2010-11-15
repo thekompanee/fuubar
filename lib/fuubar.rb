@@ -1,0 +1,3 @@
+module Fuubar
+  # Your code goes here...
+end
