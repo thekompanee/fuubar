@@ -6,12 +6,11 @@ h2. Installation
 
 Installing Fuubar is easy. Just put it in your @Gemfile@ and run your specs like this from now on:
 
-bc. $ rspec --require fuubar --format Fuubar --color spec
+bc. $ rspec --format Fuubar --color spec
 
 If you want to use Fuubar as your default formatter, simply put the options in your @.rspec@ file:
 
-bc. --require fuubar
---format Fuubar
+bc. --format Fuubar
 --color
 
 h2. Contributing
