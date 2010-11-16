@@ -17,7 +17,7 @@ describe Fuubar do
     end
 
     it 'should set the title' do
-      @progress_bar.instance_variable_get(:@title).should == '2 examples'
+      @progress_bar.instance_variable_get(:@title).should == '  2 examples'
     end
 
     it 'should set the total amount of specs' do
@@ -106,7 +106,7 @@ describe Fuubar do
       @formatter.stub!(:finished_count).and_return(1)
       @formatter.stub!(:example_count).and_return(2)
       @formatter.increment
-      @progress_bar.instance_variable_get(:@title).should == '1/2'
+      @progress_bar.instance_variable_get(:@title).should == '  1/2'
     end
 
     it 'should increment the finished_count' do

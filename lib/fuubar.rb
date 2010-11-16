@@ -10,14 +10,14 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   def start(example_count)
     @example_count = example_count
     @finished_count = 0
-    @progress_bar = ProgressBar.new("#{example_count} examples", example_count, output)
+    @progress_bar = ProgressBar.new("  #{example_count} examples", example_count, output)
   end
 
   def increment
     with_color do
       @finished_count += 1
       @progress_bar.inc
-      @progress_bar.instance_variable_set("@title", "#{finished_count}/#{example_count}")
+      @progress_bar.instance_variable_set("@title", "  #{finished_count}/#{example_count}")
     end
   end
 
