@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Nicholas Evans", "Jeff Kreeftmeijer"]
   s.email       = ["jeff@kreeftmeijer.nl"]
-  s.homepage    = "http://rubygems.org/gems/fuubar"
+  s.homepage    = "https://github.com/jeffkreeftmeijer/fuubar"
   s.summary     = %q{the instafailing RSpec progress bar formatter}
   s.description = %q{the instafailing RSpec progress bar formatter}
 
