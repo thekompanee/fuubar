@@ -35,8 +35,11 @@ describe Fuubar do
     it 'should set the finished_count to 0' do
       @formatter.instance_variable_get(:@finished_count).should == 0
     end
+
   end
+
   describe 'passed, pending and failed' do
+
     before do
       @formatter.stub!(:increment)
     end
@@ -124,13 +127,16 @@ describe Fuubar do
   end
 
   describe 'start_dump' do
+
     it 'should finish the progress bar' do
       @progress_bar.should_receive(:finish)
       @formatter.start_dump
     end
+
   end
 
   describe 'state' do
+
     it 'should be :green by default' do
       @formatter.state.should == :green
     end
