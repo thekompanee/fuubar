@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fuubar (0.0.1)
+    fuubar (0.0.2)
       rspec (~> 2.0)
       rspec-instafail (~> 0.1.4)
       ruby-progressbar (~> 0.0.9)
