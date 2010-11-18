@@ -36,6 +36,10 @@ describe Fuubar do
       @formatter.instance_variable_get(:@finished_count).should == 0
     end
 
+    it 'should set the bar mark to =' do
+      @progress_bar.instance_variable_get(:@bar_mark).should == '='
+    end
+
   end
 
   describe 'passed, pending and failed' do
