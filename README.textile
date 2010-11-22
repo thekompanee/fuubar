@@ -16,3 +16,5 @@ bc. --format Fuubar
 h2. Contributing
 
 Found an issue? Have a great idea? Want to help? Great! Create an issue "issue":http://github.com/jeffkreeftmeijer/fuubar/issues for it, "ask":http://github.com/inbox/new/jeffkreeftmeijer, or even better; fork the project and fix the problem yourself. Pull requests are always welcome. :)
+
+Yay for "Fuubar's awesome contributors":https://github.com/jeffkreeftmeijer/fuubar/wiki/Contributors!
