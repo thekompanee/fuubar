@@ -1,8 +1,8 @@
-require 'rspec/core/formatters/base_text_formatter'
+require 'spec/runner/formatter/base_formatter'
 require 'progressbar'
 require 'rspec/instafail'
 
-class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
+class Fuubar < Spec::Runner::Formatter::BaseTextFormatter
 
   attr_reader :example_count, :finished_count
   COLORS = { :green =>  "\e[32m", :yellow => "\e[33m", :red => "\e[31m" }
@@ -27,18 +27,18 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     increment
   end
 
-  def example_pending(example)
+  def example_pending(example, message)
     super
     @state = :yellow unless @state == :red
     increment
   end
 
-  def example_failed(example)
+  def example_failed(example, counter, message)
     super
     @state = :red
 
     output.print "\e[K"
-    instafail.example_failed(example)
+    instafail.example_failed(example, counter, message)
     output.puts
 
     increment
@@ -53,11 +53,15 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def instafail
-    @instafail ||= RSpec::Instafail.new(output)
+    @instafail ||= RSpec::Instafail.new({}, output)
+    #since instafail won't be able to get the current example_group it must be
+    #updated every time
+    @instafail.example_group_started(example_group)
+    @instafail
   end
 
   def with_color
-    output.print COLORS[state] if color_enabled?
+    output.print COLORS[state] if colour?
     yield
     output.print "\e[0m"
   end

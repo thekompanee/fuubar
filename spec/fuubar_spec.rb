@@ -4,10 +4,13 @@ describe Fuubar do
 
   before do
     @output = StringIO.new
-    @formatter = Fuubar.new(@output)
+    options = Spec::Runner::Options.new(@output, @output)
+    @formatter = Fuubar.new(options, @output)
     @formatter.start(2)
     @progress_bar = @formatter.instance_variable_get(:@progress_bar)
-    @example = RSpec::Core::ExampleGroup.describe.example
+    @example_group = Spec::Example::ExampleGroup.describe(nil)
+    @formatter.example_group_started(@example_group)
+    @example = @example = @example_group.example
   end
 
   describe 'start' do
@@ -61,17 +64,17 @@ describe Fuubar do
 
       it 'should call the increment method' do
         @formatter.should_receive :increment
-        @formatter.example_pending(@example)
+        @formatter.example_pending(@example, 'message')
       end
 
       it 'should set the state to :yellow' do
-        @formatter.example_pending(@example)
+        @formatter.example_pending(@example, 'message')
         @formatter.state.should == :yellow
       end
 
       it 'should not set the state to :yellow when it is :red already' do
         @formatter.instance_variable_set(:@state, :red)
-        @formatter.example_pending(@example)
+        @formatter.example_pending(@example, 'message')
         @formatter.state.should == :red
       end
 
@@ -85,16 +88,16 @@ describe Fuubar do
 
       it 'should call the increment method' do
         @formatter.should_receive :increment
-        @formatter.example_failed(@example)
+        @formatter.example_failed(@example, 1, 'message')
       end
 
       it 'should call instafail.example_failed' do
-        @formatter.instafail.should_receive(:example_failed).with(@example)
-        @formatter.example_failed(@example)
+        @formatter.instafail.should_receive(:example_failed).with(@example, 1, 'message')
+        @formatter.example_failed(@example, 1, 'message')
       end
 
       it 'should set the state to :red' do
-        @formatter.example_failed(@example)
+        @formatter.example_failed(@example, 1, 'message')
         @formatter.state.should == :red
       end
 
