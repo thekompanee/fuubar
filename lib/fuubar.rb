@@ -53,7 +53,7 @@ class Fuubar < Spec::Runner::Formatter::BaseTextFormatter
   end
 
   def instafail
-    @instafail ||= RSpec::Instafail.new({}, output)
+    @instafail ||= RSpec::Instafail.new(@options, output)
     #since instafail won't be able to get the current example_group it must be
     #updated every time
     @instafail.example_group_started(example_group)

@@ -4,8 +4,8 @@ describe Fuubar do
 
   before do
     @output = StringIO.new
-    options = Spec::Runner::Options.new(@output, @output)
-    @formatter = Fuubar.new(options, @output)
+    @options = Spec::Runner::Options.new(@output, @output)
+    @formatter = Fuubar.new(@options, @output)
     @formatter.start(2)
     @progress_bar = @formatter.instance_variable_get(:@progress_bar)
     @example_group = Spec::Example::ExampleGroup.describe(nil)
@@ -131,6 +131,9 @@ describe Fuubar do
       @formatter.instafail.should be_instance_of(RSpec::Instafail)
     end
 
+    it 'should have same formatter options as fuubar' do
+      @formatter.instafail.instance_variable_get(:@options).should == @options
+    end
   end
 
   describe 'start_dump' do
