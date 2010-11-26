@@ -123,6 +123,12 @@ describe Fuubar do
       lambda { @formatter.increment }.should change(@formatter, :finished_count).by(1)
     end
 
+    it 'should increment the progress bar before updating the title' do
+      @progress_bar.should_receive(:instance_variable_set).ordered
+      @progress_bar.should_receive(:inc).ordered
+      @formatter.increment
+    end
+
   end
 
   describe 'instafail' do
