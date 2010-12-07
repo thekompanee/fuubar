@@ -17,8 +17,8 @@ class Fuubar < Spec::Runner::Formatter::BaseTextFormatter
   def increment
     with_color do
       @finished_count += 1
-      @progress_bar.inc
       @progress_bar.instance_variable_set("@title", "  #{finished_count}/#{example_count}")
+      @progress_bar.inc
     end
   end
 
@@ -53,7 +53,7 @@ class Fuubar < Spec::Runner::Formatter::BaseTextFormatter
   end
 
   def instafail
-    @instafail ||= RSpec::Instafail.new({}, output)
+    @instafail ||= RSpec::Instafail.new(@options, output)
     #since instafail won't be able to get the current example_group it must be
     #updated every time
     @instafail.example_group_started(example_group)
