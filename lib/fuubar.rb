@@ -5,7 +5,6 @@ require 'rspec/instafail'
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
   attr_reader :example_count, :finished_count
-  COLORS = { :green =>  "\e[32m", :yellow => "\e[33m", :red => "\e[31m" }
 
   def start(example_count)
     @example_count = example_count
@@ -57,13 +56,17 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def with_color
-    output.print COLORS[state] if color_enabled?
+    output.print "\e[#{colors[state]}m" if color_enabled?
     yield
     output.print "\e[0m"
   end
 
   def state
     @state ||= :green
+  end
+
+  def colors
+    { :red => 31, :green => 32, :yellow => 33 }
   end
 
 end
