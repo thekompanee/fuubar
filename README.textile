@@ -1,6 +1,6 @@
-h1. Fuubar
+h1. Fuubar "!http://stillmaintained.com/jeffkreeftmeijer/fuubar.png!":http://stillmaintained.com/jeffkreeftmeijer/fuubar
 
-Fuubar is an instafailing "RSpec":http://github.com/rspec formatter that uses a progress bar instead of a string of letters and dots as feedback. Here's "a video of Fuubar in action":http://vimeo.com/16845253. 
+Fuubar is an instafailing "RSpec":http://github.com/rspec formatter that uses a progress bar instead of a string of letters and dots as feedback. Here's "a video of Fuubar in action":http://vimeo.com/16845253.
 
 h2. Installation
 
