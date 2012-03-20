@@ -16,7 +16,9 @@ bc. --format Fuubar
 
 h3. Rspec-1
 
-Use the "fuubar-legacy":https://rubygems.org/gems/fuubar-legacy gem.
+Use the "fuubar-legacy":https://rubygems.org/gems/fuubar-legacy gem. Be sure to require @fuubar@:
+
+bc. gem 'fuubar-legacy', :require => 'fuubar'
 
 
 h2. Contributing
