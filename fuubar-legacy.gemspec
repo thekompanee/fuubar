@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |gem|
   gem.name        = 'fuubar-legacy'
-  gem.version     = '0.0.1'
+  gem.version     = '0.0.2'
   gem.platform    = Gem::Platform::RUBY
   gem.authors     = ['Nicholas Evans', 'Jeff Kreeftmeijer']
   gem.email       = ['jeff@kreeftmeijer.nl']
