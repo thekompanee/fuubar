@@ -8,7 +8,7 @@ h2. Installation
 
 Installing Fuubar is easy. Just put it in your @Gemfile@:
 
-bc. gem 'fuubar', :git => 'git://github.com/jeffkreeftmeijer/fuubar.git', :branch => 'legacy'
+bc. gem 'fuubar-legacy'
 
 And run your specs like this from now on:
 
