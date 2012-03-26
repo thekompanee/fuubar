@@ -1,24 +1,24 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 
-Gem::Specification.new do |s|
-  s.name        = "fuubar-legacy"
-  s.version     = '0.0.1'
-  s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Nicholas Evans", "Jeff Kreeftmeijer"]
-  s.email       = ["jeff@kreeftmeijer.nl"]
-  s.homepage    = "https://github.com/jeffkreeftmeijer/fuubar"
-  s.summary     = %q{the instafailing RSpec progress bar formatter}
-  s.description = %q{the instafailing RSpec progress bar formatter}
+Gem::Specification.new do |gem|
+  gem.name        = 'fuubar-legacy'
+  gem.version     = '0.0.1'
+  gem.platform    = Gem::Platform::RUBY
+  gem.authors     = ['Nicholas Evans', 'Jeff Kreeftmeijer']
+  gem.email       = ['jeff@kreeftmeijer.nl']
+  gem.homepage    = 'https://github.com/jeffkreeftmeijer/fuubar'
+  gem.summary     = %q{The instafailing RSpec progress bar formatter}
+  gem.description = %q{The instafailing RSpec progress bar formatter for rspec-1}
 
-  s.rubyforge_project = "fuubar"
+  gem.rubyforge_project = 'fuubar'
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib"]
+  gem.files         = `git ls-files`.split("\n")
+  gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  gem.require_paths = ['lib']
 
-  s.add_runtime_dependency('rspec', ["~> 1.3"])
-  s.add_runtime_dependency('chalofa_ruby-progressbar', ["~> 0.0.9"])
-  s.add_runtime_dependency('rspec-instafail', ["~> 0.1.4"])
-  s.add_development_dependency('rake')
+  gem.add_runtime_dependency     'rspec', '~> 1.3'
+  gem.add_runtime_dependency     'chalofa_ruby-progressbar', '~> 0.0.9'
+  gem.add_runtime_dependency     'rspec-instafail', '~> 0.1.4'
+  gem.add_development_dependency 'rake'
 end
