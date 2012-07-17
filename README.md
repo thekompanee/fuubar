@@ -1,6 +1,6 @@
 # Fuubar 
-![http://stillmaintained.com/jeffkreeftmeijer/fuubar.png](http://stillmaintained.com/jeffkreeftmeijer/fuubar)
-
+[![Still mantained?](http://stillmaintained.com/jeffkreeftmeijer/fuubar.png)](http://stillmaintained.com/jeffkreeftmeijer/fuubar)
+[![Build Status](https://secure.travis-ci.org/jeffkreeftmeijer/fuubar.png?branch=legacy)](http://travis-ci.org/jeffkreeftmeijer/fuubar)
 
 Fuubar is an instafailing [RSpec](https://github.com/dchelimsky/rspec) formatter that uses a progress bar instead of a string of letters and dots as feedback. Here's [a video of Fuubar in action](http://vimeo.com/16845253).
 
