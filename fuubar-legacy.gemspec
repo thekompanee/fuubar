@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |gem|
   gem.name        = 'fuubar-legacy'
-  gem.version     = '0.0.2'
+  gem.version     = '0.0.3'
   gem.platform    = Gem::Platform::RUBY
   gem.authors     = ['Nicholas Evans', 'Jeff Kreeftmeijer']
   gem.email       = ['jeff@kreeftmeijer.nl']
@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
 
   gem.add_runtime_dependency     'rspec', '~> 1.3'
-  gem.add_runtime_dependency     'chalofa_ruby-progressbar', '~> 0.0.9'
+  gem.add_runtime_dependency     'progressbar', '~> 0.11'
   gem.add_runtime_dependency     'rspec-instafail', '~> 0.1.4'
   gem.add_development_dependency 'rake'
 end
