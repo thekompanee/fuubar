@@ -10,7 +10,6 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     @example_count = example_count
     @finished_count = 0
     @progress_bar   = ProgressBar.create(:title => "  #{example_count} examples", :total => example_count, :output => output)
-    @progress_bar.bar_mark = '='
   end
 
   def increment
