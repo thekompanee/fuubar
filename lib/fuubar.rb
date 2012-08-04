@@ -4,18 +4,15 @@ require 'rspec/instafail'
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
-  attr_reader :example_count, :finished_count
+  attr_reader :example_count
 
   def start(example_count)
     @example_count = example_count
-    @finished_count = 0
     @progress_bar   = ProgressBar.create(:format => ' %c/%C |%w>%i| %e ', :total => example_count, :output => output)
   end
 
   def increment
     with_color do
-      @finished_count += 1
-      @progress_bar.title = "  #{finished_count}/#{example_count}"
       @progress_bar.increment
     end
   end
