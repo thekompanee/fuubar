@@ -76,19 +76,11 @@ describe Fuubar do
 
     describe 'example_failed' do
 
-      before do
-        formatter.instafail.stub!(:example_failed)
-      end
-
       it 'should call the increment method' do
         formatter.should_receive :increment
         formatter.example_failed(example)
       end
 
-      it 'should call instafail.example_failed' do
-        formatter.instafail.should_receive(:example_failed).with(example)
-        formatter.example_failed(example)
-      end
 
       it 'should set the state to :red' do
         formatter.example_failed(example)
@@ -104,14 +96,6 @@ describe Fuubar do
     it 'should increment the progress bar' do
       progress_bar.should_receive(:increment)
       formatter.increment
-    end
-
-  end
-
-  describe 'instafail' do
-
-    it 'should be an instance of RSpec::Instafail' do
-      formatter.instafail.should be_instance_of(RSpec::Instafail)
     end
 
   end
