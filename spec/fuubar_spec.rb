@@ -81,6 +81,15 @@ describe Fuubar do
         formatter.example_failed(example)
       end
 
+      it 'should dump the failure' do
+        formatter.should_receive :dump_failure
+        formatter.example_failed(example)
+      end
+
+      it 'should dump the backtrace' do
+        formatter.should_receive :dump_backtrace
+        formatter.example_failed(example)
+      end
 
       it 'should set the state to :red' do
         formatter.example_failed(example)

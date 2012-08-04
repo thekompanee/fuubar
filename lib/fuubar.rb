@@ -30,6 +30,8 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     @state = :red
 
     output.print "\e[K"
+    dump_failure(example, @failed_examples.count - 1)
+    dump_backtrace(example)
     output.puts
 
     increment
