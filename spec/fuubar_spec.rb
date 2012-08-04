@@ -110,13 +110,6 @@ describe Fuubar do
       formatter.increment
     end
 
-    pending 'should change the progress bar title' do
-      formatter.stub!(:finished_count).and_return(1)
-      formatter.stub!(:example_count).and_return(2)
-      formatter.increment
-      progress_bar.instance_variable_get(:@title).should == '  1/2'
-    end
-
     it 'should increment the progress bar before updating the title' do
       progress_bar.should_receive(:increment)
       formatter.increment
