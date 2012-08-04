@@ -37,9 +37,6 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     increment
   end
 
-  def start_dump
-  end
-
   def dump_failures
     # don't!
   end
