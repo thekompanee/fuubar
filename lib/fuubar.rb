@@ -4,10 +4,8 @@ require 'rspec/instafail'
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
-  attr_reader :example_count
-
   def start(example_count)
-    @example_count  = example_count
+    super
     @progress_bar   = ProgressBar.create(:format => ' %c/%C |%w>%i| %e ', :total => example_count, :output => output)
   end
 

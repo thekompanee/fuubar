@@ -33,10 +33,6 @@ describe Fuubar do
       progress_bar.send(:output).should == formatter.output
     end
 
-    it 'should set the example_count' do
-      formatter.instance_variable_get(:@example_count).should == 2
-    end
-
     it 'should set the bar mark to =' do
       progress_bar.instance_variable_get(:@bar).progress_mark.should == '='
     end
