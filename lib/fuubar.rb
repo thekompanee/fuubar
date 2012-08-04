@@ -9,7 +9,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   def start(example_count)
     @example_count = example_count
     @finished_count = 0
-    @progress_bar   = ProgressBar.create(:title => "  #{example_count} examples", :total => example_count, :output => output)
+    @progress_bar   = ProgressBar.create(:format => ' %c/%C |%w>%i| %e ', :total => example_count, :output => output)
   end
 
   def increment

@@ -21,8 +21,8 @@ describe Fuubar do
       progress_bar.should be_instance_of ProgressBar::Base
     end
 
-    it 'should set the title' do
-      progress_bar.instance_variable_get(:@title).should == '  2 examples'
+    it 'should set the format of the bar' do
+      progress_bar.instance_variable_get(:@format_string).should == ' %c/%C |%w>%i| %e '
     end
 
     it 'should set the total amount of specs' do
