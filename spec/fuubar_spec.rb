@@ -110,11 +110,6 @@ describe Fuubar do
       formatter.increment
     end
 
-    it 'should increment the progress bar before updating the title' do
-      progress_bar.should_receive(:increment)
-      formatter.increment
-    end
-
   end
 
   describe 'instafail' do
