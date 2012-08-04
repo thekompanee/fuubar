@@ -40,7 +40,6 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def start_dump
-    with_color { @progress_bar.finish }
   end
 
   def dump_failures
