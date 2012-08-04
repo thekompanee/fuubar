@@ -1,6 +1,5 @@
 require 'rspec/core/formatters/base_text_formatter'
 require 'ruby-progressbar'
-require 'rspec/instafail'
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
