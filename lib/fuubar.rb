@@ -1,5 +1,5 @@
 require 'rspec/core/formatters/base_text_formatter'
-require 'progressbar'
+require 'ruby-progressbar'
 require 'rspec/instafail'
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
@@ -9,15 +9,15 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   def start(example_count)
     @example_count = example_count
     @finished_count = 0
-    @progress_bar = ProgressBar.new("  #{example_count} examples", example_count, output)
+    @progress_bar   = ProgressBar.create(:title => "  #{example_count} examples", :total => example_count, :output => output)
     @progress_bar.bar_mark = '='
   end
 
   def increment
     with_color do
       @finished_count += 1
-      @progress_bar.instance_variable_set("@title", "  #{finished_count}/#{example_count}")
-      @progress_bar.inc
+      @progress_bar.title = "  #{finished_count}/#{example_count}"
+      @progress_bar.increment
     end
   end
 

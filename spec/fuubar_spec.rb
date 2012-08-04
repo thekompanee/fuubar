@@ -18,7 +18,7 @@ describe Fuubar do
   describe 'start' do
 
     it 'should create a new ProgressBar' do
-      progress_bar.should be_instance_of ProgressBar
+      progress_bar.should be_instance_of ProgressBar::Base
     end
 
     it 'should set the title' do
@@ -26,11 +26,11 @@ describe Fuubar do
     end
 
     it 'should set the total amount of specs' do
-      progress_bar.instance_variable_get(:@total).should == 2
+      progress_bar.total.should == 2
     end
 
     it 'should set the output' do
-      progress_bar.instance_variable_get(:@out).should == formatter.output
+      progress_bar.send(:output).should == formatter.output
     end
 
     it 'should set the example_count' do
@@ -42,7 +42,7 @@ describe Fuubar do
     end
 
     it 'should set the bar mark to =' do
-      progress_bar.instance_variable_get(:@bar_mark).should == '='
+      progress_bar.instance_variable_get(:@bar).progress_mark.should == '='
     end
 
   end
@@ -110,7 +110,7 @@ describe Fuubar do
   describe 'increment' do
 
     it 'should increment the progress bar' do
-      progress_bar.should_receive(:inc)
+      progress_bar.should_receive(:increment)
       formatter.increment
     end
 
@@ -126,8 +126,8 @@ describe Fuubar do
     end
 
     it 'should increment the progress bar before updating the title' do
-      progress_bar.should_receive(:instance_variable_set).ordered
-      progress_bar.should_receive(:inc).ordered
+      progress_bar.should_receive(:title=).ordered
+      progress_bar.should_receive(:increment).ordered
       formatter.increment
     end
 
