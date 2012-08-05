@@ -48,7 +48,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   def with_color
     output.print "\e[#{colors[state]}m" if color_enabled?
     yield
-    output.print "\e[0m"
+    output.print "\e[0m" if color_enabled?
   end
 
   def state
