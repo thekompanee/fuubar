@@ -1,7 +1,6 @@
-h1. Fuubar !http://travis-ci.org/jeffkreeftmeijer/fuubar.png!
+h1. Fuubar !https://travis-ci.org/jeffkreeftmeijer/fuubar.png!:https://travis-ci.org/jeffkreeftmeijer/fuubar
 
 Fuubar is an instafailing "RSpec":http://github.com/rspec formatter that uses a progress bar instead of a string of letters and dots as feedback. Here's "a video of Fuubar in action":http://vimeo.com/16845253.
-
 
 h2. Installation
 
@@ -20,7 +19,6 @@ Use the "fuubar-legacy":https://rubygems.org/gems/fuubar-legacy gem:
 
 bc. gem 'fuubar-legacy'
 
-
 h2. Contributing
 
-Found an issue? Have a great idea? Want to help? Great! Create an issue "issue":http://github.com/jeffkreeftmeijer/fuubar/issues for it, "ask":http://github.com/inbox/new/jeffkreeftmeijer, or even better; fork the project and fix the problem yourself. Pull requests are always welcome. :)
+Found an issue? Have a great idea? Want to help? Great! Create an issue "issue":http://github.com/jeffkreeftmeijer/fuubar/issues for it, or even better; fork the project and fix the problem yourself. Pull requests are always welcome. :)
