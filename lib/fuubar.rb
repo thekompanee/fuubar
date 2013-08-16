@@ -42,7 +42,11 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def message(string)
-    @progress_bar.log(string)
+    if @progress_bar.respond_to? :log
+      @progress_bar.log(string)
+    else
+      super
+    end
   end
 
   def instafail
