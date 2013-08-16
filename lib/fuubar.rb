@@ -41,6 +41,10 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     # don't!
   end
 
+  def message(string)
+    @progress_bar.log(string)
+  end
+
   def instafail
     @instafail ||= RSpec::Instafail.new(output)
   end
