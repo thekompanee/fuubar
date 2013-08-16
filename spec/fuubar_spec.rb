@@ -18,31 +18,23 @@ describe Fuubar do
   describe 'start' do
 
     it 'should create a new ProgressBar' do
-      progress_bar.should be_instance_of ProgressBar
+      progress_bar.should be_instance_of ProgressBar::Base
     end
 
-    it 'should set the title' do
-      progress_bar.instance_variable_get(:@title).should == '  2 examples'
+    it 'should set the format of the bar' do
+      progress_bar.instance_variable_get(:@format_string).should == ' %c/%C |%w>%i| %e '
     end
 
     it 'should set the total amount of specs' do
-      progress_bar.instance_variable_get(:@total).should == 2
+      progress_bar.total.should == 2
     end
 
     it 'should set the output' do
-      progress_bar.instance_variable_get(:@out).should == formatter.output
-    end
-
-    it 'should set the example_count' do
-      formatter.instance_variable_get(:@example_count).should == 2
-    end
-
-    it 'should set the finished_count to 0' do
-      formatter.instance_variable_get(:@finished_count).should == 0
+      progress_bar.send(:output).should == formatter.output
     end
 
     it 'should set the bar mark to =' do
-      progress_bar.instance_variable_get(:@bar_mark).should == '='
+      progress_bar.instance_variable_get(:@bar).progress_mark.should == '='
     end
 
   end
@@ -110,24 +102,7 @@ describe Fuubar do
   describe 'increment' do
 
     it 'should increment the progress bar' do
-      progress_bar.should_receive(:inc)
-      formatter.increment
-    end
-
-    it 'should change the progress bar title' do
-      formatter.stub!(:finished_count).and_return(1)
-      formatter.stub!(:example_count).and_return(2)
-      formatter.increment
-      progress_bar.instance_variable_get(:@title).should == '  1/2'
-    end
-
-    it 'should increment the finished_count' do
-      lambda { formatter.increment }.should change(formatter, :finished_count).by(1)
-    end
-
-    it 'should increment the progress bar before updating the title' do
-      progress_bar.should_receive(:instance_variable_set).ordered
-      progress_bar.should_receive(:inc).ordered
+      progress_bar.should_receive(:increment)
       formatter.increment
     end
 
@@ -137,15 +112,6 @@ describe Fuubar do
 
     it 'should be an instance of RSpec::Instafail' do
       formatter.instafail.should be_instance_of(RSpec::Instafail)
-    end
-
-  end
-
-  describe 'start_dump' do
-
-    it 'should finish the progress bar' do
-      progress_bar.should_receive(:finish)
-      formatter.start_dump
     end
 
   end
