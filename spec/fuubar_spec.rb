@@ -42,7 +42,7 @@ describe Fuubar do
   describe 'passed, pending and failed' do
 
     before do
-      formatter.stub!(:increment)
+      formatter.stub(:increment)
     end
 
     describe 'example_passed' do
@@ -77,7 +77,7 @@ describe Fuubar do
     describe 'example_failed' do
 
       before do
-        formatter.instafail.stub!(:example_failed)
+        formatter.instafail.stub(:example_failed)
       end
 
       it 'should call the increment method' do
