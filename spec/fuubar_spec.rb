@@ -18,23 +18,23 @@ describe Fuubar do
   describe 'start' do
 
     it 'should create a new ProgressBar' do
-      progress_bar.should be_instance_of ProgressBar::Base
+      expect(progress_bar).to be_instance_of ProgressBar::Base
     end
 
     it 'should set the format of the bar' do
-      progress_bar.instance_variable_get(:@format_string).should == ' %c/%C |%w>%i| %e '
+      expect(progress_bar.instance_variable_get(:@format_string)).to eq ' %c/%C |%w>%i| %e '
     end
 
     it 'should set the total amount of specs' do
-      progress_bar.total.should == 2
+      expect(progress_bar.total).to eq 2
     end
 
     it 'should set the output' do
-      progress_bar.send(:output).should == formatter.output
+      expect(progress_bar.send(:output)).to eq formatter.output
     end
 
     it 'should set the bar mark to =' do
-      progress_bar.instance_variable_get(:@bar).progress_mark.should == '='
+      expect(progress_bar.instance_variable_get(:@bar).progress_mark).to eq '='
     end
 
   end
@@ -42,13 +42,13 @@ describe Fuubar do
   describe 'passed, pending and failed' do
 
     before do
-      formatter.stub!(:increment)
+      allow(formatter).to receive(:increment)
     end
 
     describe 'example_passed' do
 
       it 'should call the increment method' do
-        formatter.should_receive :increment
+        expect(formatter).to receive :increment
         formatter.example_passed(example)
       end
 
@@ -57,19 +57,19 @@ describe Fuubar do
     describe 'example_pending' do
 
       it 'should call the increment method' do
-        formatter.should_receive :increment
+        expect(formatter).to receive :increment
         formatter.example_pending(example)
       end
 
       it 'should set the state to :yellow' do
         formatter.example_pending(example)
-        formatter.state.should == :yellow
+        expect(formatter.state).to eq :yellow
       end
 
       it 'should not set the state to :yellow when it is :red already' do
         formatter.instance_variable_set(:@state, :red)
         formatter.example_pending(example)
-        formatter.state.should == :red
+        expect(formatter.state).to eq :red
       end
 
     end
@@ -77,22 +77,22 @@ describe Fuubar do
     describe 'example_failed' do
 
       before do
-        formatter.instafail.stub!(:example_failed)
+        allow(formatter.instafail).to receive(:example_failed)
       end
 
       it 'should call the increment method' do
-        formatter.should_receive :increment
+        expect(formatter).to receive :increment
         formatter.example_failed(example)
       end
 
       it 'should call instafail.example_failed' do
-        formatter.instafail.should_receive(:example_failed).with(example)
+        expect(formatter.instafail).to receive(:example_failed).with(example)
         formatter.example_failed(example)
       end
 
       it 'should set the state to :red' do
         formatter.example_failed(example)
-        formatter.state.should == :red
+        expect(formatter.state).to eq :red
       end
 
     end
@@ -102,7 +102,7 @@ describe Fuubar do
   describe 'increment' do
 
     it 'should increment the progress bar' do
-      progress_bar.should_receive(:increment)
+      expect(progress_bar).to receive(:increment)
       formatter.increment
     end
 
@@ -111,7 +111,7 @@ describe Fuubar do
   describe 'instafail' do
 
     it 'should be an instance of RSpec::Instafail' do
-      formatter.instafail.should be_instance_of(RSpec::Instafail)
+      expect(formatter.instafail).to be_instance_of(RSpec::Instafail)
     end
 
   end
@@ -119,7 +119,7 @@ describe Fuubar do
   describe 'state' do
 
     it 'should be :green by default' do
-      formatter.state.should == :green
+      expect(formatter.state).to eq :green
     end
 
   end
