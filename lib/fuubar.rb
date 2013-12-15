@@ -14,9 +14,9 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
     progress_bar_options =  DEFAULT_PROGRESS_BAR_OPTIONS.
                               merge(configuration.fuubar_progress_bar_options).
-                              merge(:total     => example_count,
-                                    :output    => output,
-                                    :autostart => false)
+                              merge(:total          => example_count,
+                                    :output         => output,
+                                    :autostart      => false)
 
     self.progress = ProgressBar.create(progress_bar_options)
   end
