@@ -82,6 +82,10 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     output.print "\e[0m"                                if color_enabled?
   end
 
+  def color_enabled?
+    super && !continuous_integration?
+  end
+
   def current_color
     if failed_examples.size > 0
       configuration.failure_color

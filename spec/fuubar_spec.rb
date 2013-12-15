@@ -42,6 +42,8 @@ describe Fuubar do
       :length        => 40,
       :throttle_rate => 0.0,
     }
+
+    ENV.delete('CONTINUOUS_INTEGRATION')
   end
 
   context 'when it is created' do
@@ -72,7 +74,7 @@ describe Fuubar do
 
     context 'and continuous integration is enabled' do
       before do
-        RSpec.configuration.fuubar_progress_bar_options = {}
+        RSpec.configuration.fuubar_progress_bar_options = {:length => 40}
         ENV['CONTINUOUS_INTEGRATION'] = 'true'
       end
 
@@ -82,11 +84,28 @@ describe Fuubar do
 
         expect(throttle_rate).to eql 1.0
       end
+
+      context 'when processing an example' do
+        before do
+          throttle      = progress.instance_variable_get(:@throttle)
+          throttle_rate = throttle.instance_variable_set(:@period, 0.0)
+
+          formatter.start(2)
+
+          output.rewind
+
+          formatter.example_passed(example)
+        end
+
+        it 'does not output color codes' do
+          expect(fuubar_results).to start_with " 1/2 |== 50 ==>        |  ETA: 00:00:00 \r"
+        end
+      end
     end
 
     context 'and continuous integration is not enabled' do
       before do
-        RSpec.configuration.fuubar_progress_bar_options = {}
+        RSpec.configuration.fuubar_progress_bar_options = {:length => 40}
         ENV['CONTINUOUS_INTEGRATION'] = 'false'
       end
 
@@ -95,6 +114,23 @@ describe Fuubar do
         throttle_rate = throttle.instance_variable_get(:@period)
 
         expect(throttle_rate).to eql 0.01
+      end
+
+      context 'when processing an example' do
+        before do
+          throttle      = progress.instance_variable_get(:@throttle)
+          throttle_rate = throttle.instance_variable_set(:@period, 0.0)
+
+          formatter.start(2)
+
+          output.rewind
+
+          formatter.example_passed(example)
+        end
+
+        it 'does not output color codes' do
+          expect(fuubar_results).to start_with "\e[32m 1/2 |== 50 ==>        |  ETA: 00:00:00 \r\e[0m"
+        end
       end
     end
   end
