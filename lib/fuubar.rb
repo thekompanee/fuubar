@@ -13,6 +13,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     super
 
     progress_bar_options =  DEFAULT_PROGRESS_BAR_OPTIONS.
+                              merge(:throttle_rate  => continuous_integration? ? 1.0 : nil).
                               merge(configuration.fuubar_progress_bar_options).
                               merge(:total          => example_count,
                                     :output         => output,
