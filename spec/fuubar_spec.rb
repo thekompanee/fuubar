@@ -1,11 +1,6 @@
 require 'fuubar'
 require 'stringio'
 
-RSpec.configuration.fuubar_progress_bar_options = {
-  :length        => 40,
-  :throttle_rate => 0.0,
-}
-
 describe Fuubar do
   let(:output) do
     io = StringIO.new
@@ -40,6 +35,13 @@ describe Fuubar do
   let(:fuubar_results) do
     output.rewind
     output.read
+  end
+
+  before(:each) do
+    RSpec.configuration.fuubar_progress_bar_options = {
+      :length        => 40,
+      :throttle_rate => 0.0,
+    }
   end
 
   context 'when it is created' do
