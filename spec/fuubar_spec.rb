@@ -69,6 +69,34 @@ describe Fuubar do
       expect(progress.send(:output)).to eql formatter.output
       expect(progress.send(:output)).to eql output
     end
+
+    context 'and continuous integration is enabled' do
+      before do
+        RSpec.configuration.fuubar_progress_bar_options = {}
+        ENV['CONTINUOUS_INTEGRATION'] = 'true'
+      end
+
+      it 'throttles the progress bar at one second' do
+        throttle      = progress.instance_variable_get(:@throttle)
+        throttle_rate = throttle.instance_variable_get(:@period)
+
+        expect(throttle_rate).to eql 1.0
+      end
+    end
+
+    context 'and continuous integration is not enabled' do
+      before do
+        RSpec.configuration.fuubar_progress_bar_options = {}
+        ENV['CONTINUOUS_INTEGRATION'] = 'false'
+      end
+
+      it 'throttles the progress bar at the default rate' do
+        throttle      = progress.instance_variable_get(:@throttle)
+        throttle_rate = throttle.instance_variable_get(:@period)
+
+        expect(throttle_rate).to eql 0.01
+      end
+    end
   end
 
   context 'when it is started' do
