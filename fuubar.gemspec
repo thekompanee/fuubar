@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require 'fuubar/version'
 
 Gem::Specification.new do |s|
   s.rubygems_version      = '1.3.5'
@@ -8,7 +7,7 @@ Gem::Specification.new do |s|
   s.name                  = 'fuubar'
   s.rubyforge_project     = 'fuubar'
 
-  s.version               = Fuubar::VERSION
+  s.version               = '1.2.1'
   s.platform              = Gem::Platform::RUBY
 
   s.authors               = ['Nicholas Evans', 'Jeff Kreeftmeijer', 'jfelchner']
