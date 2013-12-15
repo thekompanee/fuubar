@@ -1,11 +1,6 @@
 require 'fuubar'
 require 'stringio'
 
-RSpec.configuration.fuubar_progress_bar_options = {
-  :length        => 40,
-  :throttle_rate => 0.0,
-}
-
 describe Fuubar do
   let(:output) do
     io = StringIO.new
@@ -42,6 +37,13 @@ describe Fuubar do
     output.read
   end
 
+  before(:each) do
+    RSpec.configuration.fuubar_progress_bar_options = {
+      :length        => 40,
+      :throttle_rate => 0.0,
+    }
+  end
+
   context 'when it is created' do
     it 'does not start the bar until the formatter is started' do
       expect(progress).to be_stopped
@@ -66,6 +68,34 @@ describe Fuubar do
     it 'sets the bar\'s output' do
       expect(progress.send(:output)).to eql formatter.output
       expect(progress.send(:output)).to eql output
+    end
+
+    context 'and continuous integration is enabled' do
+      before do
+        RSpec.configuration.fuubar_progress_bar_options = {}
+        ENV['CONTINUOUS_INTEGRATION'] = 'true'
+      end
+
+      it 'throttles the progress bar at one second' do
+        throttle      = progress.instance_variable_get(:@throttle)
+        throttle_rate = throttle.instance_variable_get(:@period)
+
+        expect(throttle_rate).to eql 1.0
+      end
+    end
+
+    context 'and continuous integration is not enabled' do
+      before do
+        RSpec.configuration.fuubar_progress_bar_options = {}
+        ENV['CONTINUOUS_INTEGRATION'] = 'false'
+      end
+
+      it 'throttles the progress bar at the default rate' do
+        throttle      = progress.instance_variable_get(:@throttle)
+        throttle_rate = throttle.instance_variable_get(:@period)
+
+        expect(throttle_rate).to eql 0.01
+      end
     end
   end
 
