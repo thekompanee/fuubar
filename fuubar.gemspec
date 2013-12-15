@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.description           = 'the instafailing RSpec progress bar formatter'
 
   s.rdoc_options          = ['--charset', 'UTF-8']
-  s.extra_rdoc_files      = %w[README.md]
+  s.extra_rdoc_files      = %w[README.md LICENSE]
 
   #= Manifest =#
   s.files                 = Dir.glob("lib/**/*")
