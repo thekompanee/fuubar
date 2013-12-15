@@ -13,6 +13,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     super
 
     progress_bar_options =  DEFAULT_PROGRESS_BAR_OPTIONS.
+                              merge(:throttle_rate  => continuous_integration? ? 1.0 : nil).
                               merge(configuration.fuubar_progress_bar_options).
                               merge(:total          => example_count,
                                     :output         => output,
@@ -89,5 +90,9 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     else
       configuration.success_color
     end
+  end
+
+  def continuous_integration?
+    @continuous_integration ||= !(ENV['CONTINUOUS_INTEGRATION'].nil? || ENV['CONTINUOUS_INTEGRATION'] == '' || ENV['CONTINUOUS_INTEGRATION'] == 'false')
   end
 end
