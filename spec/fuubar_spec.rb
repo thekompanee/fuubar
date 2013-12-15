@@ -1,127 +1,241 @@
-require 'spec_helper'
+require 'fuubar'
 require 'stringio'
 
 describe Fuubar do
-  let(:output) { StringIO.new }
+  let(:output) do
+    io = StringIO.new
 
-  let(:formatter) do
-    formatter = Fuubar.new(output)
-    formatter.start(2)
+    allow(io).to  receive(:tty?).
+                  and_return(true)
 
-    formatter
+    io
   end
 
-  let(:progress_bar) { formatter.instance_variable_get(:@progress_bar) }
-  let(:example) { RSpec::Core::ExampleGroup.describe.example }
+  let(:formatter) { Fuubar.new(output) }
+  let(:progress)  { formatter.instance_variable_get(:@progress) }
+  let(:example)   { RSpec::Core::ExampleGroup.describe.example }
 
+  let(:failed_example) do
+    exception = RuntimeError.new('Test Fuubar Error')
+    exception.set_backtrace [
+      "/my/filename.rb:4:in `some_method'",
+    ]
 
-  describe 'start' do
+    example = RSpec::Core::ExampleGroup.describe.example
 
-    it 'should create a new ProgressBar' do
-      progress_bar.should be_instance_of ProgressBar::Base
-    end
+    example.instance_variable_set(:@metadata, {
+      :file_path        => '/my/example/spec.rb',
+      :execution_result => {
+        :exception => exception },
+    } )
 
-    it 'should set the format of the bar' do
-      progress_bar.instance_variable_get(:@format_string).should == ' %c/%C |%w>%i| %e '
-    end
-
-    it 'should set the total amount of specs' do
-      progress_bar.total.should == 2
-    end
-
-    it 'should set the output' do
-      progress_bar.send(:output).should == formatter.output
-    end
-
-    it 'should set the bar mark to =' do
-      progress_bar.instance_variable_get(:@bar).progress_mark.should == '='
-    end
-
+    example
   end
 
-  describe 'passed, pending and failed' do
+  let(:fuubar_results) do
+    output.rewind
+    output.read
+  end
 
-    before do
-      formatter.stub!(:increment)
+  before(:each) do
+    RSpec.configuration.fuubar_progress_bar_options = {
+      :length        => 40,
+      :throttle_rate => 0.0,
+    }
+
+    ENV.delete('CONTINUOUS_INTEGRATION')
+  end
+
+  context 'when it is created' do
+    it 'does not start the bar until the formatter is started' do
+      expect(progress).to be_stopped
+
+      formatter.start(2)
+
+      expect(progress).not_to be_stopped
     end
 
-    describe 'example_passed' do
+    it 'creates a new ProgressBar' do
+      expect(progress).to be_instance_of ProgressBar::Base
+    end
 
-      it 'should call the increment method' do
-        formatter.should_receive :increment
+    it 'sets the format of the bar' do
+      expect(progress.instance_variable_get(:@format_string)).to eql ' %c/%C |%w>%i| %e '
+    end
+
+    it 'sets the total to the number of examples' do
+      expect(progress.total).to be_zero
+    end
+
+    it 'sets the bar\'s output' do
+      expect(progress.send(:output)).to eql formatter.output
+      expect(progress.send(:output)).to eql output
+    end
+
+    context 'and continuous integration is enabled' do
+      before do
+        RSpec.configuration.fuubar_progress_bar_options = {:length => 40}
+        ENV['CONTINUOUS_INTEGRATION'] = 'true'
+      end
+
+      it 'throttles the progress bar at one second' do
+        throttle      = progress.instance_variable_get(:@throttle)
+        throttle_rate = throttle.instance_variable_get(:@period)
+
+        expect(throttle_rate).to eql 1.0
+      end
+
+      context 'when processing an example' do
+        before do
+          throttle      = progress.instance_variable_get(:@throttle)
+          throttle_rate = throttle.instance_variable_set(:@period, 0.0)
+
+          formatter.start(2)
+
+          output.rewind
+
+          formatter.example_passed(example)
+        end
+
+        it 'does not output color codes' do
+          expect(fuubar_results).to start_with " 1/2 |== 50 ==>        |  ETA: 00:00:00 \r"
+        end
+      end
+    end
+
+    context 'and continuous integration is not enabled' do
+      before do
+        RSpec.configuration.fuubar_progress_bar_options = {:length => 40}
+        ENV['CONTINUOUS_INTEGRATION'] = 'false'
+      end
+
+      it 'throttles the progress bar at the default rate' do
+        throttle      = progress.instance_variable_get(:@throttle)
+        throttle_rate = throttle.instance_variable_get(:@period)
+
+        expect(throttle_rate).to eql 0.01
+      end
+
+      context 'when processing an example' do
+        before do
+          throttle      = progress.instance_variable_get(:@throttle)
+          throttle_rate = throttle.instance_variable_set(:@period, 0.0)
+
+          formatter.start(2)
+
+          output.rewind
+
+          formatter.example_passed(example)
+        end
+
+        it 'does not output color codes' do
+          expect(fuubar_results).to start_with "\e[32m 1/2 |== 50 ==>        |  ETA: 00:00:00 \r\e[0m"
+        end
+      end
+    end
+  end
+
+  context 'when it is started' do
+    before { formatter.start(2) }
+
+    it 'sets the total to the number of examples' do
+      expect(progress.total).to eql 2
+    end
+
+    context 'and an example passes' do
+      before do
+        output.rewind
+
         formatter.example_passed(example)
       end
 
+      it 'outputs the proper bar information' do
+        expect(fuubar_results).to start_with "\e[32m 1/2 |== 50 ==>        |  ETA: 00:00:00 \r\e[0m"
+      end
     end
 
-    describe 'example_pending' do
-
-      it 'should call the increment method' do
-        formatter.should_receive :increment
-        formatter.example_pending(example)
-      end
-
-      it 'should set the state to :yellow' do
-        formatter.example_pending(example)
-        formatter.state.should == :yellow
-      end
-
-      it 'should not set the state to :yellow when it is :red already' do
-        formatter.instance_variable_set(:@state, :red)
-        formatter.example_pending(example)
-        formatter.state.should == :red
-      end
-
-    end
-
-    describe 'example_failed' do
-
+    context 'and an example pends' do
       before do
-        formatter.instafail.stub!(:example_failed)
+        output.rewind
+
+        formatter.example_pending(example)
       end
 
-      it 'should call the increment method' do
-        formatter.should_receive :increment
-        formatter.example_failed(example)
+      it 'outputs the proper bar information' do
+        expect(fuubar_results).to start_with "\e[33m 1/2 |== 50 ==>        |  ETA: 00:00:00 \r\e[0m"
       end
 
-      it 'should call instafail.example_failed' do
-        formatter.instafail.should_receive(:example_failed).with(example)
-        formatter.example_failed(example)
+      context 'and then an example succeeds' do
+        before do
+          output.rewind
+
+          formatter.example_pending(example)
+        end
+
+        it 'outputs the pending bar' do
+          expect(fuubar_results).to start_with "\e[33m 2/2 |===== 100 ======>| Time: 00:00:00 \n\e[0m"
+        end
+      end
+    end
+
+    context 'and an example fails' do
+      it 'outputs the proper bar information' do
+        output.rewind
+
+        formatter.example_failed(failed_example)
+
+        expect(fuubar_results).to end_with "\e[31m 1/2 |== 50 ==>        |  ETA: 00:00:00 \r\e[0m"
       end
 
-      it 'should set the state to :red' do
-        formatter.example_failed(example)
-        formatter.state.should == :red
+      it 'dumps the failure' do
+        allow(formatter).to receive(:dump_failure).
+                            and_return('dump failure')
+
+        allow(formatter).to receive(:dump_backtrace).
+                            and_return('dump backtrace')
+
+        formatter.example_failed(failed_example)
+
+        expect(formatter).to have_received(:dump_failure).
+                             with(failed_example, 0)
+
+        expect(formatter).to have_received(:dump_backtrace).
+                             with(failed_example)
       end
 
+      context 'and then an example succeeds' do
+        before do
+          formatter.example_failed(failed_example)
+
+          output.rewind
+
+          formatter.example_passed(example)
+        end
+
+        it 'outputs the failed bar' do
+          expect(fuubar_results).to start_with "\e[31m 2/2 |===== 100 ======>| Time: 00:00:00 \n\e[0m"
+        end
+      end
+
+      context 'and then an example pends' do
+        before do
+          formatter.example_failed(failed_example)
+
+          output.rewind
+
+          formatter.example_pending(example)
+        end
+
+        it 'outputs the failed bar' do
+          expect(fuubar_results).to start_with "\e[31m 2/2 |===== 100 ======>| Time: 00:00:00 \n\e[0m"
+        end
+      end
     end
 
-  end
+    it 'can properly log messages' do
+      formatter.message 'My Message'
 
-  describe 'increment' do
-
-    it 'should increment the progress bar' do
-      progress_bar.should_receive(:increment)
-      formatter.increment
+      expect(fuubar_results).to end_with "My Message\n 0/2 |>                |  ETA: ??:??:?? \r"
     end
-
   end
-
-  describe 'instafail' do
-
-    it 'should be an instance of RSpec::Instafail' do
-      formatter.instafail.should be_instance_of(RSpec::Instafail)
-    end
-
-  end
-
-  describe 'state' do
-
-    it 'should be :green by default' do
-      formatter.state.should == :green
-    end
-
-  end
-
 end

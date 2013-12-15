@@ -1,70 +1,102 @@
+require 'rspec/core/configuration'
 require 'rspec/core/formatters/base_text_formatter'
 require 'ruby-progressbar'
-require 'rspec/instafail'
+
+RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
+  DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }
+
+  attr_accessor :progress
+
+  def initialize(*args)
+    super
+
+    progress_bar_options =  DEFAULT_PROGRESS_BAR_OPTIONS.
+                              merge(:throttle_rate  => continuous_integration? ? 1.0 : nil).
+                              merge(configuration.fuubar_progress_bar_options).
+                              merge(:total          => example_count,
+                                    :output         => output,
+                                    :autostart      => false)
+
+    self.progress = ProgressBar.create(progress_bar_options)
+  end
 
   def start(example_count)
     super
-    @progress_bar   = ProgressBar.create(:format => ' %c/%C |%w>%i| %e ', :total => example_count, :output => output)
-  end
 
-  def increment
-    with_color do
-      @progress_bar.increment
-    end
+    progress.total = example_count
+
+    with_current_color { progress.start }
   end
 
   def example_passed(example)
     super
+
     increment
   end
 
   def example_pending(example)
     super
-    @state = :yellow unless @state == :red
+
     increment
   end
 
   def example_failed(example)
     super
-    @state = :red
 
-    output.print "\e[K"
-    instafail.example_failed(example)
+    progress.clear
+
+    dump_failure    example, failed_examples.size - 1
+    dump_backtrace  example
+
     output.puts
 
     increment
   end
 
-  def dump_failures
-    # don't!
-  end
-
   def message(string)
-    if @progress_bar.respond_to? :log
-      @progress_bar.log(string)
+    if progress.respond_to? :log
+      progress.log(string)
     else
       super
     end
   end
 
-  def instafail
-    @instafail ||= RSpec::Instafail.new(output)
+  def dump_failures
+    #
+    # We output each failure as it happens so we don't need to output them en
+    # masse at the end of the run.
+    #
   end
 
-  def with_color
-    output.print "\e[#{colors[state]}m" if color_enabled?
+  private
+
+  def increment
+    with_current_color { progress.increment }
+  end
+
+  def with_current_color
+    output.print "\e[#{color_code_for(current_color)}m" if color_enabled?
     yield
-    output.print "\e[0m" if color_enabled?
+    output.print "\e[0m"                                if color_enabled?
   end
 
-  def state
-    @state ||= :green
+  def color_enabled?
+    super && !continuous_integration?
   end
 
-  def colors
-    { :red => 31, :green => 32, :yellow => 33 }
+  def current_color
+    if failed_examples.size > 0
+      configuration.failure_color
+    elsif pending_examples.size > 0
+      configuration.pending_color
+    else
+      configuration.success_color
+    end
   end
 
+  def continuous_integration?
+    @continuous_integration ||= !(ENV['CONTINUOUS_INTEGRATION'].nil? || ENV['CONTINUOUS_INTEGRATION'] == '' || ENV['CONTINUOUS_INTEGRATION'] == 'false')
+  end
 end
