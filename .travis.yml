@@ -10,3 +10,4 @@ gemfile:
   - Gemfile
   - gemfiles/Gemfile.base-versions
   - gemfiles/Gemfile.betas
+script: bundle exec rspec spec
