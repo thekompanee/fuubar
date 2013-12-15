@@ -90,4 +90,8 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
       configuration.success_color
     end
   end
+
+  def continuous_integration?
+    @continuous_integration ||= !(ENV['CONTINUOUS_INTEGRATION'].nil? || ENV['CONTINUOUS_INTEGRATION'] == '' || ENV['CONTINUOUS_INTEGRATION'] == 'false')
+  end
 end
