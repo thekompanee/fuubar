@@ -1,8 +1,9 @@
-require 'rspec/core/configuration'
 require 'rspec/core/formatters/base_text_formatter'
 require 'ruby-progressbar'
 
-RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
+if RSpec.configuration
+  RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
+end
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }
