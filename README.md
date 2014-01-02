@@ -9,6 +9,7 @@ Supported Rubies
 * MRI Ruby 1.9.2
 * MRI Ruby 1.9.3
 * MRI Ruby 2.0.0
+* MRI Ruby 2.1.0
 * JRuby (in 1.8 compat mode)
 * JRuby (in 1.9 compat mode)
 
