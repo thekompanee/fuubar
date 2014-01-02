@@ -18,13 +18,13 @@ Installation
 First:
 
 ```ruby
-gem install ruby-progressbar
+gem install fuubar
 ```
 
 or in your Gemfile
 
 ```ruby
-gem 'ruby-progressbar'
+gem 'fuubar'
 ```
 
 Then, when running rspec:
