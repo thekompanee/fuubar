@@ -1,7 +1,10 @@
-Fuubar ![Travis CI Status](https://travis-ci.org/jeffkreeftmeijer/fuubar.png)
-================================================================================
+#Fuubar
 
-Fuubar is an instafailing [RSpec](http://github.com/rspec) formatter that uses a progress bar instead of a string of letters and dots as feedback. Here's [a video of Fuubar in action](http://vimeo.com/16845253).
+[![Gem Version](https://badge.fury.io/rb/fuubar.png)](https://badge.fury.io/rb/fuubar) [![Travis CI Status](https://travis-ci.org/jeffkreeftmeijer/fuubar.png)](https://travis-ci.org/jeffkreeftmeijer/fuubar) [![CodeClimate Badge](https://codeclimate.com/github/jeffkreeftmeijer/fuubar.png)](https://codeclimate.com/github/jeffkreeftmeijer/fuubar)
+
+Fuubar is an instafailing [RSpec](http://github.com/rspec) formatter that uses a progress bar instead of a string of letters and dots as feedback. Here's a video of Fuubar in action:
+
+[![Demo Gif](https://s3.amazonaws.com/f.cl.ly/items/1K0J160j2746213q2i3S/Fuubar%20Demo.gif)](https://vimeo.com/16845253)
 
 Supported Rubies
 --------------------------------
