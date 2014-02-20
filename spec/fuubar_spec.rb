@@ -1,7 +1,28 @@
 require 'fuubar'
 require 'stringio'
 
+RSpec.configure do |config|
+  config.raise_errors_for_deprecations! if config.respond_to?(:raise_errors_for_deprecations!)
+end
+
 describe Fuubar do
+  def example_count_param(n=nil)
+    n = 2 unless n
+    if defined?(RSpec::Core::Notifications::CountNotification)
+      RSpec::Core::Notifications::CountNotification.new(n)
+    else
+      n
+    end
+  end
+
+  def example_param(example)
+    if defined?(RSpec::Core::Notifications::ExampleNotification)
+      RSpec::Core::Notifications::ExampleNotification.new(example)
+    else
+      example
+    end
+  end
+
   let(:output) do
     io = StringIO.new
 
@@ -50,7 +71,7 @@ describe Fuubar do
     it 'does not start the bar until the formatter is started' do
       expect(progress).to be_stopped
 
-      formatter.start(2)
+      formatter.start(example_count_param)
 
       expect(progress).not_to be_stopped
     end
@@ -90,11 +111,11 @@ describe Fuubar do
           throttle      = progress.instance_variable_get(:@throttle)
           throttle_rate = throttle.instance_variable_set(:@period, 0.0)
 
-          formatter.start(2)
+          formatter.start(example_count_param(2))
 
           output.rewind
 
-          formatter.example_passed(example)
+          formatter.example_passed(example_param(example))
         end
 
         it 'does not output color codes' do
@@ -121,11 +142,11 @@ describe Fuubar do
           throttle      = progress.instance_variable_get(:@throttle)
           throttle_rate = throttle.instance_variable_set(:@period, 0.0)
 
-          formatter.start(2)
+          formatter.start(example_count_param(2))
 
           output.rewind
 
-          formatter.example_passed(example)
+          formatter.example_passed(example_param(example))
         end
 
         it 'does not output color codes' do
@@ -136,7 +157,7 @@ describe Fuubar do
   end
 
   context 'when it is started' do
-    before { formatter.start(2) }
+    before { formatter.start(example_count_param) }
 
     it 'sets the total to the number of examples' do
       expect(progress.total).to eql 2
@@ -146,7 +167,7 @@ describe Fuubar do
       before do
         output.rewind
 
-        formatter.example_passed(example)
+        formatter.example_passed(example_param(example))
       end
 
       it 'outputs the proper bar information' do
@@ -158,7 +179,7 @@ describe Fuubar do
       before do
         output.rewind
 
-        formatter.example_pending(example)
+        formatter.example_pending(example_param(example))
       end
 
       it 'outputs the proper bar information' do
@@ -169,7 +190,7 @@ describe Fuubar do
         before do
           output.rewind
 
-          formatter.example_pending(example)
+          formatter.example_pending(example_param(example))
         end
 
         it 'outputs the pending bar' do
@@ -182,7 +203,7 @@ describe Fuubar do
       it 'outputs the proper bar information' do
         output.rewind
 
-        formatter.example_failed(failed_example)
+        formatter.example_failed(example_param(failed_example))
 
         expect(fuubar_results).to end_with "\e[31m 1/2 |== 50 ==>        |  ETA: 00:00:00 \r\e[0m"
       end
@@ -194,7 +215,7 @@ describe Fuubar do
         allow(formatter).to receive(:dump_backtrace).
                             and_return('dump backtrace')
 
-        formatter.example_failed(failed_example)
+        formatter.example_failed(example_param(failed_example))
 
         expect(formatter).to have_received(:dump_failure).
                              with(failed_example, 0)
@@ -205,11 +226,11 @@ describe Fuubar do
 
       context 'and then an example succeeds' do
         before do
-          formatter.example_failed(failed_example)
+          formatter.example_failed(example_param(failed_example))
 
           output.rewind
 
-          formatter.example_passed(example)
+          formatter.example_passed(example_param(example))
         end
 
         it 'outputs the failed bar' do
@@ -219,11 +240,11 @@ describe Fuubar do
 
       context 'and then an example pends' do
         before do
-          formatter.example_failed(failed_example)
+          formatter.example_failed(example_param(failed_example))
 
           output.rewind
 
-          formatter.example_pending(example)
+          formatter.example_pending(example_param(example))
         end
 
         it 'outputs the failed bar' do

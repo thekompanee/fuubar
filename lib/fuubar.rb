@@ -5,9 +5,15 @@ require 'ruby-progressbar'
 RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
+
+  if RSpec::Core::Formatters.respond_to? :register
+    RSpec::Core::Formatters.register self,
+      :message, :example_passed, :example_pending, :example_failed
+  end
+
   DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }
 
-  attr_accessor :progress
+  attr_accessor :progress, :example_count
 
   def initialize(*args)
     super
@@ -22,7 +28,9 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     self.progress = ProgressBar.create(progress_bar_options)
   end
 
-  def start(example_count)
+  def start(notification)
+    example_count = compatible notification, :count
+
     super
 
     progress.total = example_count
@@ -30,19 +38,21 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     with_current_color { progress.start }
   end
 
-  def example_passed(example)
+  def example_passed(notification)
+    super if defined?(super)
+
+    increment
+  end
+
+  def example_pending(notification)
     super
 
     increment
   end
 
-  def example_pending(example)
-    super
+  def example_failed(notification)
+    example = compatible notification, :example
 
-    increment
-  end
-
-  def example_failed(example)
     super
 
     progress.clear
@@ -55,7 +65,9 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     increment
   end
 
-  def message(string)
+  def message(notification)
+    string = compatible notification, :message
+
     if progress.respond_to? :log
       progress.log(string)
     else
@@ -63,14 +75,25 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     end
   end
 
-  def dump_failures
+  def dump_failures(notification=nil)
     #
     # We output each failure as it happens so we don't need to output them en
     # masse at the end of the run.
     #
+    # No need in this since RSpec 3.x
+    #
   end
 
   private
+
+  # since RSpec 3.x use Notificaton as param class
+  def compatible(param, method)
+    if param.respond_to? method
+      param.send method
+    else
+      param
+    end
+  end
 
   def increment
     with_current_color { progress.increment }
