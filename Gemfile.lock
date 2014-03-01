@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fuubar (1.3.2)
+    fuubar (2.0.0.beta1)
       rspec (~> 3.0.beta)
       ruby-progressbar (~> 1.3)
 
