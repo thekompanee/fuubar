@@ -7,6 +7,13 @@ RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }
 
+  RSpec::Core::Formatters.register self,  :start,
+                                          :message,
+                                          :example_passed,
+                                          :example_pending,
+                                          :example_failed,
+                                          :dump_failures
+
   attr_accessor :progress
 
   def initialize(*args)
@@ -15,36 +22,35 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     progress_bar_options =  DEFAULT_PROGRESS_BAR_OPTIONS.
                               merge(:throttle_rate  => continuous_integration? ? 1.0 : nil).
                               merge(configuration.fuubar_progress_bar_options).
-                              merge(:total          => example_count,
+                              merge(:total          => 0,
                                     :output         => output,
                                     :autostart      => false)
 
     self.progress = ProgressBar.create(progress_bar_options)
   end
 
-  def start(example_count)
+  def start(notification)
     super
 
-    progress.total = example_count
+    progress.total = notification.count
 
     with_current_color { progress.start }
   end
 
-  def example_passed(example)
+  def example_passed(notification)
+    increment
+  end
+
+  def example_pending(notification)
     super
 
     increment
   end
 
-  def example_pending(example)
+  def example_failed(notification)
     super
 
-    increment
-  end
-
-  def example_failed(example)
-    super
-
+    example = notification.example
     progress.clear
 
     dump_failure    example, failed_examples.size - 1
@@ -55,15 +61,15 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     increment
   end
 
-  def message(string)
+  def message(notification)
     if progress.respond_to? :log
-      progress.log(string)
+      progress.log(notification.message)
     else
       super
     end
   end
 
-  def dump_failures
+  def dump_failures(notification)
     #
     # We output each failure as it happens so we don't need to output them en
     # masse at the end of the run.
