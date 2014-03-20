@@ -84,9 +84,9 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def with_current_color
-    output.print "\e[#{ConsoleCodes.console_code_for(current_color)}m" if color_enabled?
+    output.print "\e[#{RSpec::Core::Formatters::ConsoleCodes.console_code_for(current_color)}m" if color_enabled?
     yield
-    output.print "\e[0m"                                if color_enabled?
+    output.print "\e[0m"                                                                        if color_enabled?
   end
 
   def color_enabled?
