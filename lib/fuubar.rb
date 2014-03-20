@@ -1,5 +1,6 @@
 require 'rspec'
 require 'rspec/core/formatters/base_text_formatter'
+require 'rspec/core/formatters/console_codes'
 require 'ruby-progressbar'
 
 RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
@@ -83,7 +84,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def with_current_color
-    output.print "\e[#{color_code_for(current_color)}m" if color_enabled?
+    output.print "\e[#{ConsoleCodes.console_code_for(current_color)}m" if color_enabled?
     yield
     output.print "\e[0m"                                if color_enabled?
   end
