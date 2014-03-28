@@ -1,6 +1,6 @@
 #Fuubar
 
-[![Gem Version](https://badge.fury.io/rb/fuubar.png)](https://badge.fury.io/rb/fuubar) [![Travis CI Status](https://travis-ci.org/jeffkreeftmeijer/fuubar.png)](https://travis-ci.org/jeffkreeftmeijer/fuubar) [![CodeClimate Badge](https://codeclimate.com/github/jeffkreeftmeijer/fuubar.png)](https://codeclimate.com/github/jeffkreeftmeijer/fuubar)
+[![Gem Version](https://badge.fury.io/rb/fuubar.png)](https://badge.fury.io/rb/fuubar) [![Build Status](https://secure.travis-ci.org/jeffkreeftmeijer/fuubar.png?branch=master)](http://travis-ci.org/jeffkreeftmeijer/fuubar) [![Code Climate](https://codeclimate.com/github/jeffkreeftmeijer/fuubar.png)](https://codeclimate.com/github/jeffkreeftmeijer/fuubar) [![Code Climate](https://codeclimate.com/github/jeffkreeftmeijer/fuubar/coverage.png)](https://codeclimate.com/github/jeffkreeftmeijer/fuubar)
 
 Fuubar is an instafailing [RSpec](http://github.com/rspec) formatter that uses a progress bar instead of a string of letters and dots as feedback. Here's [a video of Fuubar in action](http://vimeo.com/16845253).
 
