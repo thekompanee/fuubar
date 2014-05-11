@@ -12,7 +12,6 @@ describe Fuubar do
   end
 
   let(:formatter) { Fuubar.new(output) }
-  let(:progress)  { formatter.instance_variable_get(:@progress) }
   let(:example)   { RSpec::Core::ExampleGroup.describe.example }
 
   let(:failed_example) do
@@ -48,28 +47,28 @@ describe Fuubar do
 
   context 'when it is created' do
     it 'does not start the bar until the formatter is started' do
-      expect(progress).to be_stopped
+      expect(formatter.progress).not_to be_started
 
       formatter.start(2)
 
-      expect(progress).not_to be_stopped
+      expect(formatter.progress).to be_started
     end
 
     it 'creates a new ProgressBar' do
-      expect(progress).to be_instance_of ProgressBar::Base
+      expect(formatter.progress).to be_instance_of ProgressBar::Base
     end
 
-    it 'sets the format of the bar' do
-      expect(progress.instance_variable_get(:@format_string)).to eql ' %c/%C |%w>%i| %e '
+    it 'sets the format of the bar to the default' do
+      expect(formatter.progress.instance_variable_get(:@format_string)).to eql ' %c/%C |%w>%i| %e '
     end
 
     it 'sets the total to the number of examples' do
-      expect(progress.total).to be_zero
+      expect(formatter.progress.total).to be_zero
     end
 
     it 'sets the bar\'s output' do
-      expect(progress.send(:output)).to eql formatter.output
-      expect(progress.send(:output)).to eql output
+      expect(formatter.progress.send(:output)).to eql formatter.output
+      expect(formatter.progress.send(:output)).to eql output
     end
 
     context 'and continuous integration is enabled' do
@@ -79,7 +78,7 @@ describe Fuubar do
       end
 
       it 'throttles the progress bar at one second' do
-        throttle      = progress.instance_variable_get(:@throttle)
+        throttle      = formatter.progress.instance_variable_get(:@throttle)
         throttle_rate = throttle.instance_variable_get(:@period)
 
         expect(throttle_rate).to eql 1.0
@@ -87,7 +86,7 @@ describe Fuubar do
 
       context 'when processing an example' do
         before do
-          throttle      = progress.instance_variable_get(:@throttle)
+          throttle      = formatter.progress.instance_variable_get(:@throttle)
           throttle_rate = throttle.instance_variable_set(:@period, 0.0)
 
           formatter.start(2)
@@ -110,7 +109,7 @@ describe Fuubar do
       end
 
       it 'throttles the progress bar at the default rate' do
-        throttle      = progress.instance_variable_get(:@throttle)
+        throttle      = formatter.progress.instance_variable_get(:@throttle)
         throttle_rate = throttle.instance_variable_get(:@period)
 
         expect(throttle_rate).to eql 0.01
@@ -118,7 +117,7 @@ describe Fuubar do
 
       context 'when processing an example' do
         before do
-          throttle      = progress.instance_variable_get(:@throttle)
+          throttle      = formatter.progress.instance_variable_get(:@throttle)
           throttle_rate = throttle.instance_variable_set(:@period, 0.0)
 
           formatter.start(2)
@@ -139,7 +138,7 @@ describe Fuubar do
     before { formatter.start(2) }
 
     it 'sets the total to the number of examples' do
-      expect(progress.total).to eql 2
+      expect(formatter.progress.total).to eql 2
     end
 
     context 'and an example passes' do
