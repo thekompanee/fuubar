@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.name                  = 'fuubar'
   s.rubyforge_project     = 'fuubar'
 
-  s.version               = '2.0.0.beta1'
+  s.version               = '2.0.0.beta2'
   s.platform              = Gem::Platform::RUBY
 
   s.authors               = ['Nicholas Evans', 'Jeff Kreeftmeijer', 'jfelchner']
