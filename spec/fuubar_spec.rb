@@ -86,10 +86,10 @@ describe Fuubar do
 
       context 'when processing an example' do
         before do
+          formatter.start(2)
+
           throttle      = formatter.progress.instance_variable_get(:@throttle)
           throttle_rate = throttle.instance_variable_set(:@period, 0.0)
-
-          formatter.start(2)
 
           output.rewind
 
@@ -117,10 +117,10 @@ describe Fuubar do
 
       context 'when processing an example' do
         before do
+          formatter.start(2)
+
           throttle      = formatter.progress.instance_variable_get(:@throttle)
           throttle_rate = throttle.instance_variable_set(:@period, 0.0)
-
-          formatter.start(2)
 
           output.rewind
 
@@ -134,11 +134,36 @@ describe Fuubar do
     end
   end
 
+  context 'when custom options are set after the formatter is created' do
+    before(:each) do
+      formatter
+      RSpec.configuration.fuubar_progress_bar_options = {
+        :length        => 40,
+        :throttle_rate => 0.0,
+        :format        => '%c',
+      }
+    end
+
+    context 'when the bar is started' do
+      before(:each) { formatter.start(2) }
+
+      it 'properly creates the bar' do
+        expect(formatter.progress.instance_variable_get(:@format_string)).to eql '%c'
+      end
+    end
+  end
+
   context 'when it is started' do
     before { formatter.start(2) }
 
     it 'sets the total to the number of examples' do
       expect(formatter.progress.total).to eql 2
+    end
+
+    context 'and no custom options are passed in' do
+      it 'sets the format of the bar to the default' do
+        expect(formatter.progress.instance_variable_get(:@format_string)).to eql ' %c/%C |%w>%i| %e '
+      end
     end
 
     context 'and an example passes' do
