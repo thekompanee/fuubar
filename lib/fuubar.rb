@@ -1,5 +1,6 @@
 require 'rspec'
 require 'rspec/core/formatters/base_text_formatter'
+require 'rspec/core/formatters/console_codes'
 require 'ruby-progressbar'
 
 RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
@@ -29,12 +30,16 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   def start(notification)
     progress_bar_options =  DEFAULT_PROGRESS_BAR_OPTIONS.
                               merge(:throttle_rate  => continuous_integration? ? 1.0 : nil).
-                              merge(configuration.fuubar_progress_bar_options).
+                              merge(RSpec.configuration.fuubar_progress_bar_options).
                               merge(:total          => notification.count,
                                     :output         => output,
                                     :autostart      => false)
 
     self.progress = ProgressBar.create(progress_bar_options)
+
+    @passed_count = 0
+    @pending_count = 0
+    @failed_count = 0
 
     super
 
@@ -42,23 +47,21 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def example_passed(notification)
+    @passed_count += 1
     increment
   end
 
   def example_pending(notification)
-    super
-
+    @pending_count += 1
     increment
   end
 
   def example_failed(notification)
-    super
-
+    @failed_count += 1
     example = notification.example
     progress.clear
 
-    dump_failure    example, failed_examples.size - 1
-    dump_backtrace  example
+    output.puts notification.fully_formatted(@failed_count)
 
     output.puts
 
@@ -87,22 +90,22 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def with_current_color
-    output.print "\e[#{color_code_for(current_color)}m" if color_enabled?
+    output.print "\e[#{RSpec::Core::Formatters::ConsoleCodes.console_code_for(current_color)}m" if color_enabled?
     yield
     output.print "\e[0m"                                if color_enabled?
   end
 
   def color_enabled?
-    super && !continuous_integration?
+    RSpec.configuration.color_enabled? && !continuous_integration?
   end
 
   def current_color
-    if failed_examples.size > 0
-      configuration.failure_color
-    elsif pending_examples.size > 0
-      configuration.pending_color
+    if @failed_count > 0
+      RSpec.configuration.failure_color
+    elsif @pending_count > 0
+      RSpec.configuration.pending_color
     else
-      configuration.success_color
+      RSpec.configuration.success_color
     end
   end
 
