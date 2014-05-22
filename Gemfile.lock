@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     fuubar (2.0.0.beta2)
-      rspec (~> 3.0.beta)
+      rspec (~> 3.0.0.rc1)
       ruby-progressbar (~> 1.4)
 
 GEM
@@ -10,19 +10,19 @@ GEM
   specs:
     diff-lcs (1.2.5)
     rake (10.0.4)
-    rspec (3.0.0.beta2)
-      rspec-core (= 3.0.0.beta2)
-      rspec-expectations (= 3.0.0.beta2)
-      rspec-mocks (= 3.0.0.beta2)
-    rspec-core (3.0.0.beta2)
-      rspec-support (= 3.0.0.beta2)
-    rspec-expectations (3.0.0.beta2)
+    rspec (3.0.0.rc1)
+      rspec-core (= 3.0.0.rc1)
+      rspec-expectations (= 3.0.0.rc1)
+      rspec-mocks (= 3.0.0.rc1)
+    rspec-core (3.0.0.rc1)
+      rspec-support (= 3.0.0.rc1)
+    rspec-expectations (3.0.0.rc1)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (= 3.0.0.beta2)
-    rspec-mocks (3.0.0.beta2)
-      rspec-support (= 3.0.0.beta2)
-    rspec-support (3.0.0.beta2)
-    ruby-progressbar (1.4.2)
+      rspec-support (= 3.0.0.rc1)
+    rspec-mocks (3.0.0.rc1)
+      rspec-support (= 3.0.0.rc1)
+    rspec-support (3.0.0.rc1)
+    ruby-progressbar (1.5.1)
 
 PLATFORMS
   ruby
