@@ -22,7 +22,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
     progress_bar_options =  DEFAULT_PROGRESS_BAR_OPTIONS.
                               merge(:throttle_rate  => continuous_integration? ? 1.0 : nil).
-                              merge(configuration.fuubar_progress_bar_options).
+                              merge(RSpec.configuration.fuubar_progress_bar_options).
                               merge(:total          => 0,
                                     :output         => output,
                                     :autostart      => false)
@@ -35,26 +35,29 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
     progress.total = notification.count
 
+    @failed_examples = 0
+    @pending_examples = 0
+
     with_current_color { progress.start }
   end
 
-  def example_passed(notification)
+  def example_passed(*)
     increment
   end
 
-  def example_pending(notification)
-    super
+  def example_pending(*)
+    @pending_examples += 1
 
     increment
   end
 
   def example_failed(notification)
-    super
+    @failed_examples += 1
 
     example = notification.example
     progress.clear
 
-    dump_failure    example, failed_examples.size - 1
+    dump_failure    example, @failed_examples
     dump_backtrace  example
 
     output.puts
@@ -77,6 +80,14 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     #
   end
 
+  def dump_failure(example, count)
+    output.puts RSpec::Core::Formatters::ConsoleCodes.wrap("#{ example.full_description.strip } (FAILED - #{ count })", :failure)
+  end
+
+  def dump_backtrace(example)
+    output.puts "\t" + example.exception.backtrace.join("\n\t")
+  end
+
   private
 
   def increment
@@ -90,16 +101,16 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def color_enabled?
-    super && !continuous_integration?
+    RSpec.configuration.color_enabled? && !continuous_integration?
   end
 
   def current_color
-    if failed_examples.size > 0
-      configuration.failure_color
-    elsif pending_examples.size > 0
-      configuration.pending_color
+    if @failed_examples > 0
+      RSpec.configuration.failure_color
+    elsif @pending_examples > 0
+      RSpec.configuration.pending_color
     else
-      configuration.success_color
+      RSpec.configuration.success_color
     end
   end
 
