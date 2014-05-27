@@ -12,14 +12,14 @@ describe Fuubar do
     io
   end
 
-  let(:formatter)           { Fuubar.new(output) }
-  let(:example)             { RSpec::Core::ExampleGroup.describe.example }
-  let(:notification)        { OpenStruct.new(count:   2,
-                                             example: example,
-                                             message: 'My Message') }
-  let(:failed_notification) { OpenStruct.new(count:   2,
-                                             example: failed_example,
-                                             message: 'My Message') }
+  let(:formatter)            { Fuubar.new(output) }
+  let(:example)              { RSpec::Core::ExampleGroup.describe.example }
+  let(:example_count)        { 2 }
+  let(:start_notification)   { RSpec::Core::Notifications::StartNotification.new(example_count, Time.now) }
+  let(:message_notification) { RSpec::Core::Notifications::MessageNotification.new('My Message') }
+  let(:example_notification) { RSpec::Core::Notifications::ExampleNotification.for(example) }
+  let(:pending_notification) { RSpec::Core::Notifications::ExampleNotification.for(pending_example) }
+  let(:failed_notification)  { RSpec::Core::Notifications::ExampleNotification.for(failed_example) }
 
   let(:failed_example) do
     exception = RuntimeError.new('Test Fuubar Error')
@@ -29,12 +29,16 @@ describe Fuubar do
 
     example = RSpec::Core::ExampleGroup.describe.example
 
-    example.instance_variable_set(:@metadata, {
-      :file_path        => '/my/example/spec.rb',
-      :execution_result => {
-        :exception => exception },
-    } )
+    example.metadata[:file_path] = '/my/example/spec.rb'
+    example.metadata[:execution_result].status = :failed
+    example.metadata[:execution_result].exception = exception
 
+    example
+  end
+
+  let(:pending_example) do
+    example = RSpec::Core::ExampleGroup.describe.example
+    example.metadata[:execution_result].pending_fixed = true
     example
   end
 
@@ -56,7 +60,7 @@ describe Fuubar do
     it 'does not start the bar until the formatter is started' do
       expect(formatter.progress).not_to be_started
 
-      formatter.start(notification)
+      formatter.start(start_notification)
 
       expect(formatter.progress).to be_started
     end
@@ -93,7 +97,7 @@ describe Fuubar do
 
       context 'when processing an example' do
         before do
-          formatter.start(notification)
+          formatter.start(start_notification)
 
           throttle      = formatter.progress.instance_variable_get(:@throttle)
           throttle_rate = throttle.instance_variable_set(:@period, 0.0)
@@ -124,7 +128,7 @@ describe Fuubar do
 
       context 'when processing an example' do
         before do
-          formatter.start(notification)
+          formatter.start(start_notification)
 
           throttle      = formatter.progress.instance_variable_get(:@throttle)
           throttle_rate = throttle.instance_variable_set(:@period, 0.0)
@@ -152,7 +156,7 @@ describe Fuubar do
     end
 
     context 'when the bar is started' do
-      before(:each) { formatter.start(notification) }
+      before(:each) { formatter.start(start_notification) }
 
       it 'properly creates the bar' do
         expect(formatter.progress.instance_variable_get(:@format_string)).to eql '%c'
@@ -161,7 +165,7 @@ describe Fuubar do
   end
 
   context 'when it is started' do
-    before { formatter.start(notification) }
+    before { formatter.start(start_notification) }
 
     it 'sets the total to the number of examples' do
       expect(formatter.progress.total).to eql 2
@@ -189,10 +193,11 @@ describe Fuubar do
       before do
         output.rewind
 
-        formatter.example_pending(notification)
+        formatter.example_pending(pending_example)
       end
 
       it 'outputs the proper bar information' do
+        formatter.progress.increment
         expect(fuubar_results).to start_with "\e[33m 1/2 |== 50 ==>        |  ETA: 00:00:00 \r\e[0m"
       end
 
@@ -200,7 +205,7 @@ describe Fuubar do
         before do
           output.rewind
 
-          formatter.example_pending(notification)
+          formatter.example_pending(pending_notification)
         end
 
         it 'outputs the pending bar' do
@@ -216,22 +221,6 @@ describe Fuubar do
         formatter.example_failed(failed_notification)
 
         expect(fuubar_results).to end_with "\e[31m 1/2 |== 50 ==>        |  ETA: 00:00:00 \r\e[0m"
-      end
-
-      it 'dumps the failure' do
-        allow(formatter).to receive(:dump_failure).
-                            and_return('dump failure')
-
-        allow(formatter).to receive(:dump_backtrace).
-                            and_return('dump backtrace')
-
-        formatter.example_failed(failed_notification)
-
-        expect(formatter).to have_received(:dump_failure).
-                             with(failed_example, 0)
-
-        expect(formatter).to have_received(:dump_backtrace).
-                             with(failed_example)
       end
 
       context 'and then an example succeeds' do
@@ -254,7 +243,7 @@ describe Fuubar do
 
           output.rewind
 
-          formatter.example_pending(notification)
+          formatter.example_pending(example_notification)
         end
 
         it 'outputs the failed bar' do
@@ -264,7 +253,7 @@ describe Fuubar do
     end
 
     it 'can properly log messages' do
-      formatter.message notification
+      formatter.message message_notification
 
       expect(fuubar_results).to end_with "My Message\n 0/2 |>                |  ETA: ??:??:?? \r"
     end

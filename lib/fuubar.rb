@@ -1,5 +1,6 @@
 require 'rspec'
 require 'rspec/core/formatters/base_text_formatter'
+require 'rspec/core/formatters/console_codes'
 require 'ruby-progressbar'
 
 RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
@@ -14,7 +15,10 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
                                           :example_failed,
                                           :dump_failures
 
-  attr_accessor :progress
+  attr_accessor :progress,
+                :passed_count,
+                :pending_count,
+                :failed_count
 
   def initialize(*args)
     super
@@ -34,7 +38,10 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
                                     :output         => output,
                                     :autostart      => false)
 
-    self.progress = ProgressBar.create(progress_bar_options)
+    self.progress      = ProgressBar.create(progress_bar_options)
+    self.passed_count  = 0
+    self.pending_count = 0
+    self.failed_count  = 0
 
     super
 
@@ -42,24 +49,23 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def example_passed(notification)
+    self.passed_count += 1
+
     increment
   end
 
   def example_pending(notification)
-    super
+    self.pending_count += 1
 
     increment
   end
 
   def example_failed(notification)
-    super
+    self.failed_count += 1
 
-    example = notification.example
     progress.clear
 
-    dump_failure    example, failed_examples.size - 1
-    dump_backtrace  example
-
+    output.puts notification.fully_formatted(failed_count)
     output.puts
 
     increment
@@ -93,17 +99,25 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def color_enabled?
-    super && !continuous_integration?
+    configuration.color_enabled? && !continuous_integration?
   end
 
   def current_color
-    if failed_examples.size > 0
+    if failed_count > 0
       configuration.failure_color
-    elsif pending_examples.size > 0
+    elsif pending_count > 0
       configuration.pending_color
     else
       configuration.success_color
     end
+  end
+
+  def color_code_for(*args)
+    RSpec::Core::Formatters::ConsoleCodes.console_code_for(*args)
+  end
+
+  def configuration
+    RSpec.configuration
   end
 
   def continuous_integration?
