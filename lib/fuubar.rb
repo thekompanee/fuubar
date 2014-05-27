@@ -15,7 +15,10 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
                                           :example_failed,
                                           :dump_failures
 
-  attr_accessor :progress
+  attr_accessor :progress,
+                :passed_count,
+                :pending_count,
+                :failed_count
 
   def initialize(*args)
     super
@@ -36,10 +39,9 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
                                     :autostart      => false)
 
     self.progress = ProgressBar.create(progress_bar_options)
-
-    @passed_count = 0
-    @pending_count = 0
-    @failed_count = 0
+    self.passed_count  = 0
+    self.pending_count = 0
+    self.failed_count  = 0
 
     super
 
@@ -47,22 +49,24 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def example_passed(notification)
-    @passed_count += 1
+    self.passed_count += 1
+
     increment
   end
 
   def example_pending(notification)
-    @pending_count += 1
+    self.pending_count += 1
+
     increment
   end
 
   def example_failed(notification)
-    @failed_count += 1
     example = notification.example
+    self.failed_count += 1
+
     progress.clear
 
-    output.puts notification.fully_formatted(@failed_count)
-
+    output.puts notification.fully_formatted(failed_count)
     output.puts
 
     increment
@@ -100,9 +104,9 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def current_color
-    if @failed_count > 0
+    if failed_count > 0
       RSpec.configuration.failure_color
-    elsif @pending_count > 0
+    elsif pending_count > 0
       RSpec.configuration.pending_color
     else
       RSpec.configuration.success_color
