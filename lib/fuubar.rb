@@ -61,7 +61,6 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def example_failed(notification)
-    example = notification.example
     self.failed_count += 1
 
     progress.clear
