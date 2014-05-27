@@ -38,7 +38,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
                                     :output         => output,
                                     :autostart      => false)
 
-    self.progress = ProgressBar.create(progress_bar_options)
+    self.progress      = ProgressBar.create(progress_bar_options)
     self.passed_count  = 0
     self.pending_count = 0
     self.failed_count  = 0
