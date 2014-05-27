@@ -33,7 +33,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   def start(notification)
     progress_bar_options =  DEFAULT_PROGRESS_BAR_OPTIONS.
                               merge(:throttle_rate  => continuous_integration? ? 1.0 : nil).
-                              merge(RSpec.configuration.fuubar_progress_bar_options).
+                              merge(configuration.fuubar_progress_bar_options).
                               merge(:total          => notification.count,
                                     :output         => output,
                                     :autostart      => false)
@@ -100,17 +100,21 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def color_enabled?
-    RSpec.configuration.color_enabled? && !continuous_integration?
+    configuration.color_enabled? && !continuous_integration?
   end
 
   def current_color
     if failed_count > 0
-      RSpec.configuration.failure_color
+      configuration.failure_color
     elsif pending_count > 0
-      RSpec.configuration.pending_color
+      configuration.pending_color
     else
-      RSpec.configuration.success_color
+      configuration.success_color
     end
+  end
+
+  def configuration
+    RSpec.configuration
   end
 
   def continuous_integration?
