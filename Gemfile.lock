@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     fuubar (2.0.0.beta2)
-      rspec (~> 3.0.0.rc1)
+      rspec (~> 3.0.rc1)
       ruby-progressbar (~> 1.4)
 
 GEM
