@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.platform              = Gem::Platform::RUBY
 
   s.authors               = ['Nicholas Evans', 'Jeff Kreeftmeijer', 'jfelchner']
-  s.email                 = ['jeff@kreeftmteijer.nl']
+  s.email                 = ['jeff@kreeftmeijer.nl']
   s.date                  = Time.now
   s.homepage              = 'https://github.com/jeffkreeftmeijer/fuubar'
 
