@@ -1,6 +1,5 @@
 require 'rspec'
 require 'rspec/core/formatters/base_text_formatter'
-require 'rspec/core/formatters/console_codes'
 require 'ruby-progressbar'
 
 RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
