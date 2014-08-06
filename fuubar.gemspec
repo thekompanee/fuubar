@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.platform              = Gem::Platform::RUBY
 
   s.authors               = ['Nicholas Evans', 'Jeff Kreeftmeijer', 'jfelchner']
-  s.email                 = ['jeff@kreeftmeijer.nl']
+  s.email                 = ['jeff@kreeftmteijer.nl']
   s.date                  = Time.now
   s.homepage              = 'https://github.com/jeffkreeftmeijer/fuubar'
 
@@ -27,6 +27,6 @@ Gem::Specification.new do |s|
   s.executables           = Dir.glob("bin/*").map{ |f| File.basename(f) }
   s.require_paths         = ['lib']
 
-  s.add_dependency              'rspec',              '~> 3.0.rc1'
+  s.add_dependency              'rspec',              '~> 3.0'
   s.add_dependency              'ruby-progressbar',   '~> 1.4'
 end
