@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 Gem::Specification.new do |s|
   s.name                  = 'fuubar'
 
-  s.version               = '2.0.0.rc1'
+  s.version               = '2.0.0'
 
   s.authors               = ['Nicholas Evans', 'Jeff Kreeftmeijer', 'jfelchner']
   s.email                 = ['jeff@kreeftmeijer.nl']
