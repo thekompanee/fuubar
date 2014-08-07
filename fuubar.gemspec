@@ -27,6 +27,6 @@ Gem::Specification.new do |s|
   s.executables           = Dir.glob("bin/*").map{ |f| File.basename(f) }
   s.require_paths         = ['lib']
 
-  s.add_dependency              'rspec',              '~> 3.0.rc1'
+  s.add_dependency              'rspec',              '~> 3.0'
   s.add_dependency              'ruby-progressbar',   '~> 1.4'
 end
