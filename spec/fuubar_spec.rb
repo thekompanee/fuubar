@@ -2,6 +2,7 @@ require 'fuubar'
 require 'stringio'
 require 'ostruct'
 
+# rubocop:disable Metrics/LineLength
 describe Fuubar do
   let(:output) do
     io = StringIO.new
@@ -24,8 +25,8 @@ describe Fuubar do
   let(:failed_example) do
     exception = RuntimeError.new('Test Fuubar Error')
     exception.set_backtrace [
-      "/my/filename.rb:4:in `some_method'",
-    ]
+                              "/my/filename.rb:4:in `some_method'",
+                            ]
 
     example = RSpec::Core::ExampleGroup.describe.example
 
@@ -84,7 +85,7 @@ describe Fuubar do
 
     context 'and continuous integration is enabled' do
       before do
-        RSpec.configuration.fuubar_progress_bar_options = {:length => 40}
+        RSpec.configuration.fuubar_progress_bar_options = { :length => 40 }
         ENV['CONTINUOUS_INTEGRATION'] = 'true'
       end
 
@@ -99,8 +100,8 @@ describe Fuubar do
         before do
           formatter.start(start_notification)
 
-          throttle      = formatter.progress.instance_variable_get(:@throttle)
-          throttle_rate = throttle.instance_variable_set(:@period, 0.0)
+          throttle       = formatter.progress.instance_variable_get(:@throttle)
+          _throttle_rate = throttle.instance_variable_set(:@period, 0.0)
 
           output.rewind
 
@@ -115,7 +116,7 @@ describe Fuubar do
 
     context 'and continuous integration is not enabled' do
       before do
-        RSpec.configuration.fuubar_progress_bar_options = {:length => 40}
+        RSpec.configuration.fuubar_progress_bar_options = { :length => 40 }
         ENV['CONTINUOUS_INTEGRATION'] = 'false'
       end
 
@@ -130,8 +131,8 @@ describe Fuubar do
         before do
           formatter.start(start_notification)
 
-          throttle      = formatter.progress.instance_variable_get(:@throttle)
-          throttle_rate = throttle.instance_variable_set(:@period, 0.0)
+          throttle       = formatter.progress.instance_variable_get(:@throttle)
+          _throttle_rate = throttle.instance_variable_set(:@period, 0.0)
 
           output.rewind
 

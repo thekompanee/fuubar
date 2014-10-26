@@ -1,32 +1,22 @@
-# -*- encoding: utf-8 -*-
+# encoding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-Gem::Specification.new do |s|
-  s.name                  = 'fuubar'
+Gem::Specification.new do |spec|
+  spec.name          = 'fuubar'
+  spec.version       = '2.0.0'
+  spec.authors       = ['Nicholas Evans', 'Jeff Kreeftmeijer', 'jfelchner']
+  spec.email         = '["jeff@kreeftmeijer.nl"]'
+  spec.summary       = %q{the instafailing RSpec progress bar formatter}
+  spec.description   = %q{the instafailing RSpec progress bar formatter}
+  spec.homepage      = 'https://github.com/jeffkreeftmeijer/fuubar'
+  spec.license       = 'MIT'
 
-  s.version               = '2.0.0'
+  spec.executables   = []
+  spec.files         = Dir['{app,config,db,lib}/**/*'] + %w{Rakefile README.md LICENSE}
+  spec.test_files    = Dir['{test,spec,features}/**/*']
 
-  s.authors               = ['Nicholas Evans', 'Jeff Kreeftmeijer', 'jfelchner']
-  s.email                 = ['jeff@kreeftmeijer.nl']
-  s.homepage              = 'https://github.com/jeffkreeftmeijer/fuubar'
+  spec.add_dependency             'rspec', ["~> 3.0"]
+  spec.add_dependency             'ruby-progressbar', ["~> 1.4"]
 
-  s.license               = 'MIT'
-  s.summary               = 'the instafailing RSpec progress bar formatter'
-  s.description           = 'the instafailing RSpec progress bar formatter'
-
-  s.rdoc_options          = ['--charset', 'UTF-8']
-  s.extra_rdoc_files      = %w[README.md LICENSE]
-
-  s.rdoc_options          = ['--charset', 'UTF-8']
-  s.extra_rdoc_files      = %w[README.md LICENSE]
-
-  # Manifest
-  s.files                 = Dir.glob("lib/**/*")
-  s.test_files            = Dir.glob("{test,spec,features}/**/*")
-  s.executables           = Dir.glob("bin/*").map{ |f| File.basename(f) }
-  s.require_paths         = ['lib']
-
-  s.add_dependency              'rspec',              '~> 3.0'
-  s.add_dependency              'ruby-progressbar',   '~> 1.4'
 end
