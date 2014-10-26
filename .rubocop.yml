@@ -1,0 +1,15 @@
+inherit_from:
+  - '.rubocop_core.yml'
+
+# Put your project-specifc Rubocop config here
+
+Style/IndentationWidth:
+  Enabled: false
+
+Metrics/LineLength:
+  Exclude:
+    - 'spec/**/*.rb'
+
+Style/EmptyLinesAroundBlockBody:
+  Exclude:
+    - 'spec/**/*.rb'

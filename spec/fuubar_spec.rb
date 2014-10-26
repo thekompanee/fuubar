@@ -49,8 +49,8 @@ describe Fuubar do
 
   before(:each) do
     RSpec.configuration.fuubar_progress_bar_options = {
-      :length        => 40,
-      :throttle_rate => 0.0,
+      length:        40,
+      throttle_rate: 0.0,
     }
 
     ENV.delete('CONTINUOUS_INTEGRATION')
@@ -84,7 +84,7 @@ describe Fuubar do
 
     context 'and continuous integration is enabled' do
       before do
-        RSpec.configuration.fuubar_progress_bar_options = {:length => 40}
+        RSpec.configuration.fuubar_progress_bar_options = { length: 40 }
         ENV['CONTINUOUS_INTEGRATION'] = 'true'
       end
 
@@ -99,8 +99,8 @@ describe Fuubar do
         before do
           formatter.start(start_notification)
 
-          throttle      = formatter.progress.instance_variable_get(:@throttle)
-          throttle_rate = throttle.instance_variable_set(:@period, 0.0)
+          throttle       = formatter.progress.instance_variable_get(:@throttle)
+          _throttle_rate = throttle.instance_variable_set(:@period, 0.0)
 
           output.rewind
 
@@ -115,7 +115,7 @@ describe Fuubar do
 
     context 'and continuous integration is not enabled' do
       before do
-        RSpec.configuration.fuubar_progress_bar_options = {:length => 40}
+        RSpec.configuration.fuubar_progress_bar_options = { length: 40 }
         ENV['CONTINUOUS_INTEGRATION'] = 'false'
       end
 
@@ -130,8 +130,8 @@ describe Fuubar do
         before do
           formatter.start(start_notification)
 
-          throttle      = formatter.progress.instance_variable_get(:@throttle)
-          throttle_rate = throttle.instance_variable_set(:@period, 0.0)
+          throttle       = formatter.progress.instance_variable_get(:@throttle)
+          _throttle_rate = throttle.instance_variable_set(:@period, 0.0)
 
           output.rewind
 
@@ -149,9 +149,9 @@ describe Fuubar do
     before(:each) do
       formatter
       RSpec.configuration.fuubar_progress_bar_options = {
-        :length        => 40,
-        :throttle_rate => 0.0,
-        :format        => '%c',
+        length:        40,
+        throttle_rate: 0.0,
+        format:        '%c',
       }
     end
 
