@@ -3,7 +3,7 @@ PATH
   specs:
     fuubar (2.0.0)
       rspec (~> 3.0)
-      ruby-progressbar (~> 1.4)
+      ruby-progressbar (~> 1.4, < 1.7)
 
 GEM
   remote: http://rubygems.org/
@@ -22,7 +22,7 @@ GEM
     rspec-mocks (3.0.3)
       rspec-support (~> 3.0.0)
     rspec-support (3.0.3)
-    ruby-progressbar (1.5.1)
+    ruby-progressbar (1.6.1)
 
 PLATFORMS
   ruby

@@ -28,5 +28,5 @@ Gem::Specification.new do |s|
   s.require_paths         = ['lib']
 
   s.add_dependency              'rspec',              '~> 3.0'
-  s.add_dependency              'ruby-progressbar',   '~> 1.4'
+  s.add_dependency              'ruby-progressbar',   '~> 1.4', '< 1.7'
 end
