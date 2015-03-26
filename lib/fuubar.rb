@@ -2,17 +2,17 @@ require 'rspec'
 require 'rspec/core/formatters/base_text_formatter'
 require 'ruby-progressbar'
 
-RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
+RSpec.configuration.add_setting :fuubar_progress_bar_options, default: {}
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
-  DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }
+  DEFAULT_PROGRESS_BAR_OPTIONS = { format: ' %c/%C |%w>%i| %e ' }
 
   RSpec::Core::Formatters.register self,  :start,
-                                          :message,
-                                          :example_passed,
-                                          :example_pending,
-                                          :example_failed,
-                                          :dump_failures
+                                   :message,
+                                   :example_passed,
+                                   :example_pending,
+                                   :example_failed,
+                                   :dump_failures
 
   attr_accessor :progress,
                 :passed_count,
@@ -22,20 +22,21 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   def initialize(*args)
     super
 
-    self.progress = ProgressBar.create(DEFAULT_PROGRESS_BAR_OPTIONS.
-                                        merge(:throttle_rate  => continuous_integration? ? 1.0 : nil).
-                                        merge(:total          => 0,
-                                              :output         => output,
-                                              :autostart      => false))
+    self.progress = ProgressBar.create(
+                      DEFAULT_PROGRESS_BAR_OPTIONS.
+                        merge(throttle_rate: continuous_integration? ? 1.0 : nil).
+                        merge(total:     0,
+                              output:    output,
+                              autostart: false))
   end
 
   def start(notification)
     progress_bar_options =  DEFAULT_PROGRESS_BAR_OPTIONS.
-                              merge(:throttle_rate  => continuous_integration? ? 1.0 : nil).
+                              merge(throttle_rate: continuous_integration? ? 1.0 : nil).
                               merge(configuration.fuubar_progress_bar_options).
-                              merge(:total          => notification.count,
-                                    :output         => output,
-                                    :autostart      => false)
+                              merge(total:     notification.count,
+                                    output:    output,
+                                    autostart: false)
 
     self.progress      = ProgressBar.create(progress_bar_options)
     self.passed_count  = 0
@@ -47,13 +48,13 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     with_current_color { progress.start }
   end
 
-  def example_passed(notification)
+  def example_passed(_notification)
     self.passed_count += 1
 
     increment
   end
 
-  def example_pending(notification)
+  def example_pending(_notification)
     self.pending_count += 1
 
     increment
@@ -78,7 +79,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     end
   end
 
-  def dump_failures(notification)
+  def dump_failures(_notification)
     #
     # We output each failure as it happens so we don't need to output them en
     # masse at the end of the run.
@@ -120,6 +121,8 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def continuous_integration?
-    @continuous_integration ||= !(ENV['CONTINUOUS_INTEGRATION'].nil? || ENV['CONTINUOUS_INTEGRATION'] == '' || ENV['CONTINUOUS_INTEGRATION'] == 'false')
+    @continuous_integration ||= !(ENV['CONTINUOUS_INTEGRATION'].nil?       ||
+                                  ENV['CONTINUOUS_INTEGRATION'] == ''      ||
+                                  ENV['CONTINUOUS_INTEGRATION'] == 'false')
   end
 end
