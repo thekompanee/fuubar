@@ -1,0 +1,417 @@
+AllCops:
+  Include:
+    - '**/Thorfile'
+    - '**/thor.gemspec'
+    - '**/Rakefile'
+    - '**/config.ru'
+
+  Exclude:
+    - '**/*.gemspec'
+    - '**/Gemfile'
+    - '**/config/unicorn.rb'
+    - '**/db/schema.rb'
+    - '**/sample.rb'
+    - '**/seed.rb'
+    - '**/scrub.rb'
+    - '**/config/deploy.rb'
+    - '**/config/initializers/*'
+    - '**/db/migrate/**/*'
+    - '**/spec/dummy/**/*'
+    - '**/vendor/**/*'
+    - 'bin/rails'
+
+  DisplayCopNames:               true
+
+################################################################################
+#                                  STYLE
+################################################################################
+
+Style/AccessModifierIndentation:
+  Enabled:                       true
+  EnforcedStyle:                 'indent'
+
+Style/AlignArray:
+  Enabled:                       true
+
+Style/AlignHash:
+  Enabled:                       true
+  EnforcedHashRocketStyle:       'table'
+  EnforcedColonStyle:            'table'
+  EnforcedLastArgumentHashStyle: 'always_inspect'
+
+Style/AlignParameters:
+  Enabled:                       true
+  EnforcedStyle:                 'with_first_parameter'
+
+Style/AndOr:
+  Enabled:                       true
+  EnforcedStyle:                 'always'
+
+Style/BarePercentLiterals:
+  Enabled:                       true
+  EnforcedStyle:                 'percent_q'
+
+Style/Blocks:
+  Enabled:                       true
+  Exclude:
+    - 'app/controllers/**/*.rb'
+
+Style/BracesAroundHashParameters:
+  Enabled:                       true
+  EnforcedStyle:                 'context_dependent'
+
+Style/CaseIndentation:
+  Enabled:                       true
+  IndentWhenRelativeTo:          'end'
+  IndentOneStep:                 false
+
+Style/ClassAndModuleChildren:
+  Enabled:                       true
+  EnforcedStyle:                 'nested'
+
+Style/ClassCheck:
+  Enabled:                       true
+  EnforcedStyle:                 'is_a?'
+
+Style/CollectionMethods:
+  Enabled:                       true
+  PreferredMethods:
+    collect:                     'map'
+    collect!:                    'map!'
+    inject:                      'reduce'
+    detect:                      'find'
+    find_all:                    'select'
+
+Style/CommentAnnotation:
+  Enabled:                       true
+  Keywords:
+    - 'TODO'
+    - 'FIXME'
+    - 'OPTIMIZE'
+    - 'HACK'
+    - 'REVIEW'
+
+Style/Documentation:
+  Enabled:                       false
+
+Style/DotPosition:
+  Enabled:                       true
+  EnforcedStyle:                 'trailing'
+
+Style/ElseAlignment:
+  Enabled:                       true
+
+Style/EmptyElse:
+  Enabled:                       true
+
+Style/EmptyLiteral:
+  Enabled:                       true
+
+Style/EmptyLinesAroundBlockBody:
+  Enabled:                       true
+  EnforcedStyle:                 'no_empty_lines'
+  Exclude:
+    - 'spec/**/*.rb'
+
+Style/EmptyLineBetweenDefs:
+  Enabled:                       true
+  AllowAdjacentOneLineDefs:      true
+
+Style/Encoding:
+  Enabled:                       false
+
+Style/ExtraSpacing:
+  Enabled:                       false
+
+Style/FileName:
+  Enabled:                       true
+  Exclude:
+    - '**/Rakefile'
+    - '**/Gemfile'
+    - '**/Capfile'
+    - '**/Vagrantfile'
+    - '**/Podfile'
+    - '**/Thorfile'
+
+Style/FirstParameterIndentation:
+  Enabled:                       false
+
+Style/For:
+  Enabled:                       true
+  EnforcedStyle:                 'each'
+
+Style/FormatString:
+  Enabled:                       true
+  EnforcedStyle:                 'percent'
+
+Style/GlobalVars:
+  Enabled:                       true
+  AllowedVariables:              []
+
+Style/GuardClause:
+  Enabled:                       true
+  MinBodyLength:                 1
+
+Style/HashSyntax:
+  Enabled:                       true
+  EnforcedStyle:                 'ruby19'
+
+Style/IfUnlessModifier:
+  Enabled:                       true
+  MaxLineLength:                 90
+
+Style/IndentArray:
+  Enabled:                       true
+
+Style/IndentHash:
+  Enabled:                       true
+  EnforcedStyle:                 'special_inside_parentheses'
+
+Style/IndentationConsistency:
+  Enabled:                       true
+
+Style/InfiniteLoop:
+  Enabled:                       true
+
+Style/LambdaCall:
+  Enabled:                       true
+  EnforcedStyle:                 'call'
+
+Style/MethodDefParentheses:
+  Enabled:                       true
+  EnforcedStyle:                 'require_parentheses'
+
+Style/MethodName:
+  Enabled:                       true
+  EnforcedStyle:                 'snake_case'
+
+Style/MultilineBlockChain:
+  Enabled:                       true
+  Exclude:
+    - '**/spec/**/*_spec.rb'
+
+Style/MultilineOperationIndentation:
+  Enabled:                       false
+
+Style/Next:
+  Enabled:                       true
+  EnforcedStyle:                 'skip_modifier_ifs'
+  MinBodyLength:                 3
+
+Style/NonNilCheck:
+  Enabled:                       true
+  IncludeSemanticChanges:        false
+
+Style/NumericLiterals:
+  Enabled:                       true
+  MinDigits:                     5
+
+Style/ParenthesesAroundCondition:
+  Enabled:                       true
+  AllowSafeAssignment:           true
+
+Style/PercentLiteralDelimiters:
+  Enabled:                       true
+  PreferredDelimiters:
+    '%':                         '{}'
+    '%i':                        '{}'
+    '%q':                        '{}'
+    '%Q':                        '{}'
+    '%r':                        '{}'
+    '%s':                        '{}'
+    '%w':                        '{}'
+    '%W':                        '{}'
+    '%x':                        '{}'
+
+Style/PercentQLiterals:
+  Enabled:                       true
+  EnforcedStyle:                 'upper_case_q'
+
+Style/PredicateName:
+  Enabled:                       true
+  NamePrefix:
+    - 'is_'
+    - 'was_'
+    - 'has_'
+    - 'have_'
+  NamePrefixBlacklist:
+    - 'is_'
+    - 'was_'
+    - 'have_'
+
+Style/RaiseArgs:
+  Enabled:                       false
+
+Style/RedundantReturn:
+  Enabled:                       true
+  AllowMultipleReturnValues:     true
+
+Style/RegexpLiteral:
+  Enabled:                       true
+  MaxSlashes:                    0
+
+Style/Semicolon:
+  Enabled:                       true
+  AllowAsExpressionSeparator:    false
+
+Style/SignalException:
+  Enabled:                       true
+  EnforcedStyle:                 'semantic'
+
+Style/SingleLineBlockParams:
+  Enabled:                       true
+  Methods:
+    - reduce:
+        - 'a'
+        - 'e'
+    - inject:
+        - 'a'
+        - 'e'
+
+Style/SingleLineMethods:
+  Enabled:                       true
+  AllowIfMethodIsEmpty:          true
+
+Style/SingleSpaceBeforeFirstArg:
+  Enabled:                       false
+
+Style/SpaceAroundBlockParameters:
+  Enabled:                       true
+  EnforcedStyleInsidePipes:      'no_space'
+
+Style/SpaceAroundEqualsInParameterDefault:
+  Enabled:                       true
+  EnforcedStyle:                 'space'
+
+Style/SpaceBeforeBlockBraces:
+  Enabled:                       true
+  EnforcedStyle:                 'space'
+
+Style/SpaceInsideBlockBraces:
+  Enabled:                       true
+  EnforcedStyle:                 'space'
+  EnforcedStyleForEmptyBraces:   'no_space'
+  SpaceBeforeBlockParameters:    true
+
+Style/SpaceInsideHashLiteralBraces:
+  Enabled:                       true
+  EnforcedStyle:                 'space'
+  EnforcedStyleForEmptyBraces:   'no_space'
+
+Style/SpaceInsideRangeLiteral:
+  Enabled:                       true
+
+Style/StringLiterals:
+  Enabled:                       true
+  EnforcedStyle:                 'single_quotes'
+  Exclude:
+    - '**/config/application.rb'
+    - '**/config/environments/**/*'
+
+Style/StructInheritance:
+  Enabled:                       true
+
+Style/SymbolArray:
+  Enabled:                       true
+
+Style/SymbolProc:
+  Enabled:                       true
+  IgnoredMethods:
+    - 'respond_to'
+
+Style/TrailingBlankLines:
+  Enabled:                       true
+  EnforcedStyle:                 'final_newline'
+
+Style/TrailingComma:
+  Enabled:                       true
+  EnforcedStyleForMultiline:     'comma'
+
+Style/TrivialAccessors:
+  Enabled:                       true
+
+Style/VariableName:
+  Enabled:                       true
+  EnforcedStyle:                 'snake_case'
+
+Style/WhileUntilModifier:
+  Enabled:                       true
+  MaxLineLength:                 90
+
+Style/WordArray:
+  Enabled:                       true
+  MinSize:                       0
+
+################################################################################
+#                                 METRICS
+################################################################################
+
+Metrics/AbcSize:
+  Enabled:                       true
+  Max:                           25.0
+
+Metrics/BlockNesting:
+  Enabled:                       true
+  Max:                           3
+
+Metrics/ClassLength:
+  Enabled:                       true
+  CountComments:                 false
+  Max:                           200
+  Exclude:
+    - 'spec/**/*_spec.rb'
+
+Metrics/CyclomaticComplexity:
+  Enabled:                       true
+  Max:                           6
+
+Metrics/LineLength:
+  Enabled:                       true
+  Max:                           90
+  AllowURI:                      true
+  Exclude:
+    - '**/Gemfile'
+    - '**/config/routes.rb'
+    - '**/config/application.rb'
+    - '**/config/environments/**/*'
+
+Metrics/MethodLength:
+  Enabled:                       true
+  CountComments:                 false
+  Max:                           30
+
+Metrics/ParameterLists:
+  Enabled:                       true
+  Max:                           5
+  CountKeywordArgs:              true
+
+Metrics/PerceivedComplexity:
+  Enabled:                       true
+  Max:                           7
+
+################################################################################
+#                                   LINTS
+################################################################################
+
+Lint/AssignmentInCondition:
+  Enabled:                       true
+  AllowSafeAssignment:           true
+
+Lint/BlockAlignment:
+  Enabled:                       true
+  Exclude:
+    - 'app/controllers/**/*.rb'
+
+Lint/DefEndAlignment:
+  Enabled:                       true
+  AlignWith:                     'start_of_line'
+
+Lint/DuplicateMethods:
+  Enabled:                       true
+
+Lint/EndAlignment:
+  Enabled:                       true
+  AlignWith:                     'keyword'
+
+Lint/SpaceBeforeFirstArg:
+  Enabled:                       true
