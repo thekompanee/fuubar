@@ -54,6 +54,8 @@ describe Fuubar do
       :throttle_rate => 0.0,
     }
 
+    RSpec.configuration.fuubar_slow_threshold = 2.0
+
     ENV.delete('CONTINUOUS_INTEGRATION')
   end
 
@@ -105,7 +107,7 @@ describe Fuubar do
 
           output.rewind
 
-          formatter.example_passed(example)
+          formatter.example_passed(example_notification)
         end
 
         it 'does not output color codes' do
@@ -136,7 +138,7 @@ describe Fuubar do
 
           output.rewind
 
-          formatter.example_passed(example)
+          formatter.example_passed(example_notification)
         end
 
         it 'does not output color codes' do
@@ -182,11 +184,39 @@ describe Fuubar do
       before do
         output.rewind
 
-        formatter.example_passed(example)
+        formatter.example_passed(example_notification)
       end
 
       it 'outputs the proper bar information' do
         expect(fuubar_results).to start_with "\e[32m 1/2 |== 50 ==>        |  ETA: 00:00:00 \r\e[0m"
+      end
+    end
+
+    context 'and an example is slow' do
+      before do
+        output.rewind
+        formatter.start_time = Time.now - 60
+
+        formatter.example_passed(example_notification)
+      end
+
+      it 'outputs the proper bar information' do
+        expect(fuubar_results.strip).to start_with "\e[33mSLOW SPEC:"
+      end
+
+      context 'when the slow warnings are turned off' do
+        before do
+          RSpec.configuration.fuubar_slow_threshold = 0.0
+
+          output.rewind
+          formatter.start_time = Time.now - 60
+
+          formatter.example_passed(example_notification)
+        end
+
+        it 'outputs the proper bar information' do
+          expect(fuubar_results).to_not start_with "\e[33mSLOW SPEC:"
+        end
       end
     end
 
@@ -230,7 +260,7 @@ describe Fuubar do
 
           output.rewind
 
-          formatter.example_passed(example)
+          formatter.example_passed(example_notification)
         end
 
         it 'outputs the failed bar' do

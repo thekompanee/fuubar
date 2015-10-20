@@ -2,13 +2,25 @@ require 'rspec'
 require 'rspec/core/formatters/base_text_formatter'
 require 'ruby-progressbar'
 
-RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
+RSpec.configuration.add_setting :fuubar_progress_bar_options, default: {}
+RSpec.configuration.add_setting :fuubar_slow_threshold, default: 0.0
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
+
+  # This avoids issues with reporting time caused by examples that
+  # change the value/meaning of Time.now without properly restoring
+  # it. Borrowed from rspec-core.
+  class Time
+    class << self
+      define_method(:now, &::Time.method(:now))
+    end
+  end
+
   DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }.freeze
 
   RSpec::Core::Formatters.register self,  :start,
                                    :message,
+                                   :example_started,
                                    :example_passed,
                                    :example_pending,
                                    :example_failed,
@@ -17,11 +29,12 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   attr_accessor :progress,
                 :passed_count,
                 :pending_count,
-                :failed_count
+                :failed_count,
+                :start_time
 
   def initialize(*args)
     super
-
+    self.start_time = Time.now
     self.progress = ProgressBar.create(
                       DEFAULT_PROGRESS_BAR_OPTIONS.
                         merge(:throttle_rate => continuous_integration? ? 1.0 : nil).
@@ -49,8 +62,14 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     with_current_color { progress.start }
   end
 
-  def example_passed(_notification)
+  def example_started(_notification)
+    self.start_time = Time.now
+  end
+
+  def example_passed(notification)
     self.passed_count += 1
+
+    slow_spec_warning(notification, Time.now - self.start_time)
 
     increment
   end
@@ -88,6 +107,25 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   private
+
+  def slow_spec_warning(notification, time_elapsed)
+    if configuration.fuubar_slow_threshold > 0.0 && (time_elapsed > configuration.fuubar_slow_threshold)
+      progress.clear
+
+      yellow do
+        output.print "SLOW SPEC: #{sprintf("%.4f", time_elapsed)} "
+        output.puts notification.example.full_description
+        output.puts "=> #{notification.example.location}"
+        output.puts
+      end
+    end
+  end
+
+  def yellow
+    output.print "\e[#{color_code_for(configuration.pending_color)}m" if color_enabled?
+    yield
+    output.print "\e[0m" if color_enabled?
+  end
 
   def increment
     with_current_color { progress.increment }
