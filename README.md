@@ -4,7 +4,7 @@
 
 Fuubar is an instafailing [RSpec](http://github.com/rspec) formatter that uses a progress bar instead of a string of letters and dots as feedback.
 
-[![gif](https://imgflip.com/gif/ucx5v)](http://vimeo.com/16845253).
+[![gif](http://i.imgur.com/79lQa0M.gif)](http://vimeo.com/16845253).
 
 Supported Rubies
 --------------------------------
