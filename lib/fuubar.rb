@@ -121,8 +121,8 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def continuous_integration?
-    @continuous_integration ||= !(ENV['CONTINUOUS_INTEGRATION'].nil?       ||
-                                  ENV['CONTINUOUS_INTEGRATION'] == ''      ||
-                                  ENV['CONTINUOUS_INTEGRATION'] == 'false')
+    @continuous_integration ||= !(ENV['CI'].nil?       ||
+                                  ENV['CI'] == ''      ||
+                                  ENV['CI'] == 'false')
   end
 end

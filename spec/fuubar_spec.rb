@@ -53,7 +53,7 @@ describe Fuubar do
       throttle_rate: 0.0,
     }
 
-    ENV.delete('CONTINUOUS_INTEGRATION')
+    ENV.delete('CI')
   end
 
   context 'when it is created' do
@@ -85,7 +85,7 @@ describe Fuubar do
     context 'and continuous integration is enabled' do
       before do
         RSpec.configuration.fuubar_progress_bar_options = { length: 40 }
-        ENV['CONTINUOUS_INTEGRATION'] = 'true'
+        ENV['CI'] = 'true'
       end
 
       it 'throttles the progress bar at one second' do
@@ -116,7 +116,7 @@ describe Fuubar do
     context 'and continuous integration is not enabled' do
       before do
         RSpec.configuration.fuubar_progress_bar_options = { length: 40 }
-        ENV['CONTINUOUS_INTEGRATION'] = 'false'
+        ENV['CI'] = 'false'
       end
 
       it 'throttles the progress bar at the default rate' do
