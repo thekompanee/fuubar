@@ -31,6 +31,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def start(notification)
+    output.define_singleton_method(:tty?) { true } if configuration.tty?
     progress_bar_options =  DEFAULT_PROGRESS_BAR_OPTIONS.
                               merge(throttle_rate: continuous_integration? ? 1.0 : nil).
                               merge(configuration.fuubar_progress_bar_options).
