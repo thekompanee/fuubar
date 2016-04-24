@@ -42,6 +42,26 @@ Or, if you want to use Fuubar as your default formatter, simply put the options 
     --format Fuubar
     --color
 
+Security
+--------------------------------------------------------------------------------
+
+fuubar is cryptographically signed. To be sure the gem you install hasn’t been
+tampered with:
+
+* Add my public key (if you haven’t already) as a trusted certificate
+
+```
+gem cert --add <(curl -Ls https://raw.github.com/thekompanee/fuubar/master/certs/thekompanee.pem)
+```
+
+* gem install fuubar -P MediumSecurity
+
+The `MediumSecurity` trust profile will verify signed gems, but allow the
+installation of unsigned dependencies.
+
+This is necessary because not all of fuubar has a dependency on RSpec which
+isn't signed, so we cannot use `HighSecurity`.
+
 Advanced Usage
 --------------------------------
 
