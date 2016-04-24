@@ -1,6 +1,6 @@
 #Fuubar
 
-[![Gem Version](https://badge.fury.io/rb/fuubar.svg)](https://badge.fury.io/rb/fuubar) [![Build Status](https://secure.travis-ci.org/thekompanee/fuubar.svg?branch=master)](http://travis-ci.org/thekompanee/fuubar) [![Code Climate](https://codeclimate.com/github/thekompanee/fuubar.svg)](https://codeclimate.com/github/thekompanee/fuubar) [![Code Climate](https://codeclimate.com/github/thekompanee/fuubar/coverage.svg)](https://codeclimate.com/github/thekompanee/fuubar)
+[![Gem Version](https://img.shields.io/gem/v/fuubar.svg)](https://rubygems.org/gems/fuubar) ![Rubygems Rank Overall](https://img.shields.io/gem/rt/fuubar.svg) ![Rubygems Rank Daily](https://img.shields.io/gem/rd/fuubar.svg) ![Rubygems Downloads](https://img.shields.io/gem/dv/fuubar/stable.svg) [![Build Status](https://img.shields.io/travis/thekompanee/fuubar/master.svg)](http://travis-ci.org/thekompanee/fuubar) [![Code Climate](https://codeclimate.com/github/thekompanee/fuubar.svg)](https://codeclimate.com/github/thekompanee/fuubar)
 
 Fuubar is an instafailing [RSpec](http://github.com/rspec) formatter that uses a progress bar instead of a string of letters and dots as feedback.
 
