@@ -65,6 +65,20 @@ would make it so that, when Fuubar is output, it would look something like:
 
     My Fuubar! <================================                  > 53.44% 00:12:31
 
+Additionally you can enable slow spec warnings by setting `fuubar_slow_threshold` to a value greater than 0.  This is set to `0.0` by default so it doesn't pollute your output.
+
+# spec_helper.rb
+
+RSpec.configure do |config|
+  config.fuubar_slow_threshold = 2.0
+end
+```
+
+Would make it so that, when Fuubar encounters a slow spec, it outputs the description and location like this:
+
+    SLOW SPEC: 8.0273 Fuubar loads a whole lot of bars
+    => ./spec/fuuba_spec.rb:900
+
 Issues
 --------------------------------
 
