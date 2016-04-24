@@ -102,4 +102,4 @@ Found an issue? Have a great idea? Want to help? Great! Create an issue [issue](
 License
 --------------------------------
 
-fuubar is Copyright &copy; 2010-2013 Jeff Kreeftmeijer and Jeff Felchner. It is free software, and may be redistributed under the terms specified in the LICENSE file.
+fuubar is Copyright &copy; 2010-2016 Jeff Kreeftmeijer and Jeff Felchner. It is free software, and may be redistributed under the terms specified in the LICENSE file.
