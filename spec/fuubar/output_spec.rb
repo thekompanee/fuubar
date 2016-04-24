@@ -23,7 +23,6 @@ describe Output do
 
     expect(output.hello).to eql 'hello'
     expect(output).to       be_tty
-    expect(output.to_s).to  match 'TestTtyOutputClass'
   end
 
   it 'can override the TTY of the passed in class' do

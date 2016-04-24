@@ -79,8 +79,8 @@ describe Fuubar do
     end
 
     it 'sets the bar\'s output' do
-      expect(formatter.progress.send(:output)).to be_a Fuubar::Output
-      expect(formatter.progress.send(:output)).to eql output
+      expect(formatter.progress.send(:output)).to            be_a Fuubar::Output
+      expect(formatter.progress.send(:output).__getobj__).to eql output
     end
 
     context 'and continuous integration is enabled' do
