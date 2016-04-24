@@ -27,7 +27,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
                         merge(:throttle_rate => continuous_integration? ? 1.0 : nil).
                         merge(:total     => 0,
                               :output    => output,
-                              :autostart => false),
+                              :autostart => false)
     )
   end
 
@@ -113,17 +113,18 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     end
   end
 
+  # :reek:UtilityFunction disable
   def color_code_for(*args)
     RSpec::Core::Formatters::ConsoleCodes.console_code_for(*args)
   end
 
+  # :reek:UtilityFunction disable
   def configuration
     RSpec.configuration
   end
 
   def continuous_integration?
-    @continuous_integration ||= !(ENV['CONTINUOUS_INTEGRATION'].nil?       ||
-                                  ENV['CONTINUOUS_INTEGRATION'] == ''      ||
-                                  ENV['CONTINUOUS_INTEGRATION'] == 'false')
+    @continuous_integration ||= \
+      ![nil, '', 'false'].include?(ENV['CONTINUOUS_INTEGRATION'])
   end
 end
