@@ -79,7 +79,7 @@ describe Fuubar do
     end
 
     it 'sets the bar\'s output' do
-      expect(formatter.progress.send(:output)).to eql formatter.output
+      expect(formatter.progress.send(:output)).to be_a Fuubar::Output
       expect(formatter.progress.send(:output)).to eql output
     end
 

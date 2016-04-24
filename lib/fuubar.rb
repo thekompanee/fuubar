@@ -1,6 +1,7 @@
 require 'rspec'
 require 'rspec/core/formatters/base_text_formatter'
 require 'ruby-progressbar'
+require 'fuubar/output'
 
 RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
 
@@ -85,6 +86,10 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     # We output each failure as it happens so we don't need to output them en
     # masse at the end of the run.
     #
+  end
+
+  def output
+    @fuubar_output ||= Fuubar::Output.new(super, configuration.tty?)
   end
 
   private
