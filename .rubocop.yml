@@ -3,13 +3,24 @@ inherit_from:
 
 # Put your project-specifc Rubocop config here
 
+Style/ExtraSpacing:
+  Enabled: false
+
+Style/FileName:
+  Exclude:
+    - 'lib/ruby-progressbar.rb'
+
+Style/HashSyntax:
+  EnforcedStyle: hash_rockets
+
 Style/IndentationWidth:
   Enabled: false
 
-Metrics/LineLength:
-  Exclude:
-    - 'spec/**/*.rb'
+Style/Lambda:
+  Enabled: false
 
-Style/EmptyLinesAroundBlockBody:
-  Exclude:
-    - 'spec/**/*.rb'
+Style/OptionHash:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false

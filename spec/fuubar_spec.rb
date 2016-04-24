@@ -2,6 +2,7 @@ require 'fuubar'
 require 'stringio'
 require 'ostruct'
 
+# rubocop:disable Metrics/LineLength
 describe Fuubar do
   let(:output) do
     io = StringIO.new
@@ -24,8 +25,8 @@ describe Fuubar do
   let(:failed_example) do
     exception = RuntimeError.new('Test Fuubar Error')
     exception.set_backtrace [
-      "/my/filename.rb:4:in `some_method'",
-    ]
+                              "/my/filename.rb:4:in `some_method'",
+                            ]
 
     example = RSpec::Core::ExampleGroup.describe.example
 
@@ -49,8 +50,8 @@ describe Fuubar do
 
   before(:each) do
     RSpec.configuration.fuubar_progress_bar_options = {
-      length:        40,
-      throttle_rate: 0.0,
+      :length        => 40,
+      :throttle_rate => 0.0,
     }
 
     ENV.delete('CONTINUOUS_INTEGRATION')
@@ -84,7 +85,7 @@ describe Fuubar do
 
     context 'and continuous integration is enabled' do
       before do
-        RSpec.configuration.fuubar_progress_bar_options = { length: 40 }
+        RSpec.configuration.fuubar_progress_bar_options = { :length => 40 }
         ENV['CONTINUOUS_INTEGRATION'] = 'true'
       end
 
@@ -115,7 +116,7 @@ describe Fuubar do
 
     context 'and continuous integration is not enabled' do
       before do
-        RSpec.configuration.fuubar_progress_bar_options = { length: 40 }
+        RSpec.configuration.fuubar_progress_bar_options = { :length => 40 }
         ENV['CONTINUOUS_INTEGRATION'] = 'false'
       end
 
@@ -149,9 +150,9 @@ describe Fuubar do
     before(:each) do
       formatter
       RSpec.configuration.fuubar_progress_bar_options = {
-        length:        40,
-        throttle_rate: 0.0,
-        format:        '%c',
+        :length        => 40,
+        :throttle_rate => 0.0,
+        :format        => '%c',
       }
     end
 

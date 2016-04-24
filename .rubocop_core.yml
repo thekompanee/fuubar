@@ -156,6 +156,8 @@ Style/CommentIndentation:
 
 Style/ConditionalAssignment:
   Enabled:                       true
+  EnforcedStyle:                 'assign_to_condition'
+  SingleLineConditionsOnly:      false
 
 Style/ConstantName:
   Enabled:                       true
@@ -304,6 +306,9 @@ Style/IfUnlessModifier:
   Enabled:                       true
   MaxLineLength:                 90
 
+Style/IfUnlessModifierOfIfUnless:
+  Enabled:                       true
+
 Style/IfWithSemicolon:
   Enabled:                       true
 
@@ -375,6 +380,9 @@ Style/MissingElse:
 Style/ModuleFunction:
   Enabled:                       true
 
+Style/MultilineArrayBraceLayout:
+  Enabled:                       true
+
 Style/MultilineAssignmentLayout:
   Enabled:                       true
   EnforcedStyle:                 'same_line'
@@ -387,16 +395,22 @@ Style/MultilineBlockChain:
 Style/MultilineBlockLayout:
   Enabled:                       true
 
+Style/MultilineHashBraceLayout:
+  Enabled:                       true
+
 Style/MultilineIfThen:
   Enabled:                       true
 
-Style/MultilineArrayBraceLayout:
+Style/MultilineMethodCallBraceLayout:
   Enabled:                       true
 
 Style/MultilineMethodCallIndentation:
   Enabled:                       false
   EnforcedStyle:                 'aligned'
   IndentationWidth:              0
+
+Style/MultilineMethodDefinitionBraceLayout:
+  Enabled:                       true
 
 Style/MultilineOperationIndentation:
   Enabled:                       false
@@ -578,9 +592,6 @@ Style/SpaceAfterColon:
 Style/SpaceAfterComma:
   Enabled:                       true
 
-Style/SpaceAfterControlKeyword:
-  Enabled:                       true
-
 Style/SpaceAfterMethodName:
   Enabled:                       true
 
@@ -597,6 +608,9 @@ Style/SpaceAroundBlockParameters:
 Style/SpaceAroundEqualsInParameterDefault:
   Enabled:                       true
   EnforcedStyle:                 'space'
+
+Style/SpaceAroundKeyword:
+  Enabled:                       true
 
 Style/SpaceAroundOperators:
   Enabled:                       true
@@ -619,9 +633,6 @@ Style/SpaceBeforeFirstArg:
     - '**/spec/factories/**/*.rb'
 
 Style/SpaceBeforeSemicolon:
-  Enabled:                       true
-
-Style/SpaceBeforeModifierKeyword:
   Enabled:                       true
 
 Style/SpaceInsideBrackets:
@@ -746,6 +757,9 @@ Style/WordArray:
   Enabled:                       true
   EnforcedStyle:                 'percent'
   MinSize:                       0
+
+Style/ZeroLengthPredicate:
+  Enabled:                       true
 
 ################################################################################
 #                                 METRICS

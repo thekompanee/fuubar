@@ -2,10 +2,10 @@ require 'rspec'
 require 'rspec/core/formatters/base_text_formatter'
 require 'ruby-progressbar'
 
-RSpec.configuration.add_setting :fuubar_progress_bar_options, default: {}
+RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
-  DEFAULT_PROGRESS_BAR_OPTIONS = { format: ' %c/%C |%w>%i| %e ' }
+  DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }.freeze
 
   RSpec::Core::Formatters.register self,  :start,
                                    :message,
@@ -24,19 +24,20 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
     self.progress = ProgressBar.create(
                       DEFAULT_PROGRESS_BAR_OPTIONS.
-                        merge(throttle_rate: continuous_integration? ? 1.0 : nil).
-                        merge(total:     0,
-                              output:    output,
-                              autostart: false))
+                        merge(:throttle_rate => continuous_integration? ? 1.0 : nil).
+                        merge(:total     => 0,
+                              :output    => output,
+                              :autostart => false),
+    )
   end
 
   def start(notification)
-    progress_bar_options =  DEFAULT_PROGRESS_BAR_OPTIONS.
-                              merge(throttle_rate: continuous_integration? ? 1.0 : nil).
-                              merge(configuration.fuubar_progress_bar_options).
-                              merge(total:     notification.count,
-                                    output:    output,
-                                    autostart: false)
+    progress_bar_options = DEFAULT_PROGRESS_BAR_OPTIONS.
+                             merge(:throttle_rate => continuous_integration? ? 1.0 : nil).
+                             merge(configuration.fuubar_progress_bar_options).
+                             merge(:total     => notification.count,
+                                   :output    => output,
+                                   :autostart => false)
 
     self.progress      = ProgressBar.create(progress_bar_options)
     self.passed_count  = 0
