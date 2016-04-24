@@ -1,7 +1,5 @@
 # Vendored Dependencies
-access
 bower_components
-disk_images
 node_modules
 site/web/app/mu-plugins
 site/web/app/plugins
