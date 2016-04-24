@@ -6,10 +6,10 @@ Gem::Specification.new do |spec|
   spec.name          = 'fuubar'
   spec.version       = '2.1.0.beta1'
   spec.authors       = ['Nicholas Evans', 'Jeff Kreeftmeijer', 'jfelchner']
-  spec.email         = '["jeff@kreeftmeijer.nl"]'
+  spec.email         = '["jeff@kreeftmeijer.nl", "accounts+git@thekompanee.com"]'
   spec.summary       = %q{the instafailing RSpec progress bar formatter}
   spec.description   = %q{the instafailing RSpec progress bar formatter}
-  spec.homepage      = 'https://github.com/jeffkreeftmeijer/fuubar'
+  spec.homepage      = 'https://github.com/thekompanee/fuubar'
   spec.license       = 'MIT'
 
   spec.executables   = []
