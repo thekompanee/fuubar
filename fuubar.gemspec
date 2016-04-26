@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.license       = 'MIT'
 
   spec.executables   = []
-  spec.files         = Dir['{app,config,db,lib}/**/*'] + %w{Rakefile README.md LICENSE}
+  spec.files         = Dir['{app,config,db,lib}/**/*'] + %w{Rakefile README.md LICENSE.txt}
   spec.test_files    = Dir['{test,spec,features}/**/*']
 
   spec.add_dependency             'rspec', ["~> 3.0"]
