@@ -1,5 +1,5 @@
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
-class Output < Delegator
+class Output < ::Delegator
   # :reek:BooleanParameter disable
   def initialize(output, force_tty = false)
     @raw_output = output
