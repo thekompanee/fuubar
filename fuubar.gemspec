@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = Dir['{test,spec,features}/**/*']
 
   spec.add_dependency             'rspec', ["~> 3.0"]
-  spec.add_dependency             'ruby-progressbar', ["~> 1.4"]
+  spec.add_dependency             'ruby-progressbar', ["~> 1.7"]
 
   spec.add_development_dependency 'rake', '~> 10.5' if RUBY_VERSION < '1.9.3'
   spec.add_development_dependency 'rake' unless RUBY_VERSION < '1.9.3'
