@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     fuubar (2.1.1)
-      rspec (~> 3.0)
+      rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
 
 GEM
@@ -39,6 +39,7 @@ DEPENDENCIES
   chamber
   fuubar!
   rake
+  rspec (~> 3.0)
 
 BUNDLED WITH
-   1.11.2
+   1.12.5
