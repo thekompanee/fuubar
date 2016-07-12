@@ -21,4 +21,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency             'rspec', ["~> 3.0"]
   spec.add_dependency             'ruby-progressbar', ["~> 1.4"]
+
+  spec.add_development_dependency 'awesome_print', ["~> 1.7"]
 end
