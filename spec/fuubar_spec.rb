@@ -71,7 +71,7 @@ describe Fuubar do
     end
 
     it 'sets the format of the bar to the default' do
-      expect(formatter.progress.instance_variable_get(:@format_string)).to eql ' %c/%C |%w>%i| %e '
+      expect(formatter.progress.instance_variable_get(:@format)).to eql ' %c/%C |%w>%i| %e '
     end
 
     it 'sets the total to the number of examples' do
@@ -79,8 +79,8 @@ describe Fuubar do
     end
 
     it 'sets the bar\'s output' do
-      expect(formatter.progress.send(:output)).to            be_a Fuubar::Output
-      expect(formatter.progress.send(:output).__getobj__).to eql output
+      expect(formatter.progress.send(:output).stream).to            be_a Fuubar::Output
+      expect(formatter.progress.send(:output).stream.__getobj__).to eql output
     end
 
     context 'and continuous integration is enabled' do
@@ -90,8 +90,8 @@ describe Fuubar do
       end
 
       it 'throttles the progress bar at one second' do
-        throttle      = formatter.progress.instance_variable_get(:@throttle)
-        throttle_rate = throttle.instance_variable_get(:@period)
+        throttle      = formatter.progress.__send__(:output).__send__(:throttle)
+        throttle_rate = throttle.__send__(:rate)
 
         expect(throttle_rate).to eql 1.0
       end
@@ -100,8 +100,8 @@ describe Fuubar do
         before do
           formatter.start(start_notification)
 
-          throttle       = formatter.progress.instance_variable_get(:@throttle)
-          _throttle_rate = throttle.instance_variable_set(:@period, 0.0)
+          throttle       = formatter.progress.__send__(:output).__send__(:throttle)
+          _throttle_rate = throttle.__send__(:rate=, 0.0)
 
           output.rewind
 
@@ -121,8 +121,8 @@ describe Fuubar do
       end
 
       it 'throttles the progress bar at the default rate' do
-        throttle      = formatter.progress.instance_variable_get(:@throttle)
-        throttle_rate = throttle.instance_variable_get(:@period)
+        throttle      = formatter.progress.__send__(:output).__send__(:throttle)
+        throttle_rate = throttle.__send__(:rate)
 
         expect(throttle_rate).to eql 0.01
       end
@@ -131,8 +131,8 @@ describe Fuubar do
         before do
           formatter.start(start_notification)
 
-          throttle       = formatter.progress.instance_variable_get(:@throttle)
-          _throttle_rate = throttle.instance_variable_set(:@period, 0.0)
+          throttle       = formatter.progress.__send__(:output).__send__(:throttle)
+          _throttle_rate = throttle.__send__(:rate=, 0.0)
 
           output.rewind
 
@@ -160,7 +160,7 @@ describe Fuubar do
       before(:each) { formatter.start(start_notification) }
 
       it 'properly creates the bar' do
-        expect(formatter.progress.instance_variable_get(:@format_string)).to eql '%c'
+        expect(formatter.progress.instance_variable_get(:@format)).to eql '%c'
       end
     end
   end
@@ -174,7 +174,7 @@ describe Fuubar do
 
     context 'and no custom options are passed in' do
       it 'sets the format of the bar to the default' do
-        expect(formatter.progress.instance_variable_get(:@format_string)).to eql ' %c/%C |%w>%i| %e '
+        expect(formatter.progress.instance_variable_get(:@format)).to eql ' %c/%C |%w>%i| %e '
       end
     end
 
