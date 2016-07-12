@@ -118,12 +118,10 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     end
   end
 
-  # :reek:UtilityFunction disable
   def color_code_for(*args)
     RSpec::Core::Formatters::ConsoleCodes.console_code_for(*args)
   end
 
-  # :reek:UtilityFunction disable
   def configuration
     RSpec.configuration
   end
