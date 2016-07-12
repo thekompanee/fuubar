@@ -30,7 +30,7 @@ PreCommit:
     enabled:                  true
 
   Brakeman:
-    enabled:                  true
+    enabled:                  false
 
   BrokenSymlinks:
     enabled:                  true

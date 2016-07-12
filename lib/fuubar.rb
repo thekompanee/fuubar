@@ -1,6 +1,7 @@
 require 'rspec'
 require 'rspec/core/formatters/base_text_formatter'
 require 'ruby-progressbar'
+require 'fuubar/output'
 
 RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
 
@@ -87,6 +88,10 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     #
   end
 
+  def output
+    @fuubar_output ||= Fuubar::Output.new(super, configuration.tty?)
+  end
+
   private
 
   def increment
@@ -113,12 +118,10 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     end
   end
 
-  # :reek:UtilityFunction disable
   def color_code_for(*args)
     RSpec::Core::Formatters::ConsoleCodes.console_code_for(*args)
   end
 
-  # :reek:UtilityFunction disable
   def configuration
     RSpec.configuration
   end

@@ -26,4 +26,5 @@ Style/SymbolArray:
   Enabled: false
 
 Style/TrailingCommaInArguments:
-  Enabled: false
+  Enabled:                   true
+  EnforcedStyleForMultiline: 'no_comma'

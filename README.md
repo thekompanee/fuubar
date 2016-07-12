@@ -1,6 +1,6 @@
 #Fuubar
 
-[![Gem Version](https://badge.fury.io/rb/fuubar.svg)](https://badge.fury.io/rb/fuubar) [![Build Status](https://secure.travis-ci.org/thekompanee/fuubar.svg?branch=master)](http://travis-ci.org/thekompanee/fuubar) [![Code Climate](https://codeclimate.com/github/thekompanee/fuubar.svg)](https://codeclimate.com/github/thekompanee/fuubar) [![Code Climate](https://codeclimate.com/github/thekompanee/fuubar/coverage.svg)](https://codeclimate.com/github/thekompanee/fuubar)
+[![Gem Version](https://img.shields.io/gem/v/fuubar.svg)](https://rubygems.org/gems/fuubar) ![Rubygems Rank Overall](https://img.shields.io/gem/rt/fuubar.svg) ![Rubygems Rank Daily](https://img.shields.io/gem/rd/fuubar.svg) ![Rubygems Downloads](https://img.shields.io/gem/dv/fuubar/stable.svg) [![Build Status](https://img.shields.io/travis/thekompanee/fuubar/master.svg)](http://travis-ci.org/thekompanee/fuubar) [![Code Climate](https://codeclimate.com/github/thekompanee/fuubar.svg)](https://codeclimate.com/github/thekompanee/fuubar)
 
 Fuubar is an instafailing [RSpec](http://github.com/rspec) formatter that uses a progress bar instead of a string of letters and dots as feedback.
 
@@ -42,6 +42,26 @@ Or, if you want to use Fuubar as your default formatter, simply put the options 
     --format Fuubar
     --color
 
+Security
+--------------------------------------------------------------------------------
+
+fuubar is cryptographically signed. To be sure the gem you install hasn’t been
+tampered with:
+
+* Add my public key (if you haven’t already) as a trusted certificate
+
+```
+gem cert --add <(curl -Ls https://raw.github.com/thekompanee/fuubar/master/certs/thekompanee.pem)
+```
+
+* gem install fuubar -P MediumSecurity
+
+The `MediumSecurity` trust profile will verify signed gems, but allow the
+installation of unsigned dependencies.
+
+This is necessary because not all of fuubar has a dependency on RSpec which
+isn't signed, so we cannot use `HighSecurity`.
+
 Advanced Usage
 --------------------------------
 
@@ -82,4 +102,4 @@ Found an issue? Have a great idea? Want to help? Great! Create an issue [issue](
 License
 --------------------------------
 
-fuubar is Copyright &copy; 2010-2013 Jeff Kreeftmeijer and Jeff Felchner. It is free software, and may be redistributed under the terms specified in the LICENSE file.
+fuubar is Copyright &copy; 2010-2016 Jeff Kreeftmeijer and Jeff Felchner. It is free software, and may be redistributed under the terms specified in the LICENSE file.
