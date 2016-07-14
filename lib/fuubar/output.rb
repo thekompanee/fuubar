@@ -1,3 +1,5 @@
+require 'delegate'
+
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 class Output < ::Delegator
   def initialize(output, force_tty = false)
