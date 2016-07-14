@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'delegate'
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
