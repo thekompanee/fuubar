@@ -19,8 +19,9 @@ Gem::Specification.new do |spec|
   spec.files         = Dir['{app,config,db,lib}/**/*'] + %w{Rakefile README.md LICENSE.txt}
   spec.test_files    = Dir['{test,spec,features}/**/*']
 
-  spec.add_dependency             'rspec', ["~> 3.0"]
+  spec.add_dependency             'rspec-core', ["~> 3.0"]
   spec.add_dependency             'ruby-progressbar', ["~> 1.7"]
+  spec.add_development_dependency 'rspec', ["~> 3.0"]
 
   spec.add_development_dependency 'rake', '~> 10.5' if RUBY_VERSION < '1.9.3'
   spec.add_development_dependency 'rake' unless RUBY_VERSION < '1.9.3'
