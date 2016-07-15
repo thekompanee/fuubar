@@ -15,7 +15,7 @@ describe Fuubar do
   end
 
   let(:formatter)            { Fuubar.new(output) }
-  let(:example)              { RSpec::Core::ExampleGroup.describe.example }
+  let(:example)             { self.class.example }
   let(:example_count)        { 2 }
   let(:start_notification)   { RSpec::Core::Notifications::StartNotification.new(example_count, Time.now) }
   let(:message_notification) { RSpec::Core::Notifications::MessageNotification.new('My Message') }
@@ -29,7 +29,7 @@ describe Fuubar do
                               "/my/filename.rb:4:in `some_method'",
                             ]
 
-    example = RSpec::Core::ExampleGroup.describe.example
+    example = self.class.example
 
     example.metadata[:file_path] = '/my/example/spec.rb'
     example.metadata[:execution_result].status = :failed
@@ -39,7 +39,7 @@ describe Fuubar do
   end
 
   let(:pending_example) do
-    example = RSpec::Core::ExampleGroup.describe.example
+    example = self.class.example
     example.metadata[:execution_result].pending_fixed = true
     example
   end
