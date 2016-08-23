@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'rspec'
+require 'rspec/core'
 require 'rspec/core/formatters/base_text_formatter'
 require 'ruby-progressbar'
 require 'fuubar/output'
