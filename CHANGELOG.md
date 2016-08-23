@@ -1,3 +1,10 @@
+Version v2.2.0 - August 23, 2016
+================================================================================
+
+  * travis CI: use container-based env, add jruby, `gem update` before testing
+  * Add workaround for JRuby crash
+  * Require only 'rspec/core' instead of full rspec
+
 Version v2.1.1 - July 14, 2016
 ================================================================================
 
@@ -11,22 +18,16 @@ Version v2.1.0 - July 12, 2016
 Changed
 --------------------------------------------------------------------------------
   * RSpec dependency to support 3.5 final
+  * to use our custom Output object
 
 Fixed
 --------------------------------------------------------------------------------
   * Delegator not found
 
-Version v2.1.0 - April 24, 2016
-================================================================================
-
 Added
 --------------------------------------------------------------------------------
   * Certificate verification to the gem
   * Output module
-
-Changed
---------------------------------------------------------------------------------
-  * to use our custom Output object
 
 Version v2.0.0 - August 7, 2014
 ================================================================================
