@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
   spec.signing_key   = File.expand_path('~/.gem/certs/thekompanee-private_key.pem') if $0 =~ /gem\z/
 
   spec.executables   = %w{}
-  spec.files         = Dir['{app,config,db,lib,templates}/**/*'] + %w{Rakefile README.md LICENSE.txt}
+  spec.files         = Dir['{app,config,db,lib,templates}/**/*'] + %w{README.md LICENSE.txt}
   spec.test_files    = Dir['{test,spec,features}/**/*']
 
   spec.add_dependency             'rspec-core', ["~> 3.0"]
