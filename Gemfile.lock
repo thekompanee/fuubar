@@ -36,7 +36,7 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print (~> 1.7)
-  chamber
+  chamber (~> 2.3)
   fuubar!
   rake
   rspec (~> 3.0)
