@@ -8,8 +8,8 @@ describe Fuubar do
   let(:output) do
     io = StringIO.new
 
-    allow(io).to  receive(:tty?).
-                  and_return(true)
+    allow(io).to receive(:tty?).
+    and_return(true)
 
     io
   end
