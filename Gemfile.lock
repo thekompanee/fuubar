@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     fuubar (2.1.1)
-      rspec (~> 3.0)
+      rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
 
 GEM
@@ -14,7 +14,6 @@ GEM
       thor (~> 0.19.1)
     diff-lcs (1.2.5)
     hashie (3.4.0)
-    rake (10.0.4)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -36,9 +35,9 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print (~> 1.7)
-  chamber
+  chamber (~> 2.3)
   fuubar!
-  rake
+  rspec (~> 3.0)
 
 BUNDLED WITH
-   1.11.2
+   1.12.5
