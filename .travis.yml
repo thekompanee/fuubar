@@ -16,13 +16,11 @@ rvm:
   - rbx
 matrix:
   include:
-    - rvm: jruby
-      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false -Xcompat.version=2.0'
-    - rvm: jruby-head
-      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
     - rvm: jruby-18mode
       env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
-    - rvm: jruby
+    - rvm: jruby-19mode
+      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
+    - rvm: jruby-head
       env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
   allow_failures:
     - rvm: jruby-head
