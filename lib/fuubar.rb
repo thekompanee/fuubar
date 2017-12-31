@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'thread'
 require 'rspec/core'
 require 'rspec/core/formatters/base_text_formatter'
 require 'ruby-progressbar'
@@ -14,9 +15,13 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
                                           :example_passed,
                                           :example_pending,
                                           :example_failed,
+                                          :example_started,
+                                          :example_finished,
                                           :dump_failures
 
-  attr_accessor :progress,
+  attr_accessor :example_tick_thread,
+                :example_tick_lock,
+                :progress,
                 :passed_count,
                 :pending_count,
                 :failed_count
@@ -24,6 +29,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   def initialize(*args)
     super
 
+    self.example_tick_lock = Mutex.new
     self.progress = ProgressBar.create(
                       DEFAULT_PROGRESS_BAR_OPTIONS.
                         merge(:throttle_rate => continuous_integration? ? 1.0 : nil).
@@ -51,6 +57,14 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     with_current_color { progress.start }
   end
 
+  def example_started(notification)
+    self.example_tick_thread = start_tick_thread(notification)
+  end
+
+  def example_finished(notification)
+    self.example_tick_thread.kill
+  end
+
   def example_passed(_notification)
     self.passed_count += 1
 
@@ -72,6 +86,12 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     output.puts
 
     increment
+  end
+
+  def example_tick(notification)
+    example_tick_lock.synchronize do
+      refresh
+    end
   end
 
   def message(notification)
@@ -97,6 +117,10 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
   def increment
     with_current_color { progress.increment }
+  end
+
+  def refresh
+    with_current_color { progress.refresh }
   end
 
   def with_current_color
@@ -130,5 +154,15 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   def continuous_integration?
     @continuous_integration ||= \
       ![nil, '', 'false'].include?(ENV['CONTINUOUS_INTEGRATION'])
+  end
+
+  def start_tick_thread(notification)
+    Thread.new do
+      loop do
+        sleep(1)
+
+        example_tick(notification)
+      end
+    end
   end
 end
