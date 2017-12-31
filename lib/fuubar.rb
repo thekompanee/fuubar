@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'thread'
+
 require 'rspec/core'
 require 'rspec/core/formatters/base_text_formatter'
 require 'ruby-progressbar'
@@ -10,14 +10,15 @@ RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }.freeze
 
-  RSpec::Core::Formatters.register self,  :start,
-                                          :message,
-                                          :example_passed,
-                                          :example_pending,
-                                          :example_failed,
-                                          :example_started,
-                                          :example_finished,
-                                          :dump_failures
+  RSpec::Core::Formatters.register self,
+                                   :start,
+                                   :message,
+                                   :example_passed,
+                                   :example_pending,
+                                   :example_failed,
+                                   :example_started,
+                                   :example_finished,
+                                   :dump_failures
 
   attr_accessor :example_tick_thread,
                 :example_tick_lock,
@@ -31,21 +32,21 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
     self.example_tick_lock = Mutex.new
     self.progress = ProgressBar.create(
-                      DEFAULT_PROGRESS_BAR_OPTIONS.
-                        merge(:throttle_rate => continuous_integration? ? 1.0 : nil).
-                        merge(:total     => 0,
-                              :output    => output,
-                              :autostart => false)
+                      DEFAULT_PROGRESS_BAR_OPTIONS
+                        .merge(:throttle_rate => continuous_integration? ? 1.0 : nil)
+                        .merge(:total     => 0,
+                               :output    => output,
+                               :autostart => false)
     )
   end
 
   def start(notification)
-    progress_bar_options = DEFAULT_PROGRESS_BAR_OPTIONS.
-                           merge(:throttle_rate => continuous_integration? ? 1.0 : nil).
-                           merge(configuration.fuubar_progress_bar_options).
-                           merge(:total     => notification.count,
-                                 :output    => output,
-                                 :autostart => false)
+    progress_bar_options = DEFAULT_PROGRESS_BAR_OPTIONS
+                             .merge(:throttle_rate => continuous_integration? ? 1.0 : nil)
+                             .merge(configuration.fuubar_progress_bar_options)
+                             .merge(:total     => notification.count,
+                                    :output    => output,
+                                    :autostart => false)
 
     self.progress      = ProgressBar.create(progress_bar_options)
     self.passed_count  = 0
@@ -61,8 +62,8 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     self.example_tick_thread = start_tick_thread(notification)
   end
 
-  def example_finished(notification)
-    self.example_tick_thread.kill
+  def example_finished(_notification)
+    example_tick_thread.kill
   end
 
   def example_passed(_notification)
@@ -88,7 +89,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     increment
   end
 
-  def example_tick(notification)
+  def example_tick(_notification)
     example_tick_lock.synchronize do
       refresh
     end
@@ -153,7 +154,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
   def continuous_integration?
     @continuous_integration ||= \
-      ![nil, '', 'false'].include?(ENV['CONTINUOUS_INTEGRATION'])
+      [nil, '', 'false'].exclude?(ENV['CONTINUOUS_INTEGRATION'])
   end
 
   def start_tick_thread(notification)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'fuubar'
 require 'stringio'
 require 'ostruct'
@@ -8,8 +9,8 @@ describe Fuubar do
   let(:output) do
     io = StringIO.new
 
-    allow(io).to receive(:tty?).
-    and_return(true)
+    allow(io).to receive(:tty?)
+                   .and_return(true)
 
     io
   end
@@ -261,3 +262,4 @@ describe Fuubar do
     end
   end
 end
+# rubocop:enable Metrics/LineLength
