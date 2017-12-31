@@ -154,7 +154,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
   def continuous_integration?
     @continuous_integration ||= \
-      [nil, '', 'false'].exclude?(ENV['CONTINUOUS_INTEGRATION'])
+      ![nil, '', 'false'].include?(ENV['CONTINUOUS_INTEGRATION'])
   end
 
   def start_tick_thread(notification)
