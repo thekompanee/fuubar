@@ -10,11 +10,11 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }.freeze
 
   RSpec::Core::Formatters.register self,  :start,
-                                   :message,
-                                   :example_passed,
-                                   :example_pending,
-                                   :example_failed,
-                                   :dump_failures
+                                          :message,
+                                          :example_passed,
+                                          :example_pending,
+                                          :example_failed,
+                                          :dump_failures
 
   attr_accessor :progress,
                 :passed_count,
