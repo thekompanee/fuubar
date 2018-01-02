@@ -12,12 +12,12 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
   RSpec::Core::Formatters.register self,
                                    :close,
-                                   :start,
-                                   :message,
+                                   :dump_failures,
+                                   :example_failed,
                                    :example_passed,
                                    :example_pending,
-                                   :example_failed,
-                                   :dump_failures
+                                   :message,
+                                   :start
 
   attr_accessor :example_tick_thread,
                 :example_tick_lock,
@@ -47,10 +47,10 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
                                     :output    => output,
                                     :autostart => false)
 
-    self.progress      = ProgressBar.create(progress_bar_options)
-    self.passed_count  = 0
-    self.pending_count = 0
-    self.failed_count  = 0
+    self.progress            = ProgressBar.create(progress_bar_options)
+    self.passed_count        = 0
+    self.pending_count       = 0
+    self.failed_count        = 0
     self.example_tick_thread = start_tick_thread(notification)
 
     super
