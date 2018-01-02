@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = 'fuubar'
-  spec.version       = '2.3.0.beta3'
+  spec.version       = '2.3.0'
   spec.authors       = ['Nicholas Evans', 'Jeff Kreeftmeijer', 'jfelchner']
   spec.email         = '["jeff@kreeftmeijer.nl", "accounts+git@thekompanee.com"]'
   spec.summary       = %q{the instafailing RSpec progress bar formatter}
