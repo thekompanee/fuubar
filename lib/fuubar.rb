@@ -11,13 +11,12 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }.freeze
 
   RSpec::Core::Formatters.register self,
+                                   :close,
                                    :start,
                                    :message,
                                    :example_passed,
                                    :example_pending,
                                    :example_failed,
-                                   :example_started,
-                                   :example_finished,
                                    :dump_failures
 
   attr_accessor :example_tick_thread,
@@ -52,17 +51,14 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     self.passed_count  = 0
     self.pending_count = 0
     self.failed_count  = 0
+    self.example_tick_thread = start_tick_thread(notification)
 
     super
 
     with_current_color { progress.start }
   end
 
-  def example_started(notification)
-    self.example_tick_thread = start_tick_thread(notification)
-  end
-
-  def example_finished(_notification)
+  def close(_notification)
     example_tick_thread.kill
   end
 
