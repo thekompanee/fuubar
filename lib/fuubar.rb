@@ -53,6 +53,15 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     self.failed_count        = 0
     self.example_tick_thread = start_tick_thread(notification)
 
+    if Object.const_defined?('Pry')
+      Pry
+        .config
+        .hooks
+        .add_hook(:when_started, :fuubar_kill_refresh) do |_target, _opt, _|
+          example_tick_thread.kill
+        end
+    end
+
     super
 
     with_current_color { progress.start }
