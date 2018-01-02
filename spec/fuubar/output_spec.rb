@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'fuubar'
 
 class TestNonTtyOutputClass

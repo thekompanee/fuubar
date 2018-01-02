@@ -1,0 +1,23 @@
+# Put your project-specific Rubocop configurations here
+
+Layout/ExtraSpacing:
+  Enabled: false
+
+Style/HashSyntax:
+  EnforcedStyle: hash_rockets
+
+Style/InverseMethods:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+Style/OptionHash:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/TrailingCommaInArguments:
+  Enabled:                   true
+  EnforcedStyleForMultiline: 'no_comma'
