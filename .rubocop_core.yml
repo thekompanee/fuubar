@@ -1,4 +1,4 @@
-# Last updated to rubocop 0.52.1
+# Last updated to rubocop 0.53.0
 
 AllCops:
   Include:
@@ -56,9 +56,6 @@ AllCops:
     - '**/db/migrate/**/*'
     - '**/db/schema.rb'
     - '**/node_modules/**/*'
-    - '**/sample.rb'
-    - '**/scrub.rb'
-    - '**/seed.rb'
     - '**/spec/dummy/**/*'
     - '**/vendor/**/*'
     - 'bin/rails'
@@ -124,6 +121,14 @@ Layout/AlignParameters:
   Exclude:
     - '**/Gemfile'
 
+Layout/BlockAlignment:
+  Enabled:                                    true
+  EnforcedStyleAlignWith:                     'either'
+  Exclude:
+    - '**/spec/factories.rb'
+    - '**/spec/factories/**/*.rb'
+    - 'app/controllers/**/*.rb'
+
 Layout/BlockEndNewline:
   Enabled:                                    true
 
@@ -135,56 +140,43 @@ Layout/CaseIndentation:
 
 Layout/ClassStructure:
   Enabled:                                    true
-  Categories:
-    accessors:
-      - 'cattr_accessor'
-      - 'cattr_reader'
-      - 'cattr_writer'
-      - 'attr_accessor'
-      - 'attr_reader'
-      - 'attr_writer'
-    associations:
-      - 'has_and_belongs_to_many'
-      - 'belongs_to'
-      - 'has_one'
-      - 'has_many'
-    callbacks:
-      - 'before_validation'
-      - 'after_validation'
-      - 'before_save'
-      - 'before_create'
-      - 'after_create'
-      - 'after_save'
-      - 'after_commit'
-    delegations:
-      - 'delegate'
-    module_inclusions:
-      - 'prepend'
-      - 'include'
-      - 'extend'
-    scopes:
-      - 'default_scope'
-      - 'scope'
-    serializations:
-      - 'serialize'
-    validations:
-      - 'validate'
-      - 'validates'
   ExpectedOrder:
-      - 'module_inclusion'
-      - 'constants'
-      - 'accessors'
-      - 'delegations'
-      - 'serializations'
-      - 'associations'
-      - 'validations'
-      - 'callbacks'
-      - 'scopes'
-      - 'public_class_methods'
-      - 'initializer'
-      - 'public_methods'
-      - 'protected_methods'
-      - 'private_methods'
+    - 'prepend'
+    - 'include'
+    - 'extend'
+    - 'constants'
+    - 'cattr_accessor'
+    - 'cattr_reader'
+    - 'cattr_writer'
+    - 'attr_accessor'
+    - 'attr_reader'
+    - 'attr_writer'
+    - 'delegate'
+    - 'serialize'
+    - 'belongs_to'
+    - 'has_one'
+    - 'has_many'
+    - 'has_and_belongs_to_many'
+    - 'validates'
+    - 'validate'
+    - 'before_validation'
+    - 'after_validation'
+    - 'before_save'
+    - 'before_create'
+    - 'after_create'
+    - 'after_save'
+    - 'after_commit'
+    - 'default_scope'
+    - 'scope'
+    - 'accepts_nested_attributes_for'
+    - 'friendly_id'
+    - 'geocoded_by'
+    - 'has_attached_file'
+    - 'public_class_methods'
+    - 'initializer'
+    - 'public_methods'
+    - 'protected_methods'
+    - 'private_methods'
 
 Layout/ClosingParenthesisIndentation:
   Enabled:                                    false # Disallows Alignment with Opening Paren: my_method(
@@ -197,12 +189,25 @@ Layout/CommentIndentation:
   Exclude:
     - '**/config/initializers/middleware.rb'
 
+Layout/ConditionPosition:
+  Enabled:                                    true
+
+Layout/DefEndAlignment:
+  Enabled:                                    true
+  EnforcedStyleAlignWith:                     'start_of_line'
+  AutoCorrect:                                true
+
 Layout/DotPosition:
   Enabled:                                    true
   EnforcedStyle:                              'leading'
 
 Layout/ElseAlignment:
   Enabled:                                    true
+
+Layout/EmptyComment:
+  Enabled:                                    true
+  AllowBorderComment:                         true
+  AllowMarginComment:                         true
 
 Layout/EmptyLineAfterMagicComment:
   Enabled:                                    true
@@ -244,6 +249,11 @@ Layout/EmptyLinesAroundModuleBody:
 
 Layout/EmptyLines:
   Enabled:                                    true
+
+Layout/EndAlignment:
+  Enabled:                                    true
+  EnforcedStyleAlignWith:                     'keyword'
+  AutoCorrect:                                true
 
 Layout/EndOfLine:
   Enabled:                                    true
@@ -408,6 +418,7 @@ Layout/SpaceInLambdaLiteral:
 Layout/SpaceInsideArrayLiteralBrackets:
   Enabled:                                    true
   EnforcedStyle:                              'no_space'
+  EnforcedStyleForEmptyBrackets:              'no_space'
 
 Layout/SpaceInsideArrayPercentLiteral:
   Enabled:                                    true
@@ -435,6 +446,7 @@ Layout/SpaceInsideRangeLiteral:
 Layout/SpaceInsideReferenceBrackets:
   Enabled:                                    true
   EnforcedStyle:                              'no_space'
+  EnforcedStyleForEmptyBrackets:              'no_space'
 
 Layout/SpaceInsideStringInterpolation:
   Enabled:                                    true
@@ -470,10 +482,8 @@ Lint/AssignmentInCondition:
   Enabled:                                    true
   AllowSafeAssignment:                        true
 
-Lint/BlockAlignment:
+Lint/BigDecimalNew:
   Enabled:                                    true
-  Exclude:
-    - 'app/controllers/**/*.rb'
 
 Lint/BooleanSymbol:
   Enabled:                                    true
@@ -481,16 +491,8 @@ Lint/BooleanSymbol:
 Lint/CircularArgumentReference:
   Enabled:                                    true
 
-Lint/ConditionPosition:
-  Enabled:                                    true
-
 Lint/Debugger:
   Enabled:                                    true
-
-Lint/DefEndAlignment:
-  Enabled:                                    true
-  EnforcedStyleAlignWith:                     'start_of_line'
-  AutoCorrect:                                true
 
 Lint/DeprecatedClassMethods:
   Enabled:                                    true
@@ -515,11 +517,6 @@ Lint/EmptyInterpolation:
 
 Lint/EmptyWhen:
   Enabled:                                    true
-
-Lint/EndAlignment:
-  Enabled:                                    true
-  EnforcedStyleAlignWith:                     'keyword'
-  AutoCorrect:                                true
 
 Lint/EndInMethod:
   Enabled:                                    true
@@ -565,6 +562,9 @@ Lint/NestedMethodDefinition:
   Enabled:                                    true
 
 Lint/NonLocalExitFromIterator:
+  Enabled:                                    true
+
+Lint/OrderedMagicComments:
   Enabled:                                    true
 
 Lint/ParenthesesAsGroupedExpression:
@@ -624,7 +624,10 @@ Lint/UnderscorePrefixedVariableName:
 Lint/UnifiedInteger:
   Enabled:                                    true
 
-Lint/UnneededDisable:
+Lint/UnneededCopDisableDirective:
+  Enabled:                                    true
+
+Lint/UnneededCopEnableDirective:
   Enabled:                                    true
 
 Lint/UnneededRequireStatement:
@@ -677,6 +680,8 @@ Lint/Void:
 Metrics/AbcSize:
   Enabled:                                    true
   Max:                                        25.0
+  Exclude:
+    - '**/db/sample.rb'
 
 Metrics/BlockNesting:
   Enabled:                                    true
@@ -694,12 +699,15 @@ Metrics/BlockLength:
   CountComments:                              false
   Max:                                        25
   Exclude:
-    - 'Rakefile'
     - '**/*.rake'
     - '**/config/routes.rb'
+    - '**/db/sample.rb'
+    - '**/db/scrub.rb'
+    - '**/db/seed.rb'
     - '**/spec/**/*_spec.rb'
     - '**/spec/**/factories/*.rb'
     - '**/spec/factories.rb'
+    - 'Rakefile'
   ExcludedMethods:
     - 'namespace'
     - 'draw'
@@ -758,14 +766,22 @@ Metrics/LineLength:
     - 'https'
   Exclude:
     - '**/Gemfile'
-    - '**/config/routes.rb'
     - '**/config/environments/**/*'
     - '**/config/initializers/**/*'
+    - '**/config/routes.rb'
+    - '**/db/sample.rb'
+    - '**/db/scrub.rb'
+    - '**/db/seed.rb'
+    - '**/factories/*.rb'
 
 Metrics/MethodLength:
   Enabled:                                    true
   CountComments:                              false
   Max:                                        30
+  Exclude:
+    - '**/db/sample.rb'
+    - '**/db/scrub.rb'
+    - '**/db/seed.rb'
 
 Metrics/ParameterLists:
   Enabled:                                    true
@@ -817,6 +833,9 @@ Naming/HeredocDelimiterCase:
   Enabled:                                    true
   EnforcedStyle:                              'uppercase'
 
+Naming/MemoizedInstanceVariableName:
+  Enabled:                                    true
+
 Naming/MethodName:
   Enabled:                                    true
   EnforcedStyle:                              'snake_case'
@@ -839,6 +858,22 @@ Naming/PredicateName:
     - 'define_singleton_method'
   Exclude:
     - 'spec/**/*'
+
+Naming/UncommunicativeBlockParamName:
+  Enabled:                                    true
+  MinNameLength:                              1
+  AllowNamesEndingInNumbers:                  true
+  AllowedNames:                               []
+  ForbiddenNames:                             []
+
+Naming/UncommunicativeMethodParamName:
+  Enabled:                                    true
+  MinNameLength:                              3
+  AllowNamesEndingInNumbers:                  true
+  AllowedNames:
+    - 'io'
+    - 'id'
+  ForbiddenNames:                             []
 
 Naming/VariableName:
   Enabled:                                    true
@@ -882,10 +917,6 @@ Performance/FixedSize:
 
 Performance/FlatMap:
   Enabled:                                    true
-
-Performance/HashEachMethods:
-  Enabled:                                    true
-  AutoCorrect:                                true
 
 Performance/LstripRstrip:
   Enabled:                                    true
@@ -945,6 +976,9 @@ Security/JSONLoad:
   Exclude:
     - '**/spec/**/*.rb'
 
+Security/Open:
+  Enabled:                                    true
+
 Security/YAMLLoad:
   Enabled:                                    true
   Exclude:
@@ -994,6 +1028,8 @@ Style/BlockDelimiters:
   Enabled:                                    true
   EnforcedStyle:                              'braces_for_chaining'
   Exclude:
+    - '**/spec/factories.rb'
+    - '**/spec/factories/**/*.rb'
     - 'app/controllers/**/*.rb'
 
 Style/BracesAroundHashParameters:
@@ -1094,6 +1130,9 @@ Style/EmptyElse:
   Enabled:                                    true
   EnforcedStyle:                              'both'
 
+Style/EmptyLineAfterGuardClause:
+  Enabled:                                    true
+
 Style/EmptyLiteral:
   Enabled:                                    true
   Exclude:
@@ -1108,6 +1147,9 @@ Style/Encoding:
   Enabled:                                    true
 
 Style/EndBlock:
+  Enabled:                                    true
+
+Style/ExpandPathArguments:
   Enabled:                                    true
 
 Style/EvalWithLocation:
@@ -1513,14 +1555,24 @@ Style/TernaryParentheses:
   AllowSafeAssignment:                        true
   EnforcedStyle:                              'require_parentheses_when_complex'
 
+Style/TrailingBodyOnClass:
+  Enabled:                                    true
+
 Style/TrailingBodyOnMethodDefinition:
+  Enabled:                                    true
+
+Style/TrailingBodyOnModule:
   Enabled:                                    true
 
 Style/TrailingCommaInArguments:
   Enabled:                                    true
   EnforcedStyleForMultiline:                  'comma'
 
-Style/TrailingCommaInLiteral:
+Style/TrailingCommaInArrayLiteral:
+  Enabled:                                    true
+  EnforcedStyleForMultiline:                  'comma'
+
+Style/TrailingCommaInHashLiteral:
   Enabled:                                    true
   EnforcedStyleForMultiline:                  'comma'
 
