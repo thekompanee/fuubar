@@ -1,20 +1,64 @@
+# This is an opinionated list of which hooks are valuable to run and what their
+# out-of-the-box settings should be.
+#-------------------------------------------------------------------------------
+
+# Loads Bundler context from a Gemfile. If false, does nothing (default).
+#
+# Specifying a Gemfile for Bundler to load allows you to control which gems are
+# available in the load path (i.e. loadable via `require`) within your hook
+# runs. Note that having a Gemfile requires you to include `overcommit` itself
+# in your Gemfile (otherwise Overcommit can't load itself!).
+#
+# This is useful if you want to:
+#
+#   - Enforce a specific version of Overcommit to use for all hook runs
+#     (or to use a version from the master branch that has not been released yet)
+#   - Enforce a specific version or unreleased branch is used for a gem you want
+#     to use in your git hooks
+#
+# WARNING: This makes your hook runs slower, but you can work around this!
+#
+# Loading a Bundler context necessarily adds a startup delay to your hook runs
+# as Bundler parses the Gemfile and checks that the dependencies are satisfied.
+# Thus for projects with many gems this can introduce a noticeable delay.
+#
+# The recommended workaround is to create a separate Gemfile in the root of your
+# repository (call it `.overcommit_gems.rb`), and include only the gems that
+# your Overcommit hooks need in order to run. This significantly reduces the
+# startup delay in your hook runs. Make sure to commit both
+# `.overcommit_gems.rb` and the resulting `.overcommit_gems.rb.lock` file to
+# your repository, and then set the `gemfile` option below to the name you gave
+# the file.
+# (Generate lock file by running `bundle install --gemfile=.overcommit_gems.rb`)
+gemfile: false
+
 # Where to store hook plugins specific to a repository. These are loaded in
 # addition to the default hooks Overcommit comes with. The location is relative
 # to the root of the repository.
 plugin_directory: '.git-hooks'
 
+# Whether to hide hook output by default. This results in completely silent hook
+# runs except in the case of warning or failure.
+quiet: false
+
+# Number of hooks that can be run concurrently. Typically this won't need to be
+# adjusted, but if you know that some of your hooks themselves use multiple
+# processors you can lower this value accordingly. You can define
+# single-operator mathematical expressions, e.g. '%{processors} * 2', or
+# '%{processors} / 2'.
+concurrency: '%{processors}'
+
 # Whether to check if a hook plugin has changed since Overcommit last ran it.
 # This is a defense mechanism when working with repositories which can contain
 # untrusted code (e.g. when you fetch a pull request from a third party).
-# See https://github.com/causes/overcommit#security for more information.
+# See https://github.com/brigade/overcommit#security for more information.
 verify_signatures: true
 
 PreCommit:
   ALL:
-    problem_on_unmodified_line: report
-    requires_files:           true
-    required:                 false
-    quiet:                    false
+    problem_on_unmodified_line: 'report'
+    requires_files:             true
+    required:                   false
     exclude:
       - 'bower_components/**/*'
       - 'node_modules/**/*'
@@ -35,8 +79,26 @@ PreCommit:
   BrokenSymlinks:
     enabled:                  true
 
+  BundleAudit:
+    enabled:                  true
+    include:
+      - 'Gemfile'
+      - 'Gemfile.lock'
+      - '*.gemspec'
+
   BundleCheck:
     enabled:                  true
+    include:
+      - 'Gemfile'
+      - 'Gemfile.lock'
+      - '*.gemspec'
+
+  BundleOutdated:
+    enabled:                  true
+    include:
+      - 'Gemfile'
+      - 'Gemfile.lock'
+      - '*.gemspec'
 
   CaseConflicts:
     enabled:                  true
@@ -46,6 +108,12 @@ PreCommit:
 
   CoffeeLint:
     enabled:                  true
+
+  Credo:
+    enabled:                  true
+    include:
+      - '**/*.ex'
+      - '**/*.exs'
 
   CssLint:
     enabled:                  true
@@ -59,8 +127,35 @@ PreCommit:
   ExecutePermissions:
     enabled:                  true
     exclude:
+      - 'Rakefile'
       - 'bin/**/*'
-      - 'script/**/*'
+      - 'scripts/**/*'
+
+  Fasterer:
+    enabled:                  false
+    include:
+      - '**/*.rb'
+
+  FixMe:
+    enabled:                  true
+    keywords:
+      - 'BROKEN'
+      - 'BUG'
+      - 'ERROR'
+      - 'FIXME'
+      - 'HACK'
+      - 'NOTE'
+      - 'OPTIMIZE'
+      - 'REVIEW'
+      - 'TODO'
+      - 'WTF'
+      - 'XXX'
+
+  Foodcritic:
+    enabled:                  false
+
+  ForbiddenBranches:
+    enabled:                  false
 
   GoLint:
     enabled:                  true
@@ -78,7 +173,10 @@ PreCommit:
     enabled:                  true
     exclude:
       - '**/*.svg'
+      - '**/Info.plist'
+      - '**/project.pbxproj'
       - '**/structure.sql'
+      - '**/xcschememanagement.plist'
 
   HtmlHint:
     enabled:                  true
@@ -93,7 +191,7 @@ PreCommit:
     enabled:                  true
 
   Jscs:
-    enabled:                  true
+    enabled:                  false
 
   JsHint:
     enabled:                  false
@@ -107,14 +205,29 @@ PreCommit:
   JsonSyntax:
     enabled:                  true
 
+  LicenseHeader:
+    enabled:                  false
+    licence_file:             'LICENSE.txt'
+
+  LineEndings:
+    enabled:                  true
+
   LocalPathsInGemfile:
     enabled:                  true
+
+  Mdl:
+    enabled:                  true
+    include:
+      - '**/*.md'
 
   MergeConflicts:
     enabled:                  true
 
-  Minitest:
-    enabled:                  false
+  MessageFormat:
+    enabled:                  true
+    pattern:                  '(Add|Fix|Change|Remove|Deprecate|Security|Docs|Style|Tests|Chore|WIP):\s'
+    expected_pattern_message: '<Change Type>: <Commit Message Description>'
+    sample_message:           'Chore: Refactor onboarding flow'
 
   NginxTest:
     enabled:                  true
@@ -172,7 +285,11 @@ PreCommit:
     enabled:                  true
     flags:
       - '--format=gcc'
+      - '-e SC1090'
+      - '-e SC1117'
+      - '-e SC2148'
       - '-e SC2155'
+      - '-e SC2181'
     include:
       - '**/*.sh'
       - '**/*.bash'
@@ -197,6 +314,11 @@ PreCommit:
   TravisLint:
     enabled:                  true
 
+  TsLint:
+    enabled:                  true
+    include:
+      - '**/*.ts'
+
   Vint:
     enabled:                  true
 
@@ -212,6 +334,12 @@ PreCommit:
   XmlSyntax:
     enabled:                  true
 
+  YamlLint:
+    enabled:                  false
+    include:
+      - '**/*.yaml'
+      - '**/*.yml'
+
   YamlSyntax:
     enabled:                  true
 
@@ -219,7 +347,9 @@ PrePush:
   ALL:
     requires_files:           false
     required:                 false
-    quiet:                    false
+
+  Minitest:
+    enabled:                  false
 
   ProtectedBranches:
     enabled:                  false
@@ -231,7 +361,6 @@ PreRebase:
   ALL:
     requires_files:           false
     required:                 false
-    quiet:                    false
 
   MergedCommits:
     enabled:                  false
@@ -239,10 +368,12 @@ PreRebase:
 CommitMsg:
   ALL:
     requires_files:           false
-    quiet:                    false
 
   CapitalizedSubject:
     enabled:                  true
+
+  Commitplease:
+    enabled:                  false
 
   EmptyMessage:
     enabled:                  false
@@ -273,7 +404,7 @@ CommitMsg:
 PostCheckout:
   ALL:
     required:                 false
-    quiet:                    false
+    skip_file_checkout:       true
 
   BowerInstall:
     enabled:                  false
@@ -294,7 +425,6 @@ PostCommit:
   ALL:
     requires_files:           false
     required:                 false
-    quiet:                    false
 
   BowerInstall:
     enabled:                  false
@@ -316,8 +446,8 @@ PostCommit:
 
 PostMerge:
   ALL:
+    enabled:                  false
     requires_files:           false
-    quiet:                    false
 
   BowerInstall:
     enabled:                  false
@@ -332,12 +462,11 @@ PostMerge:
     enabled:                  false
 
   SubmoduleStatus:
-    enabled:                  true
+    enabled:                  false
 
 PostRewrite:
   ALL:
     requires_files:           false
-    quiet:                    false
 
   BowerInstall:
     enabled:                  false
