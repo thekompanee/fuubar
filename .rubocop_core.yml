@@ -1130,7 +1130,7 @@ Style/EmptyElse:
   Enabled:                                    true
   EnforcedStyle:                              'both'
 
-Style/EmptyLineAfterGuardClause:
+Layout/EmptyLineAfterGuardClause:
   Enabled:                                    true
 
 Style/EmptyLiteral:
