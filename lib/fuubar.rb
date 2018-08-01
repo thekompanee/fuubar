@@ -122,7 +122,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   private
 
   def increment
-    with_current_color { progress.increment }
+    with_current_color { progress.increment unless progress.finished? }
   end
 
   def refresh

@@ -190,6 +190,20 @@ describe Fuubar do
       it 'outputs the proper bar information' do
         expect(fuubar_results).to start_with "\e[32m 1/2 |== 50 ==>        |  ETA: 00:00:00 \r\e[0m"
       end
+
+      context 'when progress is finished' do
+        before { output.rewind }
+
+        let(:pass_example_twice) do
+          2.times { formatter.example_passed(example) }
+        end
+
+        it 'outputs the proper bar information', :aggregate_failures do
+          expect_any_instance_of(ProgressBar::Progress).not_to receive(:warn)
+          pass_example_twice
+          expect(fuubar_results).to start_with "\e[32m 2/2 |===== 100 ======>| Time: 00:00:00 \n\e[0m"
+        end
+      end
     end
 
     context 'and an example pends' do
