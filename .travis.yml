@@ -16,16 +16,7 @@ rvm:
   - ree
   - rbx
 matrix:
-  include:
-    - rvm: jruby-18mode
-      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
-    - rvm: jruby-19mode
-      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
-    - rvm: jruby-head
-      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
   allow_failures:
-    - rvm: jruby-head
-      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
     - rvm: ruby-head
     - rvm: rbx
 script: bundle exec rspec
