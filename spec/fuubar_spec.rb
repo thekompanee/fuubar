@@ -9,8 +9,8 @@ describe Fuubar do
   let(:output) do
     io = StringIO.new
 
-    allow(io).to receive(:tty?)
-                   .and_return(true)
+    allow(io).to receive(:tty?).
+                   and_return(true)
 
     io
   end
@@ -27,7 +27,7 @@ describe Fuubar do
   let(:failed_example) do
     exception = RuntimeError.new('Test Fuubar Error')
     exception.set_backtrace [
-                              "/my/filename.rb:4:in `some_method'",
+                              "/my/filename.rb:4:in `some_method'"
                             ]
 
     example = self.class.example
@@ -53,7 +53,7 @@ describe Fuubar do
   before(:each) do
     RSpec.configuration.fuubar_progress_bar_options = {
       :length        => 40,
-      :throttle_rate => 0.0,
+      :throttle_rate => 0.0
     }
 
     ENV.delete('CONTINUOUS_INTEGRATION')
@@ -154,7 +154,7 @@ describe Fuubar do
       RSpec.configuration.fuubar_progress_bar_options = {
         :length        => 40,
         :throttle_rate => 0.0,
-        :format        => '%c',
+        :format        => '%c'
       }
     end
 

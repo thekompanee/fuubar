@@ -1,6 +1,24 @@
 # Put your project-specific Rubocop configurations here
 
+Layout/ClassStructure:
+  Enabled: false
+
+Layout/ClosingParenthesisIndentation:
+  Enabled: false
+
+Layout/DotPosition:
+  EnforcedStyle: 'trailing'
+
 Layout/ExtraSpacing:
+  Enabled: false
+
+Layout/IndentationWidth:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
   Enabled: false
 
 Style/HashSyntax:
@@ -12,12 +30,23 @@ Style/InverseMethods:
 Style/Lambda:
   Enabled: false
 
+Style/NumericPredicate:
+  Enabled: false
+
 Style/OptionHash:
+  Enabled: false
+
+Style/SafeNavigation:
   Enabled: false
 
 Style/SymbolArray:
   Enabled: false
 
 Style/TrailingCommaInArguments:
-  Enabled:                   true
+  EnforcedStyleForMultiline: 'no_comma'
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: 'no_comma'
+
+Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: 'no_comma'

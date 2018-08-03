@@ -31,21 +31,21 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
     self.example_tick_lock = Mutex.new
     self.progress = ProgressBar.create(
-                      DEFAULT_PROGRESS_BAR_OPTIONS
-                        .merge(:throttle_rate => continuous_integration? ? 1.0 : nil)
-                        .merge(:total     => 0,
-                               :output    => output,
-                               :autostart => false)
+                      DEFAULT_PROGRESS_BAR_OPTIONS.
+                        merge(:throttle_rate => continuous_integration? ? 1.0 : nil).
+                        merge(:total     => 0,
+                              :output    => output,
+                              :autostart => false)
     )
   end
 
   def start(notification)
-    progress_bar_options = DEFAULT_PROGRESS_BAR_OPTIONS
-                             .merge(:throttle_rate => continuous_integration? ? 1.0 : nil)
-                             .merge(configuration.fuubar_progress_bar_options)
-                             .merge(:total     => notification.count,
-                                    :output    => output,
-                                    :autostart => false)
+    progress_bar_options = DEFAULT_PROGRESS_BAR_OPTIONS.
+                             merge(:throttle_rate => continuous_integration? ? 1.0 : nil).
+                             merge(configuration.fuubar_progress_bar_options).
+                             merge(:total     => notification.count,
+                                   :output    => output,
+                                   :autostart => false)
 
     self.progress            = ProgressBar.create(progress_bar_options)
     self.passed_count        = 0
@@ -54,10 +54,10 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     self.example_tick_thread = start_tick_thread(notification)
 
     if Object.const_defined?('Pry')
-      Pry
-        .config
-        .hooks
-        .add_hook(:when_started, :fuubar_kill_refresh) do |_target, _opt, _|
+      Pry.
+        config.
+        hooks.
+        add_hook(:when_started, :fuubar_kill_refresh) do |_target, _opt, _|
           example_tick_thread.kill
         end
     end
@@ -115,9 +115,11 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     #
   end
 
+  # rubocop:disable Naming/MemoizedInstanceVariableName
   def output
     @fuubar_output ||= Fuubar::Output.new(super, configuration.tty?)
   end
+  # rubocop:enable Naming/MemoizedInstanceVariableName
 
   private
 
