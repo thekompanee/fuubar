@@ -76,6 +76,24 @@ would make it so that, when fuubar is output, it would look something like:
 
     My Fuubar! <================================                  > 53.44% 00:12:31
 
+### Hiding Pending/Skipped Spec Summary ###
+
+By default fuubar follows RSpec's lead and will dump out a summary of all of the
+pending specs in the suite once the test run is over.  This is a good idea
+because the additional noise is a nudge to fix those tests.  We realize however
+that not all teams have the luxury of implementing all of the pending specs and
+therefore fuubar gives you the option of supressing that summary.
+
+#### Example ####
+
+```ruby
+# spec/spec_helper.rb
+
+RSpec.configure do |config|
+  config.fuubar_output_pending_results = false
+end
+```
+
 ### Disabling Auto-Refresh ###
 
 By default fuubar will automatically refresh the bar (and therefore the ETA)
@@ -83,7 +101,9 @@ every second.  Unfortunately this doesn't play well with things like debuggers.
 When you're debugging, having a bar show up every second is undesireable.
 [Pry][pry] gives us hooks so that we can automatically disable the refresh when
 it's used. Unfortunately [byebug][byebug] does not and disabling the bar must be
-done manually like so:
+done manually.
+
+#### Example ####
 
 ```ruby
 # spec/spec_helper.rb

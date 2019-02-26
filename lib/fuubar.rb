@@ -7,6 +7,7 @@ require 'fuubar/output'
 
 RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
 RSpec.configuration.add_setting :fuubar_auto_refresh,         :default => true
+RSpec.configuration.add_setting :fuubar_output_pending_results, :default => true
 
 if Object.const_defined?('Pry')
   Pry.
@@ -23,6 +24,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   RSpec::Core::Formatters.register self,
                                    :close,
                                    :dump_failures,
+                                   :dump_pending,
                                    :example_failed,
                                    :example_passed,
                                    :example_pending,
@@ -122,6 +124,12 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     # We output each failure as it happens so we don't need to output them en
     # masse at the end of the run.
     #
+  end
+
+  def dump_pending(notification)
+    return unless configuration.fuubar_output_pending_results
+
+    super
   end
 
   # rubocop:disable Naming/MemoizedInstanceVariableName
