@@ -6,13 +6,21 @@ require 'ruby-progressbar'
 require 'fuubar/output'
 
 RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
+RSpec.configuration.add_setting :fuubar_output_options, :default => {
+  :summary        => true,
+  :failure_detail => true,
+  :pending_detail => true,
+  :messages       => true
+}
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }.freeze
 
   RSpec::Core::Formatters.register self,
                                    :close,
+                                   :dump_summary,
                                    :dump_failures,
+                                   :dump_pending,
                                    :example_failed,
                                    :example_passed,
                                    :example_pending,
@@ -71,6 +79,11 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     example_tick_thread.kill
   end
 
+  def dump_summary(summary)
+    # Suppresses Summary View based on options
+    output.puts summary.fully_formatted if configuration.fuubar_output_options[:summary]
+  end
+
   def example_passed(_notification)
     self.passed_count += 1
 
@@ -85,11 +98,13 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
   def example_failed(notification)
     self.failed_count += 1
+    # Suppresses Failure Detail View based on options
+    if configuration.fuubar_output_options[:failure_detail]
+      progress.clear
 
-    progress.clear
-
-    output.puts notification.fully_formatted(failed_count)
-    output.puts
+      output.puts notification.fully_formatted(failed_count)
+      output.puts
+    end
 
     increment
   end
@@ -101,6 +116,9 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def message(notification)
+    # Suppresses Messages View based on options
+    return unless configuration.fuubar_output_options[:messages]
+
     if progress.respond_to? :log
       progress.log(notification.message)
     else
@@ -113,6 +131,13 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     # We output each failure as it happens so we don't need to output them en
     # masse at the end of the run.
     #
+  end
+
+  def dump_pending(notification)
+    # Suppresses Pending Detail View based on options
+    return unless configuration.fuubar_output_options[:pending_detail] && notification.pending_examples.empty?
+
+    output.puts notification.fully_formatted_pending_examples
   end
 
   # rubocop:disable Naming/MemoizedInstanceVariableName
