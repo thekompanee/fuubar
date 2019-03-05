@@ -6,12 +6,10 @@ require 'ruby-progressbar'
 require 'fuubar/output'
 
 RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
-RSpec.configuration.add_setting :fuubar_output_options, :default => {
-  :summary        => true,
-  :failure_detail => true,
-  :pending_detail => true,
-  :messages       => true
-}
+RSpec.configuration.add_setting :fuubar_output_summary, :default => true
+RSpec.configuration.add_setting :fuubar_output_failure_detail, :default => true
+RSpec.configuration.add_setting :fuubar_output_pending_detail, :default => true
+RSpec.configuration.add_setting :fuubar_output_messages, :default => true
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }.freeze
@@ -81,7 +79,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
   def dump_summary(summary)
     # Suppresses Summary View based on options
-    output.puts summary.fully_formatted if configuration.fuubar_output_options[:summary]
+    output.puts summary.fully_formatted if configuration.fuubar_output_summary
   end
 
   def example_passed(_notification)
@@ -99,7 +97,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   def example_failed(notification)
     self.failed_count += 1
     # Suppresses Failure Detail View based on options
-    if configuration.fuubar_output_options[:failure_detail]
+    if configuration.fuubar_output_failure_detail
       progress.clear
 
       output.puts notification.fully_formatted(failed_count)
@@ -117,7 +115,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
   def message(notification)
     # Suppresses Messages View based on options
-    return unless configuration.fuubar_output_options[:messages]
+    return unless configuration.fuubar_output_messages
 
     if progress.respond_to? :log
       progress.log(notification.message)
@@ -135,7 +133,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
   def dump_pending(notification)
     # Suppresses Pending Detail View based on options
-    return unless configuration.fuubar_output_options[:pending_detail] && notification.pending_examples.empty?
+    return unless configuration.fuubar_output_pending_detail && notification.pending_examples.empty?
 
     output.puts notification.fully_formatted_pending_examples
   end
