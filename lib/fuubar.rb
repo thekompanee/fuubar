@@ -133,7 +133,8 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
   def dump_pending(notification)
     # Suppresses Pending Detail View based on options
-    return unless configuration.fuubar_output_pending_detail && notification.pending_examples.empty?
+    return unless configuration.fuubar_output_pending_detail
+    return if notification.pending_examples.empty?
 
     output.puts notification.fully_formatted_pending_examples
   end
