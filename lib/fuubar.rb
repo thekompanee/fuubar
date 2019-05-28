@@ -6,6 +6,16 @@ require 'ruby-progressbar'
 require 'fuubar/output'
 
 RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
+RSpec.configuration.add_setting :fuubar_auto_refresh,         :default => true
+
+if Object.const_defined?('Pry')
+  Pry.
+    config.
+    hooks.
+    add_hook(:when_started, :fuubar_kill_refresh) do |_target, _opt, _|
+      RSpec.configuration.fuubar_auto_refresh = false
+    end
+end
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }.freeze
@@ -51,16 +61,15 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     self.passed_count        = 0
     self.pending_count       = 0
     self.failed_count        = 0
-    self.example_tick_thread = start_tick_thread(notification)
+    self.example_tick_thread = Thread.new do
+                                 loop do
+                                   sleep(1)
 
-    if Object.const_defined?('Pry')
-      Pry.
-        config.
-        hooks.
-        add_hook(:when_started, :fuubar_kill_refresh) do |_target, _opt, _|
-          example_tick_thread.kill
-        end
-    end
+                                   if configuration.fuubar_auto_refresh
+                                     example_tick(notification)
+                                   end
+                                 end
+                               end # rubocop:disable Layout/BlockAlignment
 
     super
 
@@ -162,15 +171,5 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   def continuous_integration?
     @continuous_integration ||= \
       ![nil, '', 'false'].include?(ENV['CONTINUOUS_INTEGRATION'])
-  end
-
-  def start_tick_thread(notification)
-    Thread.new do
-      loop do
-        sleep(1)
-
-        example_tick(notification)
-      end
-    end
   end
 end
