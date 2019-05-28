@@ -1,5 +1,3 @@
-# Put your project-specific Rubocop configurations here
-
 Layout/ClassStructure:
   Enabled: false
 
@@ -16,6 +14,16 @@ Layout/IndentationWidth:
   Enabled: false
 
 Layout/MultilineMethodCallIndentation:
+  Enabled: false
+
+Naming/FileName:
+  Exclude:
+    - 'lib/ruby-progressbar.rb'
+
+RSpec/NestedGroups:
+  Enabled: false
+
+Style/ConstantVisibility:
   Enabled: false
 
 Style/FrozenStringLiteralComment:

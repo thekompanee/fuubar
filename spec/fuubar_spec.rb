@@ -4,7 +4,6 @@ require 'fuubar'
 require 'stringio'
 require 'ostruct'
 
-# rubocop:disable Metrics/LineLength
 describe Fuubar do
   let(:output) do
     io = StringIO.new
@@ -86,7 +85,7 @@ describe Fuubar do
     end
 
     context 'and continuous integration is enabled' do
-      before do
+      before(:each) do
         RSpec.configuration.fuubar_progress_bar_options = { :length => 40 }
         ENV['CONTINUOUS_INTEGRATION'] = 'true'
       end
@@ -95,11 +94,11 @@ describe Fuubar do
         throttle      = formatter.progress.__send__(:output).__send__(:throttle)
         throttle_rate = throttle.__send__(:rate)
 
-        expect(throttle_rate).to eql 1.0
+        expect(throttle_rate).to eql 1.0 # rubocop:disable RSpec/BeEql
       end
 
       context 'when processing an example' do
-        before do
+        before(:each) do
           formatter.start(start_notification)
 
           throttle       = formatter.progress.__send__(:output).__send__(:throttle)
@@ -117,7 +116,7 @@ describe Fuubar do
     end
 
     context 'and continuous integration is not enabled' do
-      before do
+      before(:each) do
         RSpec.configuration.fuubar_progress_bar_options = { :length => 40 }
         ENV['CONTINUOUS_INTEGRATION'] = 'false'
       end
@@ -126,11 +125,11 @@ describe Fuubar do
         throttle      = formatter.progress.__send__(:output).__send__(:throttle)
         throttle_rate = throttle.__send__(:rate)
 
-        expect(throttle_rate).to eql 0.01
+        expect(throttle_rate).to eql 0.01 # rubocop:disable RSpec/BeEql
       end
 
       context 'when processing an example' do
-        before do
+        before(:each) do
           formatter.start(start_notification)
 
           throttle       = formatter.progress.__send__(:output).__send__(:throttle)
@@ -168,10 +167,10 @@ describe Fuubar do
   end
 
   context 'when it is started' do
-    before { formatter.start(start_notification) }
+    before(:each) { formatter.start(start_notification) }
 
     it 'sets the total to the number of examples' do
-      expect(formatter.progress.total).to eql 2
+      expect(formatter.progress.total).to be 2
     end
 
     context 'and no custom options are passed in' do
@@ -181,7 +180,7 @@ describe Fuubar do
     end
 
     context 'and an example passes' do
-      before do
+      before(:each) do
         output.rewind
 
         formatter.example_passed(example)
@@ -193,7 +192,7 @@ describe Fuubar do
     end
 
     context 'and an example pends' do
-      before do
+      before(:each) do
         output.rewind
 
         formatter.example_pending(pending_example)
@@ -205,7 +204,7 @@ describe Fuubar do
       end
 
       context 'and then an example succeeds' do
-        before do
+        before(:each) do
           output.rewind
 
           formatter.example_pending(pending_notification)
@@ -227,7 +226,7 @@ describe Fuubar do
       end
 
       context 'and then an example succeeds' do
-        before do
+        before(:each) do
           formatter.example_failed(failed_notification)
 
           output.rewind
@@ -241,7 +240,7 @@ describe Fuubar do
       end
 
       context 'and then an example pends' do
-        before do
+        before(:each) do
           formatter.example_failed(failed_notification)
 
           output.rewind
@@ -262,4 +261,3 @@ describe Fuubar do
     end
   end
 end
-# rubocop:enable Metrics/LineLength
