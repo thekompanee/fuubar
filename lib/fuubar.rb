@@ -5,8 +5,8 @@ require 'rspec/core/formatters/base_text_formatter'
 require 'ruby-progressbar'
 require 'fuubar/output'
 
-RSpec.configuration.add_setting :fuubar_progress_bar_options, :default => {}
-RSpec.configuration.add_setting :fuubar_auto_refresh,         :default => true
+RSpec.configuration.add_setting :fuubar_progress_bar_options,   :default => {}
+RSpec.configuration.add_setting :fuubar_auto_refresh,           :default => true
 RSpec.configuration.add_setting :fuubar_output_pending_results, :default => true
 
 if Object.const_defined?('Pry')
