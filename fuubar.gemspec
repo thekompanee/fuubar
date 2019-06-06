@@ -18,7 +18,14 @@ Gem::Specification.new do |spec|
   spec.executables   = []
   spec.files         = Dir['{app,config,db,lib,templates}/**/*'] + %w{README.md LICENSE.txt}
 
-  spec.metadata['allowed_push_host'] = 'https://rubygems.org'
+  spec.metadata      = {
+    'bug_tracker_uri'   => 'https://github.com/thekompanee/fuubar/issues',
+    'changelog_uri'     => 'https://github.com/thekompanee/fuubar/blob/master/CHANGELOG.md',
+    'documentation_uri' => 'https://github.com/thekompanee/fuubar/tree/releases/v2.4.0',
+    'homepage_uri'      => 'https://github.com/thekompanee/fuubar',
+    'source_code_uri'   => 'https://github.com/thekompanee/fuubar',
+    'wiki_uri'          => 'https://github.com/thekompanee/fuubar/wiki',
+  }
 
   spec.add_dependency             'rspec-core',       ["~> 3.0"]
   spec.add_dependency             'ruby-progressbar', ["~> 1.4"]

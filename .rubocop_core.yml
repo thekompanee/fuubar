@@ -1,4 +1,4 @@
-# Last updated to rubocop 0.67.2
+# Last updated to rubocop 0.71.0
 
 AllCops:
   Include:
@@ -113,6 +113,12 @@ Layout/AccessModifierIndentation:
   Enabled:                                    true
   EnforcedStyle:                              'indent'
   IndentationWidth:                           ~
+
+Layout/AlignArguments:
+  Enabled:                                    true
+  EnforcedStyle:                              'with_first_argument'
+  Exclude:
+    - '**/Gemfile'
 
 Layout/AlignArray:
   Enabled:                                    true
@@ -242,6 +248,7 @@ Layout/EmptyLineBetweenDefs:
 
 Layout/EmptyLinesAroundAccessModifier:
   Enabled:                                    true
+  EnforcedStyle:                              'around'
 
 Layout/EmptyLinesAroundArguments:
   Enabled:                                    true
@@ -308,12 +315,8 @@ Layout/FirstMethodParameterLineBreak:
   #                          bar)
   Enabled:                                    false
 
-Layout/FirstParameterIndentation:
+Layout/HeredocArgumentClosingParenthesis:
   Enabled:                                    true
-  EnforcedStyle:                              'consistent_relative_to_receiver'
-  IndentationWidth:                           ~
-  Exclude:
-    - '**/spec/**/*_spec.rb'
 
 Layout/IndentationConsistency:
   Enabled:                                    true
@@ -325,19 +328,30 @@ Layout/IndentationWidth:
   IgnoredPatterns:
     - '^\s*(module|class)'
 
-Layout/IndentArray:
-  Enabled:                                    true
-  EnforcedStyle:                              'align_brackets'
-  IndentationWidth:                           ~
-
 Layout/IndentAssignment:
   Enabled:                                    true
   IndentationWidth:                           ~
 
-Layout/IndentHash:
+Layout/IndentFirstArgument:
+  Enabled:                                    true
+  EnforcedStyle:                              'consistent_relative_to_receiver'
+  IndentationWidth:                           ~
+  Exclude:
+    - '**/spec/**/*_spec.rb'
+
+Layout/IndentFirstArrayElement:
+  Enabled:                                    true
+  EnforcedStyle:                              'align_brackets'
+  IndentationWidth:                           ~
+
+Layout/IndentFirstHashElement:
   Enabled:                                    true
   EnforcedStyle:                              'special_inside_parentheses'
   IndentationWidth:                           ~
+
+Layout/IndentFirstParameter:
+  Enabled:                                    true
+  EnforcedStyle:                              'align_parentheses'
 
 Layout/IndentHeredoc:
   Enabled:                                    true
@@ -583,6 +597,10 @@ Lint/FormatParameterMismatch:
   Enabled:                                    true
 
 Lint/HandleExceptions:
+  Enabled:                                    true
+  AllowComments:                              true
+
+Lint/HeredocMethodCallPosition:
   Enabled:                                    true
 
 Lint/ImplicitStringConcatenation:
@@ -976,89 +994,6 @@ Naming/VariableNumber:
   EnforcedStyle:                              'snake_case'
 
 ################################################################################
-#                                PERFORMANCE
-################################################################################
-
-Performance/Caller:
-  Enabled:                                    true
-
-Performance/Casecmp:
-  Enabled:                                    true
-
-Performance/CaseWhenSplat:
-  Enabled:                                    true
-
-Performance/ChainArrayAllocation:
-  Enabled:                                    true
-
-Performance/CompareWithBlock:
-  Enabled:                                    true
-
-Performance/Count:
-  Enabled:                                    true
-
-Performance/Detect:
-  Enabled:                                    true
-
-Performance/DoubleStartEndWith:
-  Enabled:                                    true
-  IncludeActiveSupportAliases:                true
-
-Performance/EndWith:
-  Enabled:                                    true
-
-Performance/FixedSize:
-  Enabled:                                    true
-
-Performance/FlatMap:
-  Enabled:                                    true
-
-Performance/InefficientHashSearch:
-  Enabled:                                    true
-
-Performance/OpenStruct:
-  Enabled:                                    true
-  Exclude:
-    - '**/spec/**/*.rb'
-
-Performance/RangeInclude:
-  Enabled:                                    true
-
-Performance/RedundantBlockCall:
-  Enabled:                                    true
-
-Performance/RedundantMatch:
-  Enabled:                                    true
-
-Performance/RedundantMerge:
-  Enabled:                                    true
-
-Performance/RegexpMatch:
-  Enabled:                                    true
-
-Performance/ReverseEach:
-  Enabled:                                    true
-
-Performance/Size:
-  Enabled:                                    true
-
-Performance/StartWith:
-  Enabled:                                    true
-
-Performance/StringReplacement:
-  Enabled:                                    true
-
-Performance/TimesMap:
-  Enabled:                                    true
-  AutoCorrect:                                true
-
-Performance/UnfreezeString:
-  Enabled:                                    true
-
-Performance/UriDefaultParser:
-  Enabled:                                    true
-
-################################################################################
 #                                  SECURITY
 ################################################################################
 
@@ -1273,6 +1208,7 @@ Style/FormatStringToken:
 
 Style/FrozenStringLiteralComment:
   Enabled:                                    true
+  EnforcedStyle:                              'always'
 
 Style/GlobalVars:
   Enabled:                                    true
@@ -1362,6 +1298,7 @@ Style/MethodCallWithArgsParentheses:
   AllowParenthesesInChaining:                 true
   AllowParenthesesInCamelCaseMethod:          true
   IgnoreMacros:                               true
+  IncludedMacros:                             []
   IgnoredMethods:
     - 'puts'
 
@@ -1434,6 +1371,10 @@ Style/MutableConstant:
   Enabled:                                    true
 
 Style/NegatedIf:
+  Enabled:                                    true
+  EnforcedStyle:                              'both'
+
+Style/NegatedUnless:
   Enabled:                                    true
   EnforcedStyle:                              'both'
 

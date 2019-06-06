@@ -1,7 +1,11 @@
-# Last updated to 1.31.0
+# Last updated to 1.33.0
 
 require:
   - 'rubocop-rspec'
+
+################################################################################
+#                                  RSPEC
+################################################################################
 
 Capybara/FeatureMethods:
   Enabled:                        true
@@ -70,6 +74,10 @@ RSpec/DescribedClass:
   Enabled:                        true
   SkipBlocks:                     false
   EnforcedStyle:                  'explicit'
+
+RSpec/Dialect:
+  Enabled:                        true
+  PreferredMethods:               {}
 
 RSpec/EmptyExampleGroup:
   Enabled:                        false
