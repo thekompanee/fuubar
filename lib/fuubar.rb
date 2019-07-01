@@ -9,15 +9,6 @@ RSpec.configuration.add_setting :fuubar_progress_bar_options,   :default => {}
 RSpec.configuration.add_setting :fuubar_auto_refresh,           :default => true
 RSpec.configuration.add_setting :fuubar_output_pending_results, :default => true
 
-if Object.const_defined?('Pry')
-  Pry.
-    config.
-    hooks.
-    add_hook(:when_started, :fuubar_kill_refresh) do |_target, _opt, _|
-      RSpec.configuration.fuubar_auto_refresh = false
-    end
-end
-
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }.freeze
 
@@ -75,6 +66,7 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
 
     super
 
+    set_pry_hooks
     with_current_color { progress.start }
   end
 
@@ -179,5 +171,20 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   def continuous_integration?
     @continuous_integration ||= \
       ![nil, '', 'false'].include?(ENV['CONTINUOUS_INTEGRATION'])
+  end
+
+  def set_pry_hooks
+    return unless Object.const_defined?('Pry')
+
+    Pry.config.hooks.
+      add_hook(:before_session, :fuubar_kill_auto_refresh) do |_output, _binding, _pry|
+        @auto_refresh_before_pry_session = configuration.fuubar_auto_refresh
+        configuration.fuubar_auto_refresh = false
+      end
+
+    Pry.config.hooks.
+      add_hook(:after_session, :fuubar_restore_auto_refresh) do |_output, _binding, _pry|
+        configuration.fuubar_auto_refresh = @auto_refresh_before_pry_session
+      end
   end
 end
