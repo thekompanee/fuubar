@@ -94,23 +94,54 @@ RSpec.configure do |config|
 end
 ```
 
-### Disabling Auto-Refresh ###
+### Enabling Auto-Refresh ###
 
-By default fuubar will automatically refresh the bar (and therefore the ETA)
-every second.  Unfortunately this doesn't play well with things like debuggers.
-When you're debugging, having a bar show up every second is undesireable.
-[Pry][pry] gives us hooks so that we can automatically disable the refresh when
-it's used. Unfortunately [byebug][byebug] does not and disabling the bar must be
-done manually.
+By default fuubar refreshes the bar only between each spec.
+You can enable an auto-refresh feature that will keep refreshing the bar (and
+therefore the ETA) every second.
+You can enable the feature as follows:
 
-#### Example ####
 
 ```ruby
 # spec/spec_helper.rb
 
 RSpec.configure do |config|
-  config.fuubar_auto_refresh = false
+  config.fuubar_auto_refresh = true
 end
+```
+
+#### Undesirable effects
+
+Unfortunately this option doesn't play well with things like debuggers, as
+having a bar show up every second would be undesireable (which is why the
+feature is disabled by default). Depending on what you are using, you may be
+given ways to work around this problem.
+
+##### Pry
+
+[Pry][pry] provides hooks that can be used to disable fuubar during a debugging
+session, you could for example add the following to your spec helper:
+
+```ruby
+# spec/spec_helper.rb
+
+Pry.config.hooks.add_hook(:before_session, :disable_fuubar_auto_refresh) do |_output, _binding, _pry|
+  RSpec.configuration.fuubar_auto_refresh = false
+end
+
+Pry.config.hooks.add_hook(:after_session, :restore_fuubar_auto_refresh) do |_output, _binding, _pry|
+  RSpec.configuration.fuubar_auto_refresh = true
+end
+```
+
+##### Byebug
+
+Unfortunately [byebug][byebug] does not provide hooks, so your best bet is to
+disable auto-refresh manually before calling `byebug`.
+
+```ruby
+RSpec.configuration.fuubar_auto_refresh = false
+byebug
 ```
 
 Security
