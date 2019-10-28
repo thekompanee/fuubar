@@ -6,17 +6,8 @@ require 'ruby-progressbar'
 require 'fuubar/output'
 
 RSpec.configuration.add_setting :fuubar_progress_bar_options,   :default => {}
-RSpec.configuration.add_setting :fuubar_auto_refresh,           :default => true
+RSpec.configuration.add_setting :fuubar_auto_refresh,           :default => false
 RSpec.configuration.add_setting :fuubar_output_pending_results, :default => true
-
-if Object.const_defined?('Pry')
-  Pry.
-    config.
-    hooks.
-    add_hook(:when_started, :fuubar_kill_refresh) do |_target, _opt, _|
-      RSpec.configuration.fuubar_auto_refresh = false
-    end
-end
 
 class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }.freeze
