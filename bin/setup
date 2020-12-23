@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC2037
+# shellcheck disable=SC2037,SC2155
 
 ###
 # Install Bundler Source Credentials

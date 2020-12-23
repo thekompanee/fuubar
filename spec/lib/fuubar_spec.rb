@@ -4,9 +4,10 @@ require 'fuubar'
 require 'stringio'
 require 'ostruct'
 
-describe Fuubar do
+# rubocop:disable RSpec/MultipleMemoizedHelpers
+describe ::Fuubar do
   let(:output) do
-    io = StringIO.new
+    io = ::StringIO.new
 
     allow(io).to receive(:tty?).
                    and_return(true)
@@ -14,17 +15,17 @@ describe Fuubar do
     io
   end
 
-  let(:formatter)            { Fuubar.new(output) }
+  let(:formatter)            { ::Fuubar.new(output) }
   let(:example)              { self.class.example }
   let(:example_count)        { 2 }
-  let(:start_notification)   { RSpec::Core::Notifications::StartNotification.new(example_count, Time.now) }
-  let(:message_notification) { RSpec::Core::Notifications::MessageNotification.new('My Message') }
-  let(:example_notification) { RSpec::Core::Notifications::ExampleNotification.for(example) }
-  let(:pending_notification) { RSpec::Core::Notifications::ExampleNotification.for(pending_example) }
-  let(:failed_notification)  { RSpec::Core::Notifications::ExampleNotification.for(failed_example) }
+  let(:start_notification)   { ::RSpec::Core::Notifications::StartNotification.new(example_count, ::Time.now) }
+  let(:message_notification) { ::RSpec::Core::Notifications::MessageNotification.new('My Message') }
+  let(:example_notification) { ::RSpec::Core::Notifications::ExampleNotification.for(example) }
+  let(:pending_notification) { ::RSpec::Core::Notifications::ExampleNotification.for(pending_example) }
+  let(:failed_notification)  { ::RSpec::Core::Notifications::ExampleNotification.for(failed_example) }
 
   let(:failed_example) do
-    exception = RuntimeError.new('Test Fuubar Error')
+    exception = ::RuntimeError.new('Test Fuubar Error')
     exception.set_backtrace [
                               "/my/filename.rb:4:in `some_method'"
                             ]
@@ -50,7 +51,7 @@ describe Fuubar do
   end
 
   before(:each) do
-    RSpec.configuration.fuubar_progress_bar_options = {
+    ::RSpec.configuration.fuubar_progress_bar_options = {
       :length        => 40,
       :throttle_rate => 0.0
     }
@@ -68,7 +69,7 @@ describe Fuubar do
     end
 
     it 'creates a new ProgressBar' do
-      expect(formatter.progress).to be_instance_of ProgressBar::Base
+      expect(formatter.progress).to be_instance_of ::ProgressBar::Base
     end
 
     it 'sets the format of the bar to the default' do
@@ -80,13 +81,14 @@ describe Fuubar do
     end
 
     it 'sets the bar\'s output' do
-      expect(formatter.progress.send(:output).stream).to            be_a Fuubar::Output
+      expect(formatter.progress.send(:output).stream).to            be_a ::Fuubar::Output
       expect(formatter.progress.send(:output).stream.__getobj__).to eql output
     end
 
     context 'and continuous integration is enabled' do
       before(:each) do
-        RSpec.configuration.fuubar_progress_bar_options = { :length => 40 }
+        allow(::RSpec.configuration).to receive(:color_mode).and_return(:on)
+        ::RSpec.configuration.fuubar_progress_bar_options = { :length => 40 }
         ENV['CONTINUOUS_INTEGRATION'] = 'true'
       end
 
@@ -94,7 +96,7 @@ describe Fuubar do
         throttle      = formatter.progress.__send__(:output).__send__(:throttle)
         throttle_rate = throttle.__send__(:rate)
 
-        expect(throttle_rate).to eql 1.0 # rubocop:disable RSpec/BeEql
+        expect(throttle_rate).to be 1.0
       end
 
       context 'when processing an example' do
@@ -117,7 +119,8 @@ describe Fuubar do
 
     context 'and continuous integration is not enabled' do
       before(:each) do
-        RSpec.configuration.fuubar_progress_bar_options = { :length => 40 }
+        allow(::RSpec.configuration).to receive(:color_mode).and_return(:on)
+        ::RSpec.configuration.fuubar_progress_bar_options = { :length => 40 }
         ENV['CONTINUOUS_INTEGRATION'] = 'false'
       end
 
@@ -125,7 +128,7 @@ describe Fuubar do
         throttle      = formatter.progress.__send__(:output).__send__(:throttle)
         throttle_rate = throttle.__send__(:rate)
 
-        expect(throttle_rate).to eql 0.01 # rubocop:disable RSpec/BeEql
+        expect(throttle_rate).to be 0.01
       end
 
       context 'when processing an example' do
@@ -140,7 +143,7 @@ describe Fuubar do
           formatter.example_passed(example)
         end
 
-        it 'does not output color codes' do
+        it 'outputs color codes' do
           expect(fuubar_results).to start_with "\e[32m 1/2 |== 50 ==>        |  ETA: 00:00:00 \r\e[0m"
         end
       end
@@ -150,7 +153,7 @@ describe Fuubar do
   context 'when custom options are set after the formatter is created' do
     before(:each) do
       formatter
-      RSpec.configuration.fuubar_progress_bar_options = {
+      ::RSpec.configuration.fuubar_progress_bar_options = {
         :length        => 40,
         :throttle_rate => 0.0,
         :format        => '%c'
@@ -167,7 +170,11 @@ describe Fuubar do
   end
 
   context 'when it is started' do
-    before(:each) { formatter.start(start_notification) }
+    before(:each) do
+      allow(::RSpec.configuration).to receive(:color_mode).and_return(:on)
+
+      formatter.start(start_notification)
+    end
 
     it 'sets the total to the number of examples' do
       expect(formatter.progress.total).to be 2
@@ -261,3 +268,4 @@ describe Fuubar do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

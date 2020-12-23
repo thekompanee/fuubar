@@ -1,0 +1,37 @@
+PATH
+  remote: .
+  specs:
+    fuubar (2.5.0)
+      rspec-core (~> 3.0)
+      ruby-progressbar (~> 1.4)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    awesome_print (1.8.0)
+    diff-lcs (1.4.4)
+    rspec (3.10.0)
+      rspec-core (~> 3.10.0)
+      rspec-expectations (~> 3.10.0)
+      rspec-mocks (~> 3.10.0)
+    rspec-core (3.10.0)
+      rspec-support (~> 3.10.0)
+    rspec-expectations (3.10.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-mocks (3.10.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-support (3.10.0)
+    ruby-progressbar (1.10.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  awesome_print (~> 1.7)
+  fuubar!
+  rspec (~> 3.7)
+
+BUNDLED WITH
+   1.17.3

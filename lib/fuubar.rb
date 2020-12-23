@@ -5,25 +5,24 @@ require 'rspec/core/formatters/base_text_formatter'
 require 'ruby-progressbar'
 require 'fuubar/output'
 
-RSpec.configuration.add_setting :fuubar_progress_bar_options,   :default => {}
-RSpec.configuration.add_setting :fuubar_auto_refresh,           :default => false
-RSpec.configuration.add_setting :fuubar_output_pending_results, :default => true
+::RSpec.configuration.add_setting :fuubar_progress_bar_options,   :default => {}
+::RSpec.configuration.add_setting :fuubar_auto_refresh,           :default => false
+::RSpec.configuration.add_setting :fuubar_output_pending_results, :default => true
 
-class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
+class Fuubar < ::RSpec::Core::Formatters::BaseTextFormatter
   DEFAULT_PROGRESS_BAR_OPTIONS = { :format => ' %c/%C |%w>%i| %e ' }.freeze
 
-  RSpec::Core::Formatters.register self,
-                                   :close,
-                                   :dump_failures,
-                                   :dump_pending,
-                                   :example_failed,
-                                   :example_passed,
-                                   :example_pending,
-                                   :message,
-                                   :start
+  ::RSpec::Core::Formatters.register self,
+                                     :close,
+                                     :dump_failures,
+                                     :dump_pending,
+                                     :example_failed,
+                                     :example_passed,
+                                     :example_pending,
+                                     :message,
+                                     :start
 
-  attr_accessor :example_tick_thread,
-                :example_tick_lock,
+  attr_accessor :example_tick_lock,
                 :progress,
                 :passed_count,
                 :pending_count,
@@ -32,8 +31,8 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   def initialize(*args)
     super
 
-    self.example_tick_lock = Mutex.new
-    self.progress = ProgressBar.create(
+    self.example_tick_lock = ::Mutex.new
+    self.progress = ::ProgressBar.create(
                       DEFAULT_PROGRESS_BAR_OPTIONS.
                         merge(:throttle_rate => continuous_integration? ? 1.0 : nil).
                         merge(:total     => 0,
@@ -50,19 +49,10 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
                                    :output    => output,
                                    :autostart => false)
 
-    self.progress            = ProgressBar.create(progress_bar_options)
-    self.passed_count        = 0
-    self.pending_count       = 0
-    self.failed_count        = 0
-    self.example_tick_thread = Thread.new do
-                                 loop do
-                                   sleep(1)
-
-                                   if configuration.fuubar_auto_refresh
-                                     example_tick(notification)
-                                   end
-                                 end
-                               end # rubocop:disable Layout/BlockAlignment
+    self.progress      = ::ProgressBar.create(progress_bar_options)
+    self.passed_count  = 0
+    self.pending_count = 0
+    self.failed_count  = 0
 
     super
 
@@ -102,6 +92,18 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     end
   end
 
+  def example_tick_thread
+    ::Thread.new do
+      loop do
+        sleep(1)
+
+        if configuration.fuubar_auto_refresh
+          example_tick(notification)
+        end
+      end
+    end
+  end
+
   def message(notification)
     if progress.respond_to? :log
       progress.log(notification.message)
@@ -123,11 +125,9 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
     super
   end
 
-  # rubocop:disable Naming/MemoizedInstanceVariableName
   def output
-    @fuubar_output ||= Fuubar::Output.new(super, configuration.tty?)
+    @fuubar_output ||= ::Fuubar::Output.new(super, configuration.tty?) # rubocop:disable Naming/MemoizedInstanceVariableName
   end
-  # rubocop:enable Naming/MemoizedInstanceVariableName
 
   private
 
@@ -160,11 +160,11 @@ class Fuubar < RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def color_code_for(*args)
-    RSpec::Core::Formatters::ConsoleCodes.console_code_for(*args)
+    ::RSpec::Core::Formatters::ConsoleCodes.console_code_for(*args)
   end
 
   def configuration
-    RSpec.configuration
+    ::RSpec.configuration
   end
 
   def continuous_integration?
