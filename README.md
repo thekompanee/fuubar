@@ -1,6 +1,29 @@
 Fuubar
 ================================================================================
-[![Gem Version](https://img.shields.io/gem/v/fuubar.svg)](https://rubygems.org/gems/fuubar) ![Rubygems Rank Overall](https://img.shields.io/gem/rt/fuubar.svg) ![Rubygems Rank Daily](https://img.shields.io/gem/rd/fuubar.svg) ![Rubygems Downloads](https://img.shields.io/gem/dv/fuubar/stable.svg) [![Build Status](https://img.shields.io/travis/thekompanee/fuubar/master.svg)](http://travis-ci.org/thekompanee/fuubar) [![Code Climate](https://codeclimate.com/github/thekompanee/fuubar.svg)](https://codeclimate.com/github/thekompanee/fuubar)
+
+<div align="center">
+  <a href="https://rubygems.org/gems/fuubar" alt="RubyGems Version">
+    <img src="https://img.shields.io/gem/v/fuubar.svg?style=flat-square&label=current-version" alt="RubyGems Version" />
+  </a>
+
+  <a href="https://rubygems.org/gems/fuubar" alt="RubyGems Rank Overall">
+    <img src="https://img.shields.io/gem/rt/fuubar.svg?style=flat-square&label=total-rank" alt="RubyGems Rank Overall" />
+  </a>
+
+  <a href="https://rubygems.org/gems/fuubar" alt="RubyGems Rank Daily">
+    <img src="https://img.shields.io/gem/rd/fuubar.svg?style=flat-square&label=daily-rank" alt="RubyGems Rank Daily" />
+  </a>
+
+  <a href="https://rubygems.org/gems/fuubar" alt="RubyGems Downloads">
+    <img src="https://img.shields.io/gem/dt/fuubar.svg?style=flat-square&label=total-downloads" alt="RubyGems Downloads" />
+  </a>
+
+  <a href="https://github.com/thekompanee/fuubar/actions?query=workflow%3ABuild" alt="Build Status">
+    <img src="https://img.shields.io/github/workflow/status/jfelchner/fuubar/Build?label=CI&style=flat-square&logo=github" alt="Build Status" />
+  </a>
+</div>
+
+<br>
 
 fuubar is an instafailing [RSpec][rspec] formatter that uses
 a progress bar instead of a string of letters and dots as feedback.
@@ -23,22 +46,22 @@ Usage
 
 In order to use fuubar, you have three options.
 
-### Option 1: Invoke It Manually Via The Command Line ###
+### Option 1: Invoke It Manually Via The Command Line
 
-```
+```bash
 rspec --format Fuubar --color
 ```
 
-### Option 2: Add It To Your Local `.rspec` File ###
+### Option 2: Add It To Your Local `.rspec` File
 
-```
+```text
 # .rspec
 
 --format Fuubar
 --color
 ```
 
-### Option 3: Add It To Your `spec_helper.rb` ###
+### Option 3: Add It To Your `spec_helper.rb`
 
 ```ruby
 # spec/spec_helper.rb
@@ -51,7 +74,7 @@ end
 Advanced Usage
 --------------------------------
 
-### Customizing The Bar ###
+### Customizing The Bar
 
 fuubar exposes an RSpec configuration variable called
 `fuubar_progress_bar_options` which, when set will be passed directly to
@@ -59,7 +82,7 @@ fuubar exposes an RSpec configuration variable called
 the [ruby-progressbar documentation][rpb-docs] for details on all of the options
 you can pass in.
 
-#### Example ####
+#### Example
 
 Let's say for example that you would like to change the format of the bar. You
 would do that like so:
@@ -74,9 +97,11 @@ end
 
 would make it so that, when fuubar is output, it would look something like:
 
-    My Fuubar! <================================                  > 53.44% 00:12:31
+```text
+My Fuubar! <================================                  > 53.44% 00:12:31
+```
 
-### Hiding Pending/Skipped Spec Summary ###
+### Hiding Pending/Skipped Spec Summary
 
 By default fuubar follows RSpec's lead and will dump out a summary of all of the
 pending specs in the suite once the test run is over.  This is a good idea
@@ -84,7 +109,7 @@ because the additional noise is a nudge to fix those tests.  We realize however
 that not all teams have the luxury of implementing all of the pending specs and
 therefore fuubar gives you the option of supressing that summary.
 
-#### Example ####
+#### Example
 
 ```ruby
 # spec/spec_helper.rb
@@ -94,13 +119,12 @@ RSpec.configure do |config|
 end
 ```
 
-### Enabling Auto-Refresh ###
+### Enabling Auto-Refresh
 
 By default fuubar refreshes the bar only between each spec.
 You can enable an auto-refresh feature that will keep refreshing the bar (and
 therefore the ETA) every second.
 You can enable the feature as follows:
-
 
 ```ruby
 # spec/spec_helper.rb
@@ -110,7 +134,7 @@ RSpec.configure do |config|
 end
 ```
 
-#### Undesirable effects
+#### Undesirable Effects
 
 Unfortunately this option doesn't play well with things like debuggers, as
 having a bar show up every second would be undesireable (which is why the
@@ -150,17 +174,17 @@ Security
 fuubar is cryptographically signed. To be sure the gem you install hasn’t been
 tampered with, follow these steps:
 
-1. Add my public key (if you haven’t already) as a trusted certificate
+* Add my public key (if you haven’t already) as a trusted certificate
 
-```
-gem cert --add <(curl -Ls https://raw.github.com/thekompanee/fuubar/master/certs/thekompanee.pem)
-```
+  ```bash
+  gem cert --add <(curl -Ls https://raw.github.com/thekompanee/fuubar/master/certs/thekompanee.pem)
+  ```
 
-2. Install fuubar telling it to use security checks when possible.
+* Install fuubar telling it to use security checks when possible.
 
-```
-gem install fuubar -P MediumSecurity
-```
+  ```bash
+  gem install fuubar -P MediumSecurity
+  ```
 
 > **Note:** The `MediumSecurity` trust profile will verify signed gems, but
 > allow the installation of unsigned dependencies.
@@ -183,7 +207,7 @@ The names and logos for The Kompanee are trademarks of The Kompanee, Ltd.
 License
 --------------------------------------------------------------------------------
 
-fuubar is Copyright &copy; 2010-2019 Jeff Kreeftmeijer and Jeff Felchner. It is
+fuubar is Copyright &copy; 2010-2021 Jeff Kreeftmeijer and Jeff Felchner. It is
 free software, and may be redistributed under the terms specified in the
 [LICENSE][license] file.
 
