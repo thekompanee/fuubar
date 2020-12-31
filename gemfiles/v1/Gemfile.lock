@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fuubar (2.5.0)
+    fuubar (2.5.1)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
 
@@ -23,7 +23,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.10.0)
     rspec-support (3.10.0)
-    ruby-progressbar (1.10.1)
+    ruby-progressbar (1.11.0)
 
 PLATFORMS
   ruby
